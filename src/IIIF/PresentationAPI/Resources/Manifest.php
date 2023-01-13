@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -29,17 +30,17 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
+use function count;
+
 /**
  * Implementation of a Manifest resource.
  * http://iiif.io/api/presentation/2.1/#manifest.
  */
 class Manifest extends ResourceAbstract
 {
-    private $onlymemberdata = false;
-    private $sequences = [];
-    private $structures = [];
-
-    public $type = 'Manifest';
+    protected $sequences = [];
+    protected $structures = [];
+    protected $type = 'Manifest';
 
     /**
      * Add a sequence to the manifest.
@@ -51,7 +52,8 @@ class Manifest extends ResourceAbstract
         if (count($this->sequences) >= 1) {
             $sequence->returnOnlyMemberData();
         }
-        array_push($this->sequences, $sequence);
+
+        $this->sequences[] = $sequence;
     }
 
     /**
@@ -71,7 +73,7 @@ class Manifest extends ResourceAbstract
      */
     public function addStructure(Range $range): void
     {
-        array_push($this->structures, $range);
+        $this->structures[] = $range;
     }
 
     /**
@@ -91,7 +93,8 @@ class Manifest extends ResourceAbstract
      */
     public function validateSequence(Sequence $sequence): void
     {
-        $classname = '\IIIF\PresentationAPI\Resources\Sequence';
+        $classname = Sequence::class;
+
         $exclusions = [
             'getID',
             'getType',
@@ -99,8 +102,11 @@ class Manifest extends ResourceAbstract
             'getDefaultContext',
             'getOnlyMemberData',
         ];
+
         $message = 'A Sequence after the first one embedded within a Manifest should only contain an id, type and label';
+
         Validator::shouldNotContainItems($sequence, $classname, $exclusions, $message);
+
         Validator::shouldContainItems($sequence, ['getLabels'], 'Multiple Sequences within a Manifest must contain a label');
     }
 
@@ -111,7 +117,8 @@ class Manifest extends ResourceAbstract
      */
     public function validateAnnotationList(AnnotationList $annotationlist): void
     {
-        $classname = '\IIIF\PresentationAPI\Resources\AnnotationList';
+        $classname = AnnotationList::class;
+
         $exclusions = [
             'getID',
             'getType',
@@ -119,13 +126,14 @@ class Manifest extends ResourceAbstract
             'getDefaultContext',
             'getWithin',
         ];
+
         $message = 'An Annotation List must not be embedded in a Manifest';
+
         Validator::shouldNotContainItems($annotationlist, $classname, $exclusions, $message);
     }
 
     /**
      * {@inheritDoc}
-     *
      * @see \IIIF\PresentationAPI\Resources\ResourceAbstract::toArray()
      */
     public function toArray()
@@ -133,46 +141,88 @@ class Manifest extends ResourceAbstract
         $item = [];
 
         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->labels, 'The label must be present in a Manifest');
 
             return $item;
         }
 
-        /* Technical Properties **/
-        if ($this->isTopLevel()) {
-            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Manifest');
-        }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Manifest');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Manifest');
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
-        ArrayCreator::addIfExists($item, Identifier::NAVDATE, $this->getNavDate());
+        // Technical Properties
 
-        /* Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Manifest');
-        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
-        // ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
+        if ($this->isTopLevel()) {
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->contexts, 'The context must be present in the Manifest');
+        }
+
+        ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in the Manifest');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in the Manifest');
+
+        if (!empty($this->viewinghints)) {
+            ArrayCreator::add($item, Identifier::VIEWINGHINT, $this->viewinghints);
+        }
+
+        if (!empty($this->viewingdirection)) {
+            ArrayCreator::add($item, Identifier::VIEWINGDIRECTION, $this->viewingdirection);
+        }
+
+        if (!empty($this->navdate)) {
+            ArrayCreator::add($item, Identifier::NAVDATE, $this->navdate);
+        }
+
+        // Descriptive Properties
+
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->labels, 'The label must be present in the Manifest');
+
+        if (!empty($this->metadata)) {
+            ArrayCreator::add($item, Identifier::METADATA, $this->metadata);
+        }
+
+        if (!empty($this->descriptions)) {
+            ArrayCreator::add($item, Identifier::DESCRIPTION, $this->descriptions);
+        }
 
         if (!empty($this->thumbnails)) {
             ArrayCreator::add($item, Identifier::THUMBNAIL, [$this->thumbnails]);
         }
 
-        /* Rights and Licensing Properties **/
-        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
-        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        // Rights and Licensing Properties
 
-        /*  Linking Properties **/
-        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+        if (!empty($this->licenses)) {
+            ArrayCreator::add($item, Identifier::LICENSE, $this->licenses);
+        }
 
-        /* Resource Types **/
+        if (!empty($this->attributions)) {
+            ArrayCreator::add($item, Identifier::ATTRIBUTION, $this->attributions);
+        }
+
+        if (!empty($this->logos)) {
+            ArrayCreator::add($item, Identifier::LOGO, $this->logos);
+        }
+
+        //  Linking Properties
+
+        if (!empty($this->related)) {
+            ArrayCreator::add($item, Identifier::RELATED, $this->related);
+        }
+
+        if (!empty($this->rendering)) {
+            ArrayCreator::add($item, Identifier::RENDERING, $this->rendering);
+        }
+
+        if (!empty($this->services)) {
+            ArrayCreator::add($item, Identifier::SERVICE, $this->services);
+        }
+
+        if (!empty($this->seealso)) {
+            ArrayCreator::add($item, Identifier::SEEALSO, $this->seealso);
+        }
+
+        if (!empty($this->within)) {
+            ArrayCreator::add($item, Identifier::WITHIN, $this->within);
+        }
+
+        // Resource Types
+
         if ($this->isTopLevel()) {
             $x = 1;
             foreach ($this->sequences as $sequence) {
@@ -187,11 +237,20 @@ class Manifest extends ResourceAbstract
                     }
                 }
             }
+
             //ArrayCreator::addRequired($item, Identifier::SEQUENCES, $this->getSequences(), "The first Sequence must be embedded within a Manifest", false);
-            ArrayCreator::addIfExists($item, Identifier::STRUCTURES, $this->getStructures(), false);
+
+            if (!empty($this->structures)) {
+                ArrayCreator::add($item, Identifier::STRUCTURES, $this->structures, false);
+            }
         } else {
-            ArrayCreator::addIfExists($item, Identifier::SEQUENCES, $this->getSequences(), false);
-            ArrayCreator::addIfExists($item, Identifier::STRUCTURES, $this->getStructures(), false);
+            if (!empty($this->sequences)) {
+                ArrayCreator::add($item, Identifier::SEQUENCES, $this->sequences, false);
+            }
+
+            if (!empty($this->structures)) {
+                ArrayCreator::addIfExists($item, Identifier::STRUCTURES, $this->structures, false);
+            }
         }
 
         return $item;

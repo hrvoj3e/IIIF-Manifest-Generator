@@ -41,10 +41,10 @@ use IIIF\Utils\Validator;
  */
 abstract class ResourceAbstract implements ResourceInterface
 {
-    private $id;
-    private $onlyid         = false;
-    private $istoplevel     = false;
-    private $onlymemberdata = false;
+    protected $id;
+    protected $onlyid         = false;
+    protected $istoplevel     = false;
+    protected $onlymemberdata = false;
 
     protected $type;
     protected $defaultcontext = 'http://iiif.io/api/presentation/3/context.json';
