@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -22,7 +23,7 @@ declare(strict_types=1);
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  *
-*/
+ */
 
 namespace IIIF\Utils;
 
@@ -78,10 +79,10 @@ class ArrayCreator
 
     /**
      * Check the array to see if subclasses need to have arrays generated.
-     * @param  array|object|string $value
-     * @return array
+     * @param  array|bool|float|int|object|string $value
+     * @return array|bool|float|int|string
      */
-    private static function checkToArray(array|object|string &$value): array|string
+    private static function checkToArray(array|bool|float|int|object|string &$value): array|bool|float|int|string
     {
         if (is_array($value)) {
             foreach ($value as &$class) {
