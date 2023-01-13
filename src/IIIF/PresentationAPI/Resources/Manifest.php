@@ -182,7 +182,7 @@ class Manifest extends ResourceAbstract
         }
 
         if (!empty($this->thumbnails)) {
-            ArrayCreator::add($item, Identifier::THUMBNAIL, [$this->thumbnails]);
+            ArrayCreator::add($item, Identifier::THUMBNAIL, $this->thumbnails, false);
         }
 
         // Rights and Licensing Properties

@@ -7,6 +7,10 @@
             "IIIF\\": "src/IIIF/"
         }
     },
+    "require": {
+        "php": ">=8.2.0",
+        "ext-json": "*"
+    },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^3.3",
         "phpunit/phpunit": "^9.5"
