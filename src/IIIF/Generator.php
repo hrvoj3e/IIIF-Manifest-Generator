@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -27,12 +29,14 @@ use IIIF\PresentationAPI\Metadata\MetadataInterface;
 use IIIF\PresentationAPI\Properties\PropertyInterface;
 use IIIF\PresentationAPI\Resources\ResourceInterface;
 
-class Generator {
+use function json_encode;
 
+class Generator
+{
     /**
-     * Generate the manifest file
+     * Generate the manifest file.
      * @param LinkInterface|MetadataInterface|PropertyInterface|ResourceInterface $item
-     * @param string $location
+     * @param string                                                              $location
      */
     public function generate($item)
     {

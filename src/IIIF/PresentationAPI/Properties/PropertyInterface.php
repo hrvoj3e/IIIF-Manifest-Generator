@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,38 +22,38 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Properties;
 
 use IIIF\PresentationAPI\Links\Service;
 
 /**
- * Interface for Mime/Other properties
- *
+ * Interface for Mime/Other properties.
  */
-interface PropertyInterface {
+interface PropertyInterface
+{
+    /**
+     * Set the id.
+     */
+    public function setID($id);
 
-  /**
-   * Set the id
-   */
-  public function setID($id);
+    /**
+     * Get the id.
+     */
+    public function getID();
 
-  /**
-   * Get the id
-   */
-  public function getID();
+    /**
+     * Set the service.
+     */
+    public function setService(Service $service);
 
-  /**
-   * Set the service
-   */
-  public function setService(Service $service);
+    /**
+     * Get the service.
+     */
+    public function getService();
 
-  /**
-   * Get the service
-   */
-  public function getService();
-
-  /**
-   * Convert objects inside the classes to arrays for the manifest
-   */
-  public function toArray();
+    /**
+     * Convert objects inside the classes to arrays for the manifest.
+     */
+    public function toArray();
 }

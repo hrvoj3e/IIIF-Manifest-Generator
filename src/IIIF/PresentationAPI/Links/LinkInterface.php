@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -24,11 +26,10 @@
 namespace IIIF\PresentationAPI\Links;
 
 /**
- * Interface for Link properties
- *
+ * Interface for Link properties.
  */
-interface LinkInterface {
-
+interface LinkInterface
+{
     /**
      * Set the id.
      */

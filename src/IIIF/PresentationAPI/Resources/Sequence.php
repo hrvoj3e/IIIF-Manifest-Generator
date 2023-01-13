@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -25,28 +27,26 @@
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Resources\Canvas;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation of a Sequence resource:
- * http://iiif.io/api/presentation/2.1/#sequence
+ * Implementation of a Sequence resource.
+ * http://iiif.io/api/presentation/2.1/#sequence.
  */
-class Sequence extends ResourceAbstract {
+class Sequence extends ResourceAbstract
+{
+    private $startCanvas;
 
-  private $startCanvas;
+    private $canvases = [];
 
-  private $canvases = array();
-
-  public $type = "sc:Sequence";
+    public $type = 'sc:Sequence';
 
     /**
      * Set the startCanvas.
      *
      * @param string
      */
-    public function setStartCanvas($startCanvas)
+    public function setStartCanvas($startCanvas): void
     {
         $this->startCanvas = $startCanvas;
     }
@@ -66,52 +66,51 @@ class Sequence extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Canvas $canvas
      */
-    public function addCanvas($canvas)
+    public function addCanvas($canvas): void
     {
         array_push($this->canvases, $canvas);
     }
 
     public function getCanvases()
     {
-      return $this->canvases;
+        return $this->canvases;
     }
-
 
     public function toArray()
     {
-        $item = array();
+        $item = [];
 
-        /** Technical Properties **/
+        /* Technical Properties **/
 
-         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a Manifest");
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in a Manifest");
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in a Manifest");
+        if ($this->getOnlyMemberData()) {
+            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Manifest');
 
             return $item;
         }
 
         if ($this->isTopLevel()) {
-          ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in the Manifest");
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Manifest');
         }
 
-        ArrayCreator::addIfExists($item, Identifier::ID, $this->getID(), "The id must be present in the Manifest");
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Manifest");
+        ArrayCreator::addIfExists($item, Identifier::ID, $this->getID(), 'The id must be present in the Manifest');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Manifest');
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
         ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
-        /** Descriptive Properties **/
+        /* Descriptive Properties **/
         ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
         ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /** Rights and Licensing Properties **/
+        /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-         /**  Linking Properties **/
+        /*  Linking Properties **/
         ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
         ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
@@ -119,10 +118,9 @@ class Sequence extends ResourceAbstract {
         ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
         ArrayCreator::addIfExists($item, Identifier::STARTCANVAS, $this->getStartCanvas());
 
-        /** Resource Types **/
-        ArrayCreator::addRequired($item, Identifier::CANVASES, $this->getCanvases(), "Canvases must be present in a Sequence", false);
+        /* Resource Types **/
+        ArrayCreator::addRequired($item, Identifier::CANVASES, $this->getCanvases(), 'Canvases must be present in a Sequence', false);
 
         return $item;
     }
-
 }

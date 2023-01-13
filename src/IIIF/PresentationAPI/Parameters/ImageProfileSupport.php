@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,34 +22,33 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used for Image API Profile Description
- * http://iiif.io/api/image/2.1/#profile-description
- *
+ * Values used for Image API Profile Description.
+ * http://iiif.io/api/image/2.1/#profile-description.
  */
-class ImageProfileSupport {
-
-    const BASEURIREDIRECT     = "baseUriRedirect";
-    const CANONICALLINKHEADER = "canonicalLinkHeader";
-    const CORS                = "cors";
-    const JSONLDMEDIATYPE     = "jsonldMediaType";
-    const MIRRORING           = "mirroring";
-    const PROFILELINKHEADER   = "profileLinkHeader";
-    const REGIONBYPCT         = "regionByPct";
-    const REGIONBYPX          = "regionByPx";
-    const REGIONSQUARE        = "regionSquare";
-    const ROTATIONARBITRARY   = "rotationArbitrary";
-    const ROTATIONBY90S       = "rotationBy90s";
-    const SIZEABOVEFULL       = "sizeAboveFull";
-    const SIZEBYCONFINEDWH    = "sizeByConfinedWh";
-    const SIZEBYDISTORTEDWH   = "sizeByDistortedWh";
-    const SIZEBYH             = "sizeByH";
-    const SIZEBYPCT           = "sizeByPct";
-    const SIZEBYW             = "sizeByW";
-    const SIZEBYWH            = "sizeByWh";
-    const SIZEBYWHLISTED      = "sizeByWhListed";
-    const SIZEBYFORCEDWH      = "sizeByForcedWh";
-
+class ImageProfileSupport
+{
+    public const BASEURIREDIRECT     = 'baseUriRedirect';
+    public const CANONICALLINKHEADER = 'canonicalLinkHeader';
+    public const CORS                = 'cors';
+    public const JSONLDMEDIATYPE     = 'jsonldMediaType';
+    public const MIRRORING           = 'mirroring';
+    public const PROFILELINKHEADER   = 'profileLinkHeader';
+    public const REGIONBYPCT         = 'regionByPct';
+    public const REGIONBYPX          = 'regionByPx';
+    public const REGIONSQUARE        = 'regionSquare';
+    public const ROTATIONARBITRARY   = 'rotationArbitrary';
+    public const ROTATIONBY90S       = 'rotationBy90s';
+    public const SIZEABOVEFULL       = 'sizeAboveFull';
+    public const SIZEBYCONFINEDWH    = 'sizeByConfinedWh';
+    public const SIZEBYDISTORTEDWH   = 'sizeByDistortedWh';
+    public const SIZEBYH             = 'sizeByH';
+    public const SIZEBYPCT           = 'sizeByPct';
+    public const SIZEBYW             = 'sizeByW';
+    public const SIZEBYWH            = 'sizeByWh';
+    public const SIZEBYWHLISTED      = 'sizeByWhListed';
+    public const SIZEBYFORCEDWH      = 'sizeByForcedWh';
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -24,29 +26,26 @@
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Resources\Resource;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation of an Annotation resource:
- * http://iiif.io/api/presentation/2.1/#image-resources
+ * Implementation of an Annotation resource.
+ * http://iiif.io/api/presentation/2.1/#image-resources.
  */
-class Annotation extends ResourceAbstract {
-
+class Annotation extends ResourceAbstract
+{
     private $content;
     private $on;
 
-    public $type = "oa:Annotation";
-    public $motivation = "sc:painting";
-
+    public $type = 'oa:Annotation';
+    public $motivation = 'sc:painting';
 
     /**
      * Set the motivation.
      *
      * @param string $motivation
      */
-    public function setMotivation($motivation)
+    public function setMotivation($motivation): void
     {
         $this->motivation = $motivation;
     }
@@ -66,7 +65,7 @@ class Annotation extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Content $content
      */
-    public function setContent(Content $content)
+    public function setContent(Content $content): void
     {
         $this->content = $content;
     }
@@ -86,7 +85,7 @@ class Annotation extends ResourceAbstract {
      *
      * @param string $on
      */
-    public function setOn($on)
+    public function setOn($on): void
     {
         $this->on = $on;
     }
@@ -108,40 +107,39 @@ class Annotation extends ResourceAbstract {
      */
     public function toArray()
     {
-      $item = array();
+        $item = [];
 
-      /** Technical Properties **/
-      if ($this->isTopLevel()) {
-        ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in the Annotation");
-      }
-      ArrayCreator::addIfExists($item, Identifier::ID, $this->getID());
-      ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Annotation");
-      ArrayCreator::addRequired($item, Identifier::MOTIVATION, $this->getMotivation(), "The motiation must be present in an Annotation");
-      ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
-      ArrayCreator::addRequired($item, Identifier::ON, $this->getOn(), "The on value must be present in an Annotation");
+        /* Technical Properties **/
+        if ($this->isTopLevel()) {
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Annotation');
+        }
+        ArrayCreator::addIfExists($item, Identifier::ID, $this->getID());
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Annotation');
+        ArrayCreator::addRequired($item, Identifier::MOTIVATION, $this->getMotivation(), 'The motiation must be present in an Annotation');
+        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
+        ArrayCreator::addRequired($item, Identifier::ON, $this->getOn(), 'The on value must be present in an Annotation');
 
-      /** Descriptive Properties **/
-      ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
-      ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-      ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
-      ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
+        /* Descriptive Properties **/
+        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
+        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
+        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
+        ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-      /** Rights and Licensing Properties **/
-      ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-      ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
-      ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        /* Rights and Licensing Properties **/
+        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
+        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
+        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-      /** Linking Properties **/
-      ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-      ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-      ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-      ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-      ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+        /* Linking Properties **/
+        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
+        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
+        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
+        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
+        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
 
-      /** Resource Types **/
-      ArrayCreator::addIfExists($item, Identifier::RESOURCE, $this->getContent());
+        /* Resource Types **/
+        ArrayCreator::addIfExists($item, Identifier::RESOURCE, $this->getContent());
 
-      return $item;
+        return $item;
     }
-
 }

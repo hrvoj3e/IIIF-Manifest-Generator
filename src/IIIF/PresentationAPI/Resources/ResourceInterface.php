@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -21,8 +23,10 @@
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  *
 */
+
 namespace IIIF\PresentationAPI\Resources;
 
+use DateTimeInterface;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\Service;
@@ -31,15 +35,14 @@ use IIIF\PresentationAPI\Properties\Logo;
 use IIIF\PresentationAPI\Properties\Thumbnail;
 
 /**
- * Interface for resources
- *
+ * Interface for resources.
  */
-interface ResourceInterface {
-
+interface ResourceInterface
+{
     /**
      * Check if the item is a top level item. This is needed to validate
      * that the context is set for the top level item.
-     * @param boolean $top
+     * @param bool $top
      */
     public function isTopLevel();
 
@@ -76,7 +79,7 @@ interface ResourceInterface {
     /**
      * Add a label.
      */
-    public function addLabel($label, $language);
+    public function addLabel(array|string $label, string $language): void;
 
     /**
      * Get the labels.
@@ -94,12 +97,12 @@ interface ResourceInterface {
     public function getViewingHints();
 
     /**
-     * Set the description
+     * Set the description.
      */
     public function addDescription($description);
 
     /**
-     * Get the descriptions
+     * Get the descriptions.
      */
     public function getDescriptions();
 
@@ -124,22 +127,22 @@ interface ResourceInterface {
     public function getLicenses();
 
     /**
-     * Add a thumbnail
+     * Add a thumbnail.
      */
     public function addThumbnail(Thumbnail $thumbnail);
 
     /**
-     * Get the thumbnails
+     * Get the thumbnails.
      */
     public function getThumbnails();
 
     /**
-     * Add a logo
+     * Add a logo.
      */
     public function addLogo(Logo $logo);
 
     /**
-     * Get the logos
+     * Get the logos.
      */
     public function getLogos();
 
@@ -153,7 +156,7 @@ interface ResourceInterface {
      */
     public function getMetadata();
 
-      /**
+    /**
      * Add to seeAlso.
      */
     public function addSeeAlso($seealso);
@@ -166,7 +169,7 @@ interface ResourceInterface {
     /**
      * Set the navDate.
      */
-    public function setNavDate($navdate);
+    public function setNavDate(DateTimeInterface $navdate): void;
 
     /**
      * Get the navDate.
@@ -218,5 +221,4 @@ interface ResourceInterface {
      * Convert objects inside the classes to arrays for the manifest.
      */
     public function toArray();
-
 }

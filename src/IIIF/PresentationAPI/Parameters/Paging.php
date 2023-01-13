@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,20 +22,19 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used for paging properties
- * http://iiif.io/api/presentation/2.1/#paging-properties
- *
+ * Values used for paging properties.
+ * http://iiif.io/api/presentation/2.1/#paging-properties.
  */
-class Paging {
-
-  const FIRST   = "first";
-  const LAST   = "last";
-  const NEXT   = "next";
-  const PREVIOUS   = "prev";
-  const TOTAL = "total";
-  const STARTINDEX = "startIndex";
-
+class Paging
+{
+    public const FIRST   = 'first';
+    public const LAST   = 'last';
+    public const NEXT   = 'next';
+    public const PREVIOUS   = 'prev';
+    public const TOTAL = 'total';
+    public const STARTINDEX = 'startIndex';
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,15 +22,15 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used throughout the content resource types
- *
+ * Values used throughout the content resource types.
  */
-class DCType {
-
-    const IMAGE             = "dctypes:Image";
-    const TEXT              = "dctypes:Text";
-    const SOUND             = "dctypes:Sound";
+class Type
+{
+    public const IMAGE = 'Image';
+    public const TEXT  = 'Text';
+    public const SOUND = 'Sound';
 }

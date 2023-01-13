@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -24,15 +26,14 @@
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation of a Content resource:
- * http://iiif.io/api/presentation/2.1/#image-resources
+ * Implementation of a Content resource.
+ * http://iiif.io/api/presentation/2.1/#image-resources.
  */
-class Content extends ResourceAbstract {
-
+class Content extends ResourceAbstract
+{
     private $format;
     private $width;
     private $height;
@@ -43,7 +44,7 @@ class Content extends ResourceAbstract {
      *
      * @param string $type
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
@@ -53,7 +54,7 @@ class Content extends ResourceAbstract {
      *
      * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat($format): void
     {
         $this->format = $format;
     }
@@ -73,7 +74,7 @@ class Content extends ResourceAbstract {
      *
      * @param int $width
      */
-    public function setWidth($width)
+    public function setWidth($width): void
     {
         $this->width = $width;
     }
@@ -93,7 +94,7 @@ class Content extends ResourceAbstract {
      *
      * @param int $height
      */
-    public function setHeight($height)
+    public function setHeight($height): void
     {
         $this->height = $height;
     }
@@ -113,7 +114,7 @@ class Content extends ResourceAbstract {
      *
      * @param string $chars
      */
-    public function setChars($chars)
+    public function setChars($chars): void
     {
         $this->chars = $chars;
     }
@@ -135,35 +136,34 @@ class Content extends ResourceAbstract {
      */
     public function toArray()
     {
-        $item = array();
+        $item = [];
 
-        /** Technical Properties **/
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a Content resource");
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in a Content resource");
-        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), "The format must be present in a Content resource");
+        /* Technical Properties **/
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Content resource');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Content resource');
+        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a Content resource');
         ArrayCreator::addIfExists($item, Identifier::HEIGHT, $this->getHeight());
         ArrayCreator::addIfExists($item, Identifier::WIDTH, $this->getWidth());
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
 
-        /** Descriptive Properties **/
+        /* Descriptive Properties **/
         ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
         ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
         ArrayCreator::addIfExists($item, Identifier::CHARS, $this->getChars());
 
-        /** Rights and Licensing Properties **/
+        /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-        /** Linking Properties **/
+        /* Linking Properties **/
         ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
         ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
         ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
         ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
-
 
         return $item;
     }

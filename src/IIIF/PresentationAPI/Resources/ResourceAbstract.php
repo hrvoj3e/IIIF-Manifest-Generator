@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -21,66 +23,66 @@
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  *
 */
+
 namespace IIIF\PresentationAPI\Resources;
 
+use DateTimeInterface;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Parameters\ViewingHint;
 use IIIF\PresentationAPI\Properties\Logo;
 use IIIF\PresentationAPI\Properties\Thumbnail;
-use IIIF\PresentationAPI\Resources\ResourceInterface;
 use IIIF\Utils\Validator;
 
 /**
- * Abstract implementation of a resource
+ * Abstract implementation of a resource.
  */
-abstract class ResourceAbstract implements ResourceInterface {
-
+abstract class ResourceAbstract implements ResourceInterface
+{
     private $id;
     private $onlyid         = false;
     private $istoplevel     = false;
     private $onlymemberdata = false;
 
     protected $type;
-    protected $defaultcontext = "http://iiif.io/api/presentation/2/context.json";
+    protected $defaultcontext = 'http://iiif.io/api/presentation/3/context.json';
     protected $viewingdirection;
     protected $navdate;
 
-    protected $contexts       = array();
-    protected $labels         = array();
-    protected $viewinghints   = array();
-    protected $descriptions   = array();
-    protected $attributions   = array();
-    protected $licenses       = array();
-    protected $thumbnails     = array();
-    protected $logos          = array();
-    protected $metadata       = array();
-    protected $seealso        = array();
-    protected $services       = array();
-    protected $related        = array();
-    protected $rendering      = array();
-    protected $within         = array();
-
+    protected $contexts       = [];
+    protected $labels         = [];
+    protected $viewinghints   = [];
+    protected $descriptions   = [];
+    protected $attributions   = [];
+    protected $licenses       = [];
+    protected $thumbnails     = [];
+    protected $logos          = [];
+    protected $metadata       = [];
+    protected $seealso        = [];
+    protected $services       = [];
+    protected $related        = [];
+    protected $rendering      = [];
+    protected $within         = [];
 
     /**
      * Sets whether the item is a top level item.
-     * @param boolean $top
+     * @param bool $top
      */
-    function __construct($top = false) {
-        $this->istoplevel = (bool)$top;
+    public function __construct($top = false)
+    {
+        $this->istoplevel = (bool) $top;
 
         if ($this->istoplevel) {
-          $this->addContext($this->getDefaultContext());
+            $this->addContext($this->getDefaultContext());
         }
     }
 
     /**
      * Set just the id to return instead of the class object.
      */
-    public function returnOnlyID()
+    public function returnOnlyID(): void
     {
         $this->onlyid = true;
     }
@@ -88,7 +90,7 @@ abstract class ResourceAbstract implements ResourceInterface {
     /**
      * Check whether to only return the ID instead of the object.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOnlyID()
     {
@@ -98,7 +100,7 @@ abstract class ResourceAbstract implements ResourceInterface {
     /**
      * Usage when a resource only needs @id, @type and label.
      */
-    public function returnOnlyMemberData()
+    public function returnOnlyMemberData(): void
     {
         $this->onlymemberdata = true;
     }
@@ -106,7 +108,7 @@ abstract class ResourceAbstract implements ResourceInterface {
     /**
      * Return whether only certain data fields are needed.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOnlyMemberData()
     {
@@ -128,9 +130,9 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addContext()
      * @param string
      */
-    public function addContext($context)
+    public function addContext($context): void
     {
-      array_push($this->contexts, $context);
+        array_push($this->contexts, $context);
     }
 
     /**
@@ -141,7 +143,7 @@ abstract class ResourceAbstract implements ResourceInterface {
     public function getContexts()
     {
         if (count($this->contexts) == 1) {
-          return $this->contexts[0];
+            return $this->contexts[0];
         }
         return $this->contexts;
     }
@@ -161,7 +163,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::setID()
      * @param string
      */
-    public function setID($id)
+    public function setID($id): void
     {
         $this->id = $id;
     }
@@ -183,22 +185,18 @@ abstract class ResourceAbstract implements ResourceInterface {
      */
     public function getType()
     {
-      return $this->type;
+        return $this->type;
     }
 
     /**
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLabel()
-     * @param string
-     * @param string
+     * @param array|string $label
+     * @param string       $language
      */
-    public function addLabel($label, $language = NULL)
+    public function addLabel(array|string $label, string $language): void
     {
-      if (!empty($language)) {
-        $label = array(Identifier::ATVALUE => $label, Identifier::LANGUAGE => $language);
-      }
-
-      array_push($this->labels, $label);
+        array_push($this->labels, [$language => (array) $label]);
     }
 
     /**
@@ -216,12 +214,12 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addViewingHints()
      * @param string
      */
-    public function addViewingHint($viewinghint)
+    public function addViewingHint($viewinghint): void
     {
         // Make sure that the viewing hint is an allowed value
         $allviewinghints = new \ReflectionClass('\IIIF\PresentationAPI\Parameters\ViewingHint');
-        if (Validator::inArray($viewinghint, $allviewinghints->getConstants(), "Illegal viewingHint selected")) {
-          array_push($this->viewinghints, $viewinghint);
+        if (Validator::inArray($viewinghint, $allviewinghints->getConstants(), 'Illegal viewingHint selected')) {
+            array_push($this->viewinghints, $viewinghint);
         }
     }
 
@@ -241,10 +239,10 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @param string
      * @param string
      */
-    public function addDescription($description, $language = NULL)
+    public function addDescription($description, $language = null): void
     {
         if (!empty($language)) {
-          $description = array(Identifier::ATVALUE => $description, Identifier::LANGUAGE => $language);
+            $description = [Identifier::ATVALUE => $description, Identifier::LANGUAGE => $language];
         }
 
         array_push($this->descriptions, $description);
@@ -266,10 +264,10 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @param string
      * @param string
      */
-    public function addAttribution($attribution, $language = NULL)
+    public function addAttribution($attribution, $language = null): void
     {
         if (!empty($language)) {
-            $attribution = array(Identifier::ATVALUE => $attribution, Identifier::LANGUAGE => $language);
+            $attribution = [Identifier::ATVALUE => $attribution, Identifier::LANGUAGE => $language];
         }
 
         array_push($this->attributions, $attribution);
@@ -290,11 +288,11 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLicense()
      * @param string
      */
-    public function addLicense($license)
+    public function addLicense($license): void
     {
         // Make sure it is a valid URL
-        if (Validator::validateURL($license, "The license must be a valid URL")) {
-          array_push($this->licenses, $license);
+        if (Validator::validateURL($license, 'The license must be a valid URL')) {
+            array_push($this->licenses, $license);
         }
     }
 
@@ -313,7 +311,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addThumbnail()
      * @param \IIIF\PresentationAPI\Properties\Thumbnail
      */
-    public function addThumbnail(Thumbnail $thumbnail)
+    public function addThumbnail(Thumbnail $thumbnail): void
     {
         array_push($this->thumbnails, $thumbnail);
     }
@@ -333,7 +331,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLogo()
      * @param \IIIF\PresentationAPI\Properties\Logo
      */
-    public function addLogo(Logo $logo)
+    public function addLogo(Logo $logo): void
     {
         array_push($this->logos, $logo);
     }
@@ -349,16 +347,16 @@ abstract class ResourceAbstract implements ResourceInterface {
     }
 
     /**
-     * Set the metadata
+     * Set the metadata.
      * @param \IIIF\PresentationAPI\Metadata\Metadata $metadata
      */
-    public function setMetadata(Metadata $metadata)
+    public function setMetadata(Metadata $metadata): void
     {
         $this->metadata = $metadata;
     }
 
     /**
-     * Get the metadata
+     * Get the metadata.
      * @return array
      */
     public function getMetadata()
@@ -369,9 +367,9 @@ abstract class ResourceAbstract implements ResourceInterface {
     /**
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addSeeAlso()
-     * @param  \IIIF\PresentationAPI\Links\SeeAlso $seealso
+     * @param \IIIF\PresentationAPI\Links\SeeAlso $seealso
      */
-    public function addSeeAlso($seealso)
+    public function addSeeAlso($seealso): void
     {
         array_push($this->seealso, $seealso);
     }
@@ -387,25 +385,17 @@ abstract class ResourceAbstract implements ResourceInterface {
     }
 
     /**
-    * Set the navDate.
-    * @param Date $navdate
-    */
-    public function setNavDate($navdate)
+     * Set the navDate.
+     * @param DateTimeInterface $navdate
+     */
+    public function setNavDate(DateTimeInterface $navdate): void
     {
-        date_default_timezone_set("UTC");
-        $time = strtotime($navdate);
-
-        if ($time) {
-          $this->navdate = date("Y-d-m\TH:i:s\Z", strtotime($navdate));
-        }
-        else {
-          $this->navdate = "00:00:00";
-        }
+        $this->navdate = $navdate->format('Y-m-d\T:H:i:s\Z');
     }
 
     /**
-    * Get the navDate
-    */
+     * Get the navDate.
+     */
     public function getNavDate()
     {
         return $this->navdate;
@@ -416,7 +406,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addService()
      * @param \IIIF\PresentationAPI\Links\Service
      */
-    public function addService(Service $service)
+    public function addService(Service $service): void
     {
         array_push($this->services, $service);
     }
@@ -435,7 +425,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addRelated()
      */
-    public function addRelated(Related $related)
+    public function addRelated(Related $related): void
     {
         array_push($this->related, $related);
     }
@@ -453,7 +443,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addRendering()
      */
-    public function addRendering(Rendering $rendering)
+    public function addRendering(Rendering $rendering): void
     {
         array_push($this->rendering, $rendering);
     }
@@ -471,7 +461,7 @@ abstract class ResourceAbstract implements ResourceInterface {
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addWithin()
      */
-    public function addWithin($within)
+    public function addWithin($within): void
     {
         array_push($this->within, $within);
     }
@@ -490,11 +480,11 @@ abstract class ResourceAbstract implements ResourceInterface {
      *
      * @param string $viewingdirection
      */
-    public function setViewingDirection($viewingdirection)
+    public function setViewingDirection($viewingdirection): void
     {
         // Make sure that the viewing hint is an allowed value
         $allviewingdirections = new \ReflectionClass('\IIIF\PresentationAPI\Parameters\ViewingDirection');
-        if (Validator::inArray($viewingdirection, $allviewingdirections->getConstants(), "Illegal viewingDirection selected")) {
+        if (Validator::inArray($viewingdirection, $allviewingdirections->getConstants(), 'Illegal viewingDirection selected')) {
             $this->viewingdirection =  $viewingdirection;
         }
     }
@@ -515,5 +505,4 @@ abstract class ResourceAbstract implements ResourceInterface {
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::toArray()
      */
     abstract public function toArray();
-
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,18 +22,17 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used for viewing direction properties
- * http://iiif.io/api/presentation/2.1/#viewingdirection
- *
+ * Values used for viewing direction properties.
+ * http://iiif.io/api/presentation/2.1/#viewingdirection.
  */
-class ViewingDirection {
-
-  const LEFT_TO_RIGHT   = "left-to-right";
-  const RIGHT_TO_LEFT   = "right-to-left";
-  const TOP_TO_BOTTOM   = "top-to-bottom";
-  const BOTTOM_TO_TOP   = "bottom-to-top";
-
+class ViewingDirection
+{
+    public const LEFT_TO_RIGHT   = 'left-to-right';
+    public const RIGHT_TO_LEFT   = 'right-to-left';
+    public const TOP_TO_BOTTOM   = 'top-to-bottom';
+    public const BOTTOM_TO_TOP   = 'bottom-to-top';
 }

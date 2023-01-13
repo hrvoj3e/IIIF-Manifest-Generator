@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -25,18 +27,15 @@ namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\Paging;
-use IIIF\PresentationAPI\Resources\Collection;
-use IIIF\PresentationAPI\Resources\Manifest;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Collection resource:
- * http://iiif.io/api/presentation/2.1/#collection
+ * Implementation of a Collection resource.
+ * http://iiif.io/api/presentation/2.1/#collection.
  */
-class Collection extends ResourceAbstract {
-
+class Collection extends ResourceAbstract
+{
     private $onlymemberdata = false;
     private $first;
     private $last;
@@ -46,22 +45,21 @@ class Collection extends ResourceAbstract {
     private $startIndex;
 
     /* Sub collections of this collection. */
-    private $collections = array();
+    private $collections = [];
     /* Manifests contained within collections. */
-    private $manifests = array();
+    private $manifests = [];
     /* Combination of manifests and collections.
      * Used where order is important */
-    private $members = array();
+    private $members = [];
 
-    public $type = "sc:Collection";
-
+    public $type = 'sc:Collection';
 
     /**
      * Add a collection to the collection.
      *
      * @param \IIIF\PresentationAPI\Resources\Collection $collection
      */
-    public function addCollection(Collection $collection)
+    public function addCollection(Collection $collection): void
     {
         array_push($this->collections, $collection);
     }
@@ -81,7 +79,7 @@ class Collection extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Manifest $manifest
      */
-    public function addManifest(Manifest $manifest)
+    public function addManifest(Manifest $manifest): void
     {
         array_push($this->manifests, $manifest);
     }
@@ -99,18 +97,17 @@ class Collection extends ResourceAbstract {
     /**
      * Add a member to the collection.
      *
-     * @param \IIIF\PresentationAPI\Resources\Collection|\IIIF\PresentationAPI\Resources\Manifest $member
+     * @param  \IIIF\PresentationAPI\Resources\Collection|\IIIF\PresentationAPI\Resources\Manifest $member
      * @throws \Exception
      */
-    public function addMember($member)
+    public function addMember($member): void
     {
         // Verify that the member being added is either a Collection or Manifest type.
         if (!($member instanceof Collection) && !($member instanceof Manifest)) {
-          throw new \Exception("A Member of a Collection must either be a Collection or Manifest");
-        }
-        else {
-          $member->returnOnlyMemberData();
-          array_push($this->members, $member);
+            throw new \Exception('A Member of a Collection must either be a Collection or Manifest');
+        } else {
+            $member->returnOnlyMemberData();
+            array_push($this->members, $member);
         }
     }
 
@@ -129,7 +126,7 @@ class Collection extends ResourceAbstract {
      *
      * @param string $first
      */
-    public function setFirst($first)
+    public function setFirst($first): void
     {
         $this->first = $first;
     }
@@ -149,7 +146,7 @@ class Collection extends ResourceAbstract {
      *
      * @param string $last
      */
-    public function setLast($last)
+    public function setLast($last): void
     {
         $this->last = $last;
     }
@@ -169,9 +166,9 @@ class Collection extends ResourceAbstract {
      *
      * @param int $total
      */
-    public function setTotal($total)
+    public function setTotal($total): void
     {
-        Validator::greaterThanEqualZero($total, "The total must be a non-negative integer");
+        Validator::greaterThanEqualZero($total, 'The total must be a non-negative integer');
         $this->total = $total;
     }
 
@@ -190,7 +187,7 @@ class Collection extends ResourceAbstract {
      *
      * @param string $next
      */
-    public function setNext($next)
+    public function setNext($next): void
     {
         $this->next = $next;
     }
@@ -210,7 +207,7 @@ class Collection extends ResourceAbstract {
      *
      * @param string $prev
      */
-    public function setPrev($prev)
+    public function setPrev($prev): void
     {
         $this->prev = $prev;
     }
@@ -230,9 +227,9 @@ class Collection extends ResourceAbstract {
      *
      * @param int $startIndex
      */
-    public function setStartIndex($startIndex)
+    public function setStartIndex($startIndex): void
     {
-        Validator::greaterThanEqualZero($startIndex, "The total must be a non-negative integer");
+        Validator::greaterThanEqualZero($startIndex, 'The total must be a non-negative integer');
         $this->startIndex = $startIndex;
     }
 
@@ -251,28 +248,28 @@ class Collection extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Manifest $manifest
      */
-    public function validateManifest(Manifest $manifest)
+    public function validateManifest(Manifest $manifest): void
     {
         $classname = '\IIIF\PresentationAPI\Resources\Manifest';
-        $exclusions = array(
+        $exclusions = [
             'getID',
             'getType',
             'getLabels',
             'getDefaultContext',
-            'getOnlyMemberData'
-        );
-        $message = "A Manifest embedded within an Collection should only contain and id, type and label";
+            'getOnlyMemberData',
+        ];
+        $message = 'A Manifest embedded within an Collection should only contain and id, type and label';
         Validator::shouldNotContainItems($manifest, $classname, $exclusions, $message);
     }
 
     /**
-     * Make sure the collection within a memebr has viewingHint
+     * Make sure the collection within a memebr has viewingHint.
      *
      * @param \IIIF\PresentationAPI\Resources\Collection $collection
      */
-    public function validateMemberCollection(Collection $collection)
+    public function validateMemberCollection(Collection $collection): void
     {
-        Validator::shouldContainItems($collection, array('getViewingHints'), "The viewingHint must be present of a non top-level Collection");
+        Validator::shouldContainItems($collection, ['getViewingHints'], 'The viewingHint must be present of a non top-level Collection');
     }
 
     /**
@@ -282,46 +279,46 @@ class Collection extends ResourceAbstract {
      */
     public function toArray()
     {
-        $item = array();
+        $item = [];
 
         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a Collection");
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in a Collection");
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in a Collection");
+            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Collection');
+            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Collection');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Collection');
             ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
 
             return $item;
         }
 
-        /** Technical Properties **/
+        /* Technical Properties **/
         // If this is a top level item, then add the context
         if ($this->isTopLevel()) {
-          ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in the Collection");
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Collection');
         }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the Collection");
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Collection");
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Collection');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Collection');
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
         ArrayCreator::addIfExists($item, Identifier::NAVDATE, $this->getNavDate());
 
-        /** Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in the Collection");
+        /* Descriptive Properties **/
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Collection');
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
         ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /** Rights and Licensing Properties **/
+        /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-        /**  Linking Properties **/
+        /*  Linking Properties **/
         ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
         ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
         ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
         ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
 
-        /** Paging Properties **/
+        /* Paging Properties **/
         ArrayCreator::addIfExists($item, Paging::FIRST, $this->getFirst());
         ArrayCreator::addIfExists($item, Paging::LAST, $this->getLast());
         ArrayCreator::addIfExists($item, Paging::TOTAL, $this->getTotal());
@@ -329,26 +326,24 @@ class Collection extends ResourceAbstract {
         ArrayCreator::addIfExists($item, Paging::PREVIOUS, $this->getPrev());
         ArrayCreator::addIfExists($item, Paging::STARTINDEX, $this->getStartIndex());
 
-        /** Resource Types **/
+        /* Resource Types **/
         ArrayCreator::addIfExists($item, Identifier::COLLECTIONS, $this->getCollections(), false);
         // Validate the manifests
-        foreach($this->getManifests() as $manifest) {
+        foreach ($this->getManifests() as $manifest) {
             $this->validateManifest($manifest);
         }
         ArrayCreator::addIfExists($item, Identifier::MANIFESTS, $this->getManifests(), false);
-       // Validate the manifests in the members
-       foreach($this->getMembers() as $member) {
-          if ($member instanceof Manifest) {
-              $this->validateManifest($member);
-          }
-          else if ($member instanceof Collection) {
-              $this->validateMemberCollection($member);
-          }
-          else {}
+        // Validate the manifests in the members
+        foreach ($this->getMembers() as $member) {
+            if ($member instanceof Manifest) {
+                $this->validateManifest($member);
+            } elseif ($member instanceof Collection) {
+                $this->validateMemberCollection($member);
+            } else {
+            }
         }
         ArrayCreator::addIfExists($item, Identifier::MEMBERS, $this->getMembers(), false);
 
         return $item;
     }
-
 }

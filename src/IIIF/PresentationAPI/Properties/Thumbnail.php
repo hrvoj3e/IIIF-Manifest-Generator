@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,71 +22,82 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Properties;
 
-use IIIF\PresentationAPI\Parameters\DCType;
+use IIIF\PresentationAPI\Parameters\Type;
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Properties\MimeAbstract;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation of thumbnail descriptive property
- * http://iiif.io/api/presentation/2.1/#thumbnail
- *
+ * Implementation of thumbnail descriptive property.
+ * http://iiif.io/api/presentation/2.1/#thumbnail.
  */
-class Thumbnail extends MimeAbstract {
-
+class Thumbnail extends MimeAbstract
+{
     private $width;
     private $height;
+    private $format;
 
-  /**
-   * Set the width.
-   *
-   * @param int $width
-   */
-  public function setWidth($width)
-  {
-    $this->width = $width;
-  }
+    public function setFormat(string $format): void
+    {
+        $this->format = $format;
+    }
 
-  /**
-   * Get the width.
-   *
-   * @return int
-   */
-  public function getWidth()
-  {
-    return $this->width;
-  }
+    public function getFormat()
+    {
+        return $this->format;
+    }
 
-  /**
-   * Set the height.
-   *
-   * @param int $height
-   */
-  public function setHeight($height)
-  {
-    $this->height = $height;
-  }
+    /**
+     * Set the width.
+     *
+     * @param int $width
+     */
+    public function setWidth($width): void
+    {
+        $this->width = $width;
+    }
 
-  /**
-   * Get the height.
-   *
-   * @return int
-   */
-  public function getHeight()
-  {
-    return $this->height;
-  }
+    /**
+     * Get the width.
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
 
-  public function toArray() {
-    $item = parent::toArray();
+    /**
+     * Set the height.
+     *
+     * @param int $height
+     */
+    public function setHeight($height): void
+    {
+        $this->height = $height;
+    }
 
-    ArrayCreator::add($item, Identifier::TYPE, DCType::IMAGE);
-    ArrayCreator::addIfExists($item, Identifier::HEIGHT, $this->getHeight());
-    ArrayCreator::addIfExists($item, Identifier::WIDTH, $this->getWidth());
+    /**
+     * Get the height.
+     *
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
 
-    return $item;
-  }
+    public function toArray()
+    {
+        $item = parent::toArray();
 
+        ArrayCreator::add($item, Identifier::TYPE, Type::IMAGE);
+        ArrayCreator::addIfExists($item, Identifier::HEIGHT, $this->getHeight());
+        ArrayCreator::addIfExists($item, Identifier::WIDTH, $this->getWidth());
+        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat());
+
+        return $item;
+    }
 }

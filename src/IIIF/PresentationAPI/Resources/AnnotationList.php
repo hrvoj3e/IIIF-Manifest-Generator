@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -25,32 +27,31 @@ namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\Paging;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of an AnnotationList resource:
- * http://iiif.io/api/presentation/2.1/#annotation-list
+ * Implementation of an AnnotationList resource.
+ * http://iiif.io/api/presentation/2.1/#annotation-list.
  */
-class AnnotationList extends ResourceAbstract {
-
+class AnnotationList extends ResourceAbstract
+{
     private $next;
     private $prev;
     private $startIndex;
 
-    private $annotations = array();
+    private $annotations = [];
 
-    public $type = "sc:AnnotationList";
+    public $type = 'sc:AnnotationList';
 
     /**
      * Add an annotation.
      *
      * @param \IIIF\PresentationAPI\Resources\Annotation $annotation
      */
-    public function addAnnotation(Annotation $annotation)
+    public function addAnnotation(Annotation $annotation): void
     {
-      array_push($this->annotations, $annotation);
+        array_push($this->annotations, $annotation);
     }
 
     /**
@@ -68,7 +69,7 @@ class AnnotationList extends ResourceAbstract {
      *
      * @param string $next
      */
-    public function setNext($next)
+    public function setNext($next): void
     {
         $this->next = $next;
     }
@@ -88,7 +89,7 @@ class AnnotationList extends ResourceAbstract {
      *
      * @param string $prev
      */
-    public function setPrev($prev)
+    public function setPrev($prev): void
     {
         $this->prev = $prev;
     }
@@ -108,9 +109,9 @@ class AnnotationList extends ResourceAbstract {
      *
      * @param int $startIndex
      */
-    public function setStartIndex($startIndex)
+    public function setStartIndex($startIndex): void
     {
-        Validator::greaterThanEqualZero($startIndex, "The startIndex must be greater than zero");
+        Validator::greaterThanEqualZero($startIndex, 'The startIndex must be greater than zero');
         $this->startIndex = $startIndex;
     }
 
@@ -131,49 +132,48 @@ class AnnotationList extends ResourceAbstract {
      */
     public function toArray()
     {
-      if ($this->getOnlyID()) {
-          $id = $this->getID();
-          Validator::itemExists($id, "The id must be present in an Annotation List");
-          return $id;
-      }
-
-        $item = array();
-
-        /** Technical Properties **/
-        if ($this->isTopLevel()) {
-          ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in an Annotation List");
+        if ($this->getOnlyID()) {
+            $id = $this->getID();
+            Validator::itemExists($id, 'The id must be present in an Annotation List');
+            return $id;
         }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in an Annotation List");
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in an Annotation List");
+
+        $item = [];
+
+        /* Technical Properties **/
+        if ($this->isTopLevel()) {
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in an Annotation List');
+        }
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in an Annotation List');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in an Annotation List');
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
 
-        /** Descriptive Properties **/
+        /* Descriptive Properties **/
         ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
         ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /** Rights and Licensing Properties **/
+        /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-        /** Linking Properties **/
+        /* Linking Properties **/
         ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
         ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
         ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
         ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
 
-        /** Paging Properties **/
+        /* Paging Properties **/
         ArrayCreator::addIfExists($item, Paging::NEXT, $this->getNext());
         ArrayCreator::addIfExists($item, Paging::PREVIOUS, $this->getPrev());
         ArrayCreator::addIfExists($item, Paging::STARTINDEX, $this->getStartIndex());
 
-        /** Resource Types **/
+        /* Resource Types **/
         ArrayCreator::addIfExists($item, Identifier::RESOURCES, $this->getAnnotations());
 
         return $item;
     }
-
 }

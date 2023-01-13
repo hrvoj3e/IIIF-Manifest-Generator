@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,41 +22,38 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Properties;
 
-use IIIF\PresentationAPI\Properties\PropertyInterface;
-
 /**
- * Implementation for descriptive property resources
- *
+ * Implementation for descriptive property resources.
  */
-abstract class PropertyAbstract implements PropertyInterface {
+abstract class PropertyAbstract implements PropertyInterface
+{
+    private $id;
 
-  private $id;
+    /**
+     * {@inheritDoc}
+     * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setID()
+     * @param string
+     */
+    public function setID($id): void
+    {
+        $this->id = $id;
+    }
 
-  /**
-   *
-   * {@inheritDoc}
-   * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setID()
-   * @param string
-   */
-  public function setID($id)
-  {
-    $this->id = $id;
-  }
+    /**
+     * Get the id.
+     * @return string
+     */
+    public function getID()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Get the id
-   * @return string
-   */
-  public function getID()
-  {
-    return $this->id;
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see \IIIF\PresentationAPI\Types\TypeInterface::toArray()
-   */
-  abstract public function toArray();
+    /**
+     * {@inheritDoc}
+     * @see \IIIF\PresentationAPI\Types\TypeInterface::toArray()
+     */
+    abstract public function toArray();
 }

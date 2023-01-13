@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -27,38 +29,36 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for Rendering property
- * http://iiif.io/api/presentation/2.1/#linking-properties
- *
+ * Implemenation for Rendering property.
+ * http://iiif.io/api/presentation/2.1/#linking-properties.
  */
-class Rendering extends LinkAbstract {
-
-
+class Rendering extends LinkAbstract
+{
     /**
-     * Does not implement setProfile
+     * Does not implement setProfile.
      * @throws Exception
      */
-    public function setProfile($service)
+    public function setProfile($service): void
     {
-        throw new \Exception("Related does not have a profile");
+        throw new \Exception('Related does not have a profile');
     }
 
     /**
-     * Does not implement getProfile
+     * Does not implement getProfile.
      * @throws Exception
      */
-    public function getProfile()
+    public function getProfile(): void
     {
-        throw new \Exception("Related does not have a profile");
+        throw new \Exception('Related does not have a profile');
     }
 
     public function toArray()
     {
-        $item = array();
+        $item = [];
 
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a related item");
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabel(), "The label must be present in a related item");
-        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), "The format must be present in a related item");
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a related item');
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
+        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
 
         return $item;
     }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,14 +22,13 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Properties;
 
-use IIIF\PresentationAPI\Properties\MimeAbstract;
-
 /**
- * Implementation of logo descriptive property
- * http://iiif.io/api/presentation/2.1/#logo
- *
+ * Implementation of logo descriptive property.
+ * http://iiif.io/api/presentation/2.1/#logo.
  */
-class Logo extends MimeAbstract {
+class Logo extends MimeAbstract
+{
 }

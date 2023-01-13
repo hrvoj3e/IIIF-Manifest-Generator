@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -23,44 +25,35 @@
 
 namespace IIIF\PresentationAPI\Links;
 
-/**
- * Implemenation for SeeAlso property
- * http://iiif.io/api/presentation/2.1/#linking-properties
- *
- */
-use IIIF\PresentationAPI\Links\LinkAbstract;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for SeeAlso property
- * http://iiif.io/api/presentation/2.1/#linking-properties
- *
+ * Implemenation for SeeAlso property.
+ * http://iiif.io/api/presentation/2.1/#linking-properties.
  */
-class SeeAlso extends LinkAbstract {
+class SeeAlso extends LinkAbstract
+{
+    /**
+     * {@inheritDoc}
+     *
+     * @see \IIIF\PresentationAPI\Links\LinkAbstract::toArray()
+     */
+    public function toArray()
+    {
+        $item = [];
 
-  /**
-   * {@inheritDoc}
-   *
-   * @see \IIIF\PresentationAPI\Links\LinkAbstract::toArray()
-   */
-  public function toArray()
-  {
-      $item = array();
+        $format = $this->getFormat();
+        $profile = $this->getProfile();
 
-      $format = $this->getFormat();
-      $profile = $this->getProfile();
-
-      // If the profile and format are emtpy, return just and ID
-      if (!empty($format) || !empty($profile)) {
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the thumbnail");
-        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat());
-        ArrayCreator::addIfExists($item, Identifier::PROFILE, $this->getProfile());
-        return $item;
-      }
-      else {
-        return $this->getID();
-      }
-  }
-
+        // If the profile and format are emtpy, return just and ID
+        if (!empty($format) || !empty($profile)) {
+            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the thumbnail');
+            ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat());
+            ArrayCreator::addIfExists($item, Identifier::PROFILE, $this->getProfile());
+            return $item;
+        } else {
+            return $this->getID();
+        }
+    }
 }

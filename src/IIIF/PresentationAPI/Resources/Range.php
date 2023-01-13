@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -25,35 +27,34 @@
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Range resource:
- * http://iiif.io/api/presentation/2.1/#range
+ * Implementation of a Range resource.
+ * http://iiif.io/api/presentation/2.1/#range.
  */
-class Range extends ResourceAbstract {
-
+class Range extends ResourceAbstract
+{
     private $onlymemberdata = false;
     private $startCanvas;
     private $contentLayer;
 
-    private $ranges = array();
-    private $canvases = array();
-    private $members = array();
+    private $ranges = [];
+    private $canvases = [];
+    private $members = [];
 
-    public $type = "sc:Range";
+    public $type = 'sc:Range';
 
     /**
      * {@inheritDoc}
      *
      * @see \IIIF\PresentationAPI\Resources\ResourceAbstract::setID()
      */
-    public function setID($id)
+    public function setID($id): void
     {
-      Validator::validateURL($id, "The ID for a Range must be a valid URL");
-      parent::setID($id);
+        Validator::validateURL($id, 'The ID for a Range must be a valid URL');
+        parent::setID($id);
     }
 
     /**
@@ -61,9 +62,9 @@ class Range extends ResourceAbstract {
      *
      * @param string
      */
-    public function setStartCanvas($startCanvas)
+    public function setStartCanvas($startCanvas): void
     {
-      $this->startCanvas = $startCanvas;
+        $this->startCanvas = $startCanvas;
     }
 
     /**
@@ -73,7 +74,7 @@ class Range extends ResourceAbstract {
      */
     public function getStartCanvas()
     {
-      return $this->startCanvas;
+        return $this->startCanvas;
     }
 
     /**
@@ -81,7 +82,7 @@ class Range extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Range $range
      */
-    public function addRange(Range $range)
+    public function addRange(Range $range): void
     {
         array_push($this->ranges, $range);
     }
@@ -93,7 +94,7 @@ class Range extends ResourceAbstract {
      */
     public function getRanges()
     {
-      return $this->ranges;
+        return $this->ranges;
     }
 
     /**
@@ -101,7 +102,7 @@ class Range extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Canvas $canvas
      */
-    public function addCanvas(Canvas $canvas)
+    public function addCanvas(Canvas $canvas): void
     {
         array_push($this->canvases, $canvas);
     }
@@ -113,23 +114,22 @@ class Range extends ResourceAbstract {
      */
     public function getCanvases()
     {
-      return $this->canvases;
+        return $this->canvases;
     }
 
     /**
      * Add a range or a canvas. This is used where ordering is important.
      *
-     * @param \IIIF\PresentationAPI\Resources\Range|\IIIF\PresentationAPI\Resources\Canvas $member
+     * @param \IIIF\PresentationAPI\Resources\Canvas|\IIIF\PresentationAPI\Resources\Range $member
      */
-    public function addMember($member)
+    public function addMember($member): void
     {
         // Verify that the member being added is either a Range or Canvas type.
         if (!$member instanceof Range && !$member instanceof Canvas) {
-          throw new \Exception("A Member of a Range must either be a Range or Canvas");
-        }
-        else {
-          $member->returnOnlyMemberData();
-          array_push($this->members, $member);
+            throw new \Exception('A Member of a Range must either be a Range or Canvas');
+        } else {
+            $member->returnOnlyMemberData();
+            array_push($this->members, $member);
         }
     }
 
@@ -148,7 +148,7 @@ class Range extends ResourceAbstract {
      *
      * @param string $contentLayer
      */
-    public function setContentLayer($contentLayer)
+    public function setContentLayer($contentLayer): void
     {
         $this->contentLayer = $contentLayer;
     }
@@ -166,15 +166,15 @@ class Range extends ResourceAbstract {
     /**
      * Make sure the member is valid.
      *
-     * @param \IIIF\PresentationAPI\Resources\Range|\IIIF\PresentationAPI\Resources\Canvas $member
+     * @param \IIIF\PresentationAPI\Resources\Canvas|\IIIF\PresentationAPI\Resources\Range $member
      */
-    public function validateMember ($member)
+    public function validateMember($member): void
     {
-        $methods = array(
+        $methods = [
             'getID',
             'getType',
-            'getLabels'
-        );
+            'getLabels',
+        ];
         Validator::shouldContainItems($member, $methods, 'A member within a Range must contain the ID, Type and Label');
     }
 
@@ -182,43 +182,42 @@ class Range extends ResourceAbstract {
     {
         if ($this->getOnlyID()) {
             $id = $this->getID();
-            Validator::itemExists($id, "The id must be present in a Range");
+            Validator::itemExists($id, 'The id must be present in a Range');
             return $id;
         }
 
-        $item = array();
+        $item = [];
 
         if ($this->getOnlyMemberData()) {
-          ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the Canvas");
-          ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Canvas");
-          ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in the Canvas");
-          ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
+            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
+            ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
 
-          return $item;
+            return $item;
         }
 
-        /** Technical Properties **/
+        /* Technical Properties **/
         if ($this->isTopLevel()) {
-            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in the Range");
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Range');
         }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the Range");
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Range");
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Range');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Range');
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
         ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
-
-        /** Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in the Range");
+        /* Descriptive Properties **/
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Range');
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
         ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /** Rights and Licensing Properties **/
+        /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-        /**  Linking Properties **/
+        /*  Linking Properties **/
         ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
         ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
@@ -227,12 +226,11 @@ class Range extends ResourceAbstract {
         ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
         ArrayCreator::addIfExists($item, Identifier::STARTCANVAS, $this->getStartCanvas());
 
-        /** Resource Types **/
+        /* Resource Types **/
         ArrayCreator::addIfExists($item, Identifier::CANVASES, $this->getCanvases(), false);
         ArrayCreator::addIfExists($item, Identifier::RANGES, $this->getRanges(), false);
         ArrayCreator::addIfExists($item, Identifier::MEMBERS, $this->getMembers(), false);
 
         return $item;
     }
-
 }

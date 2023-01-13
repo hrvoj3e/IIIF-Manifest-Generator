@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,31 +22,30 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Properties;
 
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Properties\PropertyAbstract;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation for descriptive property resources
- *
+ * Implementation for descriptive property resources.
  */
-abstract class MimeAbstract extends PropertyAbstract {
-
+abstract class MimeAbstract extends PropertyAbstract
+{
     private $usedefaultservicecontext;
     private $service;
 
-    private $defaultservicecontext = "http://iiif.io/api/image/2/context.json";
+    private $defaultservicecontext = 'http://iiif.io/api/image/2/context.json';
 
     /**
-     * Check to see if the default service is needed to be added
+     * Check to see if the default service is needed to be added.
      * @param bool $usedefaultservicecontext
      */
-    function __construct($usedefaultservicecontext = true)
+    public function __construct($usedefaultservicecontext = true)
     {
-      $this->usedefaultservicecontext = $usedefaultservicecontext;
+        $this->usedefaultservicecontext = $usedefaultservicecontext;
     }
 
     /**
@@ -52,7 +53,7 @@ abstract class MimeAbstract extends PropertyAbstract {
      * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setService()
      * @param \IIIF\PresentationAPI\Links\Service
      */
-    public function setService(Service $service)
+    public function setService(Service $service): void
     {
         if ($this->usedefaultservicecontext) {
             $service->setContext($this->defaultservicecontext);
@@ -73,8 +74,8 @@ abstract class MimeAbstract extends PropertyAbstract {
 
     public function toArray()
     {
-        $item = array();
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the thumbnail");
+        $item = [];
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the thumbnail');
         ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getService());
         return $item;
     }

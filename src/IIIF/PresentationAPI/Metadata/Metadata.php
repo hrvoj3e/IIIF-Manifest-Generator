@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -26,13 +28,12 @@ namespace IIIF\PresentationAPI\Metadata;
 use IIIF\PresentationAPI\Parameters\Identifier;
 
 /**
- * Implemenation of the Metadata descriptive property
- * http://iiif.io/api/presentation/2.1/#resource-properties
- *
+ * Implemenation of the Metadata descriptive property.
+ * http://iiif.io/api/presentation/2.1/#resource-properties.
  */
-class Metadata implements MetadataInterface{
-
-    private $data  = array();
+class Metadata implements MetadataInterface
+{
+    private $data  = [];
 
     /**
      * Get the data.
@@ -47,34 +48,33 @@ class Metadata implements MetadataInterface{
     /**
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Metadata\MetadataInterface::addLabelValue()
-     * @param string|array $label
-     * @param string|array $value
+     * @param array|string $label
+     * @param array|string $value
      */
-    public function addLabelValue($label, $value)
+    public function addLabelValue($label, $value): void
     {
-        array_push($this->data, array(IDENTIFIER::LABEL => $label, Identifier::VALUE => $value));
+        array_push($this->data, [IDENTIFIER::LABEL => $label, Identifier::VALUE => $value]);
     }
 
     /**
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Metadata\MetadataInterface::addLabelMultiValue()
      * @param string $label
-     * @param array $values
+     * @param array  $values
      */
-    public function addLabelMultiValue($label, $values)
+    public function addLabelMultiValue($label, $values): void
     {
-        $allvalues = array();
+        $allvalues = [];
 
-        foreach($values as $value) {
+        foreach ($values as $value) {
             if (is_array($value)) {
-                array_push($allvalues, array(Identifier::ATVALUE => $value['value'], Identifier::LANGUAGE => $value['language']));
-            }
-            else {
+                array_push($allvalues, [Identifier::ATVALUE => $value['value'], Identifier::LANGUAGE => $value['language']]);
+            } else {
                 array_push($allvalues, $value);
             }
         }
 
-        array_push($this->data, array(Identifier::LABEL => $label, Identifier::VALUE => $allvalues));
+        array_push($this->data, [Identifier::LABEL => $label, Identifier::VALUE => $allvalues]);
     }
 
     /**
@@ -83,20 +83,20 @@ class Metadata implements MetadataInterface{
      * @param array $labels
      * @param array $values
      */
-    public function addMultiLabelMultiValue($labels, $values)
+    public function addMultiLabelMultiValue($labels, $values): void
     {
-        $alllabels = array();
-        $allvalues = array();
+        $alllabels = [];
+        $allvalues = [];
 
-        foreach($labels as $label) {
-            array_push($alllabels, array(Identifier::ATVALUE => $label['value'], Identifier::LANGUAGE => $label['language']));
+        foreach ($labels as $label) {
+            array_push($alllabels, [Identifier::ATVALUE => $label['value'], Identifier::LANGUAGE => $label['language']]);
         }
 
-        foreach($values as $value) {
-            array_push($allvalues, array(Identifier::ATVALUE => $value['value'], Identifier::LANG => $value['language']));
+        foreach ($values as $value) {
+            array_push($allvalues, [Identifier::ATVALUE => $value['value'], Identifier::LANG => $value['language']]);
         }
 
-        array_push($this->data, array(Identifier::LABEL => $alllabels, Identifier::VALUE => $allvalues));
+        array_push($this->data, [Identifier::LABEL => $alllabels, Identifier::VALUE => $allvalues]);
     }
 
     /**

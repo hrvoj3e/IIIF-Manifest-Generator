@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,21 +22,20 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used for viewing hint properties
- * http://iiif.io/api/presentation/2.1/#viewinghint
- *
+ * Values used for viewing hint properties.
+ * http://iiif.io/api/presentation/2.1/#viewinghint.
  */
-class ViewingHint {
-
-  const INDIVIDUALS   = "individuals";
-  const PAGED         = "paged";
-  const CONTINUOUS    = "continuous";
-  const MULTI_PART    = "multi-part";
-  const NON_PAGED     = "non-paged";
-  const TOP           = "top";
-  const FACING_PAGES  = "facing-pages";
-
+class ViewingHint
+{
+    public const INDIVIDUALS   = 'individuals';
+    public const PAGED         = 'paged';
+    public const CONTINUOUS    = 'continuous';
+    public const MULTI_PART    = 'multi-part';
+    public const NON_PAGED     = 'non-paged';
+    public const TOP           = 'top';
+    public const FACING_PAGES  = 'facing-pages';
 }

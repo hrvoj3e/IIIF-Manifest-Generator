@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,39 +22,38 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Metadata;
 
 /**
- * Interface for Metadata properties
- *
+ * Interface for Metadata properties.
  */
-interface MetadataInterface {
+interface MetadataInterface
+{
+    /**
+     * Add a label with a value.
+     */
+    public function addLabelValue($label, $value);
 
-  /**
-   * Add a label with a value.
-   */
-  public function addLabelValue($label, $value);
+    /**
+     * Add a label with multiple translated values:.
+     *
+     * The value parameter must be in the following format:
+     * array("value" => VALUE, "language" => LANGUAGE");
+     */
+    public function addLabelMultiValue($label, $values);
 
-  /**
-   * Add a label with multiple translated values:
-   *
-   * The value parameter must be in the following format:
-   * array("value" => VALUE, "language" => LANGUAGE");
-   */
-  public function addLabelMultiValue($label, $values);
+    /**
+     * Add multiple translated labels and values.
+     *
+     * Both label and value parameters must be formatted as the following array:
+     * array("value" => VALUE, "language" => LANGUAGE");
+     */
+    public function addMultiLabelMultiValue($labels, $values);
 
-  /**
-   * Add multiple translated labels and values.
-   *
-   * Both label and value parameters must be formatted as the following array:
-   * array("value" => VALUE, "language" => LANGUAGE");
-   */
-  public function addMultiLabelMultiValue($labels, $values);
-
-  /**
-   * Convert objects inside the classes to arrays for the manifest
-   * @return string|array
-   */
-  public function toArray();
-
+    /**
+     * Convert objects inside the classes to arrays for the manifest.
+     * @return array|string
+     */
+    public function toArray();
 }

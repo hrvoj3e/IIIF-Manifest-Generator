@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -27,21 +29,19 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for Related property
- * http://iiif.io/api/presentation/2.1/#linking-properties
- *
+ * Implemenation for Related property.
+ * http://iiif.io/api/presentation/2.1/#linking-properties.
  */
-class Related extends LinkAbstract {
-
-
+class Related extends LinkAbstract
+{
     /**
      * Does not implement setProfile.
      *
      * @throws Exception
      */
-    public function setProfile($service)
+    public function setProfile($service): void
     {
-        throw new \Exception("Related does not have a profile");
+        throw new \Exception('Related does not have a profile');
     }
 
     /**
@@ -49,9 +49,9 @@ class Related extends LinkAbstract {
      *
      * @throws Exception
      */
-    public function getProfile()
+    public function getProfile(): void
     {
-        throw new \Exception("Related does not have a profile");
+        throw new \Exception('Related does not have a profile');
     }
 
     /**
@@ -61,10 +61,10 @@ class Related extends LinkAbstract {
      */
     public function toArray()
     {
-        $item = array();
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a related item");
-        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabel(), "The label must be present in a related item");
-        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat(), "The format must be present in a related item");
+        $item = [];
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a related item');
+        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
+        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
         return $item;
     }
 }

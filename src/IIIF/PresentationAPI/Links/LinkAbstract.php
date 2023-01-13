@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -23,14 +25,11 @@
 
 namespace IIIF\PresentationAPI\Links;
 
-use IIIF\PresentationAPI\Links\LinkInterface;
-
 /**
- * Abstract implementation of Link properties
- *
+ * Abstract implementation of Link properties.
  */
-abstract class LinkAbstract implements LinkInterface {
-
+abstract class LinkAbstract implements LinkInterface
+{
     private $id;
     private $format;
     private $profile;
@@ -42,7 +41,7 @@ abstract class LinkAbstract implements LinkInterface {
      * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setID()
      * @param string
      */
-    public function setID($id)
+    public function setID($id): void
     {
         $this->id = $id;
     }
@@ -63,7 +62,7 @@ abstract class LinkAbstract implements LinkInterface {
      * @see \IIIF\PresentationAPI\Links\LinkInterface::setFormat()
      * @param string $format
      */
-    public function setFormat($format)
+    public function setFormat($format): void
     {
         $this->format = $format;
     }
@@ -84,7 +83,7 @@ abstract class LinkAbstract implements LinkInterface {
      * @see \IIIF\PresentationAPI\Links\LinkInterface::setProfile()
      * @param string $format
      */
-    public function setProfile($profile)
+    public function setProfile($profile): void
     {
         $this->profile = $profile;
     }
@@ -96,29 +95,27 @@ abstract class LinkAbstract implements LinkInterface {
      */
     public function getProfile()
     {
-      return $this->profile;
+        return $this->profile;
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Links\LinkInterface::setLabel()
      * @param string $label
      */
-    public function setLabel($label)
+    public function setLabel($label): void
     {
         $this->label = $label;
     }
 
     /**
      * {@inheritDoc}
-     * return @string
+     * return @string.
      */
     public function getLabel()
     {
         return $this->label;
     }
-
 
     /**
      * {@inheritDoc}

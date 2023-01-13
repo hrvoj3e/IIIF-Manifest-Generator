@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -24,33 +26,30 @@
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Resources\Annotation;
-use IIIF\PresentationAPI\Resources\ResourceAbstract;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Canvas resource:
- * http://iiif.io/api/presentation/2.1/#canvas
+ * Implementation of a Canvas resource.
+ * http://iiif.io/api/presentation/2.1/#canvas.
  */
-class Canvas extends ResourceAbstract {
-
+class Canvas extends ResourceAbstract
+{
     private $onlymemberdata = false;
     private $width;
     private $height;
 
-    private $images = array();
-    private $otherContents = array();
+    private $images = [];
+    private $otherContents = [];
 
-    public $type = "sc:Canvas";
-
+    public $type = 'sc:Canvas';
 
     /**
      * Set the width.
      *
      * @param int $width
      */
-    public function setWidth($width)
+    public function setWidth($width): void
     {
         $this->width = $width;
     }
@@ -70,7 +69,7 @@ class Canvas extends ResourceAbstract {
      *
      * @param int $height
      */
-    public function setHeight($height)
+    public function setHeight($height): void
     {
         $this->height = $height;
     }
@@ -90,9 +89,9 @@ class Canvas extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\Annotation $annotation
      */
-    public function addImage(Annotation $annotation)
+    public function addImage(Annotation $annotation): void
     {
-      array_push($this->images, $annotation);
+        array_push($this->images, $annotation);
     }
 
     /**
@@ -110,7 +109,7 @@ class Canvas extends ResourceAbstract {
      *
      * @param \IIIF\PresentationAPI\Resources\AnnotationList $otherContent
      */
-    public function addOtherContent(AnnotationList $otherContent)
+    public function addOtherContent(AnnotationList $otherContent): void
     {
         array_push($this->otherContents, $otherContent);
     }
@@ -128,93 +127,91 @@ class Canvas extends ResourceAbstract {
     /**
      * Configure the proper dimensions when the width and height are not set.
      */
-    public function configureDimensions()
+    public function configureDimensions(): void
     {
         // If the canvas width is not set, then look for the largest width within the contained images
         if (empty($this->getWidth())) {
-            $largestWidth = NULL;
-            foreach ($this->getImages() as $image)  {
+            $largestWidth = null;
+            foreach ($this->getImages() as $image) {
                 $newWidth = $image->getContent()->getWidth();
                 if (empty($largestWidth) || $newWidth > $largestWidth) {
-                  $largestWidth = $newWidth;
+                    $largestWidth = $newWidth;
                 }
             }
-         }
+        }
 
         // If the canvas height is not set, then look for the largest width within the contained images
         if (empty($this->getHeight())) {
-            $largestHeight = NULL;
-            foreach ($this->getImages() as $image)  {
+            $largestHeight = null;
+            foreach ($this->getImages() as $image) {
                 $newHeight = $image->getContent()->getHeight();
                 if (empty($largestHeight) || $newHeight > $largestHeight) {
-                  $largestHeight = $newHeight;
+                    $largestHeight = $newHeight;
                 }
             }
-         }
+        }
 
-         // If there are no width and height found in the images, do the default functionality
+        // If there are no width and height found in the images, do the default functionality
          //
-         if (!empty($largestWidth) && !empty($largestHeight)) {
+        if (!empty($largestWidth) && !empty($largestHeight)) {
             if ($largestWidth < 1200 || $largestHeight < 1200) {
                 $this->setWidth($largestWidth * 2);
                 $this->setHeight($largestHeight * 2);
             }
-         }
+        }
     }
-
 
   public function toArray()
   {
       if ($this->getOnlyID()) {
           $id = $this->getID();
-          Validator::itemExists($id, "The id must be present in the Canvas");
+          Validator::itemExists($id, 'The id must be present in the Canvas');
           return $id;
       }
 
-      $item = array();
+      $item = [];
 
       if ($this->getOnlyMemberData()) {
-          ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the Canvas");
-          ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Canvas");
-          ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in the Canvas");
+          ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+          ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
+          ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
 
           return $item;
       }
 
-      /** Technical Properties **/
+      /* Technical Properties **/
       if ($this->isTopLevel()) {
-        ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), "The context must be present in the Canvas");
+          ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Canvas');
       }
-      ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in the Canvas");
-      ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), "The type must be present in the Canvas");
+      ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+      ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
       ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
       $this->configureDimensions();
-      ArrayCreator::addRequired($item, Identifier::HEIGHT, $this->getHeight(), "The height must be present in the Canvas");
-      ArrayCreator::addRequired($item, Identifier::WIDTH, $this->getWidth(), "The width must be present in the Canvas");
+      ArrayCreator::addRequired($item, Identifier::HEIGHT, $this->getHeight(), 'The height must be present in the Canvas');
+      ArrayCreator::addRequired($item, Identifier::WIDTH, $this->getWidth(), 'The width must be present in the Canvas');
 
-      /** Descriptive Properties **/
-      ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), "The label must be present in the Canvas");
+      /* Descriptive Properties **/
+      ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
       ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
       ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
       ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-      /** Rights and Licensing Properties **/
+      /* Rights and Licensing Properties **/
       ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
       ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
       ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
-      /**  Linking Properties **/
+      /*  Linking Properties **/
       ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
       ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
       ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
       ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
       ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
 
-      /** Resource Types **/
+      /* Resource Types **/
       ArrayCreator::addIfExists($item, Identifier::IMAGES, $this->getImages(), false);
       ArrayCreator::addIfExists($item, Identifier::OTHERCONTENT, $this->getOtherContents(), false);
 
       return $item;
   }
-
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  *  This file is part of IIIF Manifest Creator.
  *
@@ -20,9 +22,10 @@
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
 */
+
 namespace IIIF\PresentationAPI\Links;
 
-/**
+/*
  * Implemenation for Service property
  * http://iiif.io/api/presentation/2.1/#linking-properties
  *
@@ -30,9 +33,9 @@ namespace IIIF\PresentationAPI\Links;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
-class Service extends LinkAbstract {
-
-    private $context = "http://iiif.io/api/image/2/context.json";
+class Service extends LinkAbstract
+{
+    private $context = 'http://iiif.io/api/image/3/context.json';
     private $profile;
     private $label;
 
@@ -41,7 +44,7 @@ class Service extends LinkAbstract {
      *
      * @param string $context
      */
-    public function setContext($context)
+    public function setContext($context): void
     {
         $this->context = $context;
     }
@@ -62,11 +65,11 @@ class Service extends LinkAbstract {
      */
     public function toArray()
     {
-        $item = array();
+        $item = [];
 
-        ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContext(), "The context must be present in a service");
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), "The id must be present in a service");
-        ArrayCreator::addRequired($item, Identifier::PROFILE, $this->getProfile(), "The profile must be present in a service");
+        ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContext(), 'The context must be present in a service');
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a service');
+        ArrayCreator::addRequired($item, Identifier::PROFILE, $this->getProfile(), 'The profile must be present in a service');
         ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabel());
 
         return $item;
