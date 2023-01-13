@@ -22,13 +22,17 @@ declare(strict_types=1);
  *  @package  Utils
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- *
  */
 
 namespace IIIF\Utils;
 
 use Exception;
 use ReflectionClass;
+
+use function filter_var;
+use function in_array;
+use function is_int;
+use function substr;
 
 class Validator
 {

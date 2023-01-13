@@ -22,7 +22,6 @@ declare(strict_types=1);
  *  @package  Resources
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- *
  */
 
 namespace IIIF\PresentationAPI\Resources;

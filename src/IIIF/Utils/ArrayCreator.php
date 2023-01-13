@@ -22,12 +22,16 @@ declare(strict_types=1);
  *  @package  Utils
  *  @author   Harry Shyket <harry.shyket@yale.edu>
  *  @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
- *
  */
 
 namespace IIIF\Utils;
 
 use Exception;
+
+use function count;
+use function is_array;
+use function is_object;
+use function method_exists;
 
 class ArrayCreator
 {

@@ -26,8 +26,8 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Properties;
 
-use IIIF\PresentationAPI\Parameters\Type;
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Parameters\Type;
 use IIIF\Utils\ArrayCreator;
 
 /**
