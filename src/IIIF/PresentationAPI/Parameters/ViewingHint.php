@@ -32,11 +32,11 @@ namespace IIIF\PresentationAPI\Parameters;
  */
 class ViewingHint
 {
-    public const INDIVIDUALS   = 'individuals';
-    public const PAGED         = 'paged';
-    public const CONTINUOUS    = 'continuous';
-    public const MULTI_PART    = 'multi-part';
-    public const NON_PAGED     = 'non-paged';
-    public const TOP           = 'top';
-    public const FACING_PAGES  = 'facing-pages';
+    public const INDIVIDUALS  = 'individuals';
+    public const PAGED        = 'paged';
+    public const CONTINUOUS   = 'continuous';
+    public const MULTI_PART   = 'multi-part';
+    public const NON_PAGED    = 'non-paged';
+    public const TOP          = 'top';
+    public const FACING_PAGES = 'facing-pages';
 }

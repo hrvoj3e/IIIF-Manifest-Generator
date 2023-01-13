@@ -32,10 +32,10 @@ namespace IIIF\PresentationAPI\Parameters;
  */
 class Paging
 {
-    public const FIRST   = 'first';
-    public const LAST   = 'last';
-    public const NEXT   = 'next';
+    public const FIRST      = 'first';
+    public const LAST       = 'last';
+    public const NEXT       = 'next';
     public const PREVIOUS   = 'prev';
-    public const TOTAL = 'total';
+    public const TOTAL      = 'total';
     public const STARTINDEX = 'startIndex';
 }

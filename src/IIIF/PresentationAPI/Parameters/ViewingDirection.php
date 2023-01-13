@@ -32,8 +32,8 @@ namespace IIIF\PresentationAPI\Parameters;
  */
 class ViewingDirection
 {
-    public const LEFT_TO_RIGHT   = 'left-to-right';
-    public const RIGHT_TO_LEFT   = 'right-to-left';
-    public const TOP_TO_BOTTOM   = 'top-to-bottom';
-    public const BOTTOM_TO_TOP   = 'bottom-to-top';
+    public const LEFT_TO_RIGHT = 'left-to-right';
+    public const RIGHT_TO_LEFT = 'right-to-left';
+    public const TOP_TO_BOTTOM = 'top-to-bottom';
+    public const BOTTOM_TO_TOP = 'bottom-to-top';
 }
