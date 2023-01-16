@@ -27,10 +27,12 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use DateTimeInterface;
+use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
+use IIIF\PresentationAPI\Metadata\MetadataInterface;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\ViewingDirection;
 use IIIF\PresentationAPI\Parameters\ViewingHint;
@@ -56,9 +58,9 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $navdate;
 
     protected $contexts       = [];
-    protected $labels         = [];
+    protected $label          = [];
     protected $viewinghints   = [];
-    protected $descriptions   = [];
+    protected $summary        = null;
     protected $attributions   = [];
     protected $licenses       = [];
     protected $thumbnails     = [];
@@ -193,13 +195,12 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLabel()
      * @param array|string $label
      * @param string       $language
      */
-    public function addLabel(array|string $label, string $language): void
+    public function setLabel(LanguageStrings $languageStrings): void
     {
-        $this->labels[] = [$language => (array) $label];
+        $this->label = $languageStrings->toArray();
     }
 
     /**
@@ -207,9 +208,9 @@ abstract class ResourceAbstract implements ResourceInterface
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getLabelss()
      * @return array
      */
-    public function getLabels()
+    public function getLabel()
     {
-        return $this->labels;
+        return $this->label;
     }
 
     /**
@@ -239,27 +240,18 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addDescription()
-     * @param string
-     * @param string
      */
-    public function addDescription($description, $language = null): void
+    public function setSummary(LanguageStrings $languageStrings): void
     {
-        if (!empty($language)) {
-            $description = [Identifier::ATVALUE => $description, Identifier::LANGUAGE => $language];
-        }
-
-        $this->descriptions[] = $description;
+        $this->summary = $languageStrings;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getDescriptions()
-     * @return string
      */
-    public function getDescriptions()
+    public function getSummary(): LanguageStrings
     {
-        return $this->descriptions;
+        return $this->summary;
     }
 
     /**
@@ -352,9 +344,10 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * Set the metadata.
-     * @param \IIIF\PresentationAPI\Metadata\Metadata $metadata
+     *
+     * @param \IIIF\PresentationAPI\Metadata\MetadataInterface $metadata
      */
-    public function setMetadata(Metadata $metadata): void
+    public function setMetadata(MetadataInterface $metadata): void
     {
         $this->metadata = $metadata;
     }

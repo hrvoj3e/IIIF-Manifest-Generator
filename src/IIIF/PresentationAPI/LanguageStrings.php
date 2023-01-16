@@ -24,31 +24,35 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Metadata;
-
-use IIIF\PresentationAPI\Parameters\Identifier;
+namespace IIIF\PresentationAPI;
 
 /**
- * Implemenation of the Metadata descriptive property.
- * https://iiif.io/api/presentation/3.0/#metadata.
+ * Language strings.
  */
-class Metadata implements MetadataInterface
+class LanguageStrings
 {
-    private array $items = [];
+    protected array $strings = [];
 
     /**
-     * {@inheritDoc}
+     * Add a language string.
+     *
+     * @param string $language
+     * @param array $strings
      */
-    public function addItem(MetadataItemInterface $item): void
+    public function addString(string $language, array $strings): LanguageStrings
     {
-        $this->items[] = $item->toArray();
+        $this->strings[$language] = $strings;
+
+        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns an array representation of the lange strings object.
+     *
+     * @return array
      */
     public function toArray(): array
     {
-        return $this->items;
+        return $this->strings;
     }
 }

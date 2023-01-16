@@ -34,45 +34,55 @@ interface LinkInterface
     /**
      * Set the id.
      */
-    public function setID($id);
+    public function setID(string $id): void;
 
     /**
      * Get the id.
      */
-    public function getID();
+    public function getID(): string;
+
+    /**
+     * Set the type.
+     */
+    public function setType(string $type): void;
+
+    /**
+     * Get the type.
+     */
+    public function getType(): string;
 
     /**
      * Set the format.
      */
-    public function setFormat($format);
+    //public function setFormat(string $format): void;
 
     /**
      * Get the format.
      */
-    public function getFormat();
+    //public function getFormat(): string;
 
     /**
      * Set the profile.
      */
-    public function setProfile($profile);
+    public function setProfile(string $profile): void;
 
     /**
      * Get the profile.
      */
-    public function getProfile();
+    public function getProfile(): string;
 
     /**
      * Set the profile.
      */
-    public function setLabel($label);
+    //public function setLabel(string $label): void;
 
     /**
      * Get the label.
      */
-    public function getLabel();
+    //public function getLabel(): string;
 
     /**
      * Convert objects inside the classes to arrays.
      */
-    public function toArray();
+    public function toArray(): array;
 }

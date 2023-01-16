@@ -32,29 +32,16 @@ namespace IIIF\PresentationAPI\Metadata;
 interface MetadataInterface
 {
     /**
-     * Add a label with a value.
-     */
-    public function addLabelValue($label, $value);
-
-    /**
-     * Add a label with multiple translated values:.
+     * Add metadata item.
      *
-     * The value parameter must be in the following format:
-     * array("value" => VALUE, "language" => LANGUAGE");
+     * @param \IIIF\PresentationAPI\Metadata\MetadataItemInterface $item
      */
-    public function addLabelMultiValue($label, $values);
-
-    /**
-     * Add multiple translated labels and values.
-     *
-     * Both label and value parameters must be formatted as the following array:
-     * array("value" => VALUE, "language" => LANGUAGE");
-     */
-    public function addMultiLabelMultiValue($labels, $values);
+    public function addItem(MetadataItemInterface $item): void;
 
     /**
      * Convert objects inside the classes to arrays for the manifest.
-     * @return array|string
+     *
+     * @return array
      */
-    public function toArray();
+    public function toArray(): array;
 }

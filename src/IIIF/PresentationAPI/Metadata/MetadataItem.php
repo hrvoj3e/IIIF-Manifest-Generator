@@ -26,29 +26,27 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Metadata;
 
-use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\LanguageStrings;
 
 /**
- * Implemenation of the Metadata descriptive property.
- * https://iiif.io/api/presentation/3.0/#metadata.
+ * Metadata item implementation.
  */
-class Metadata implements MetadataInterface
+class MetadataItem implements MetadataItemInterface
 {
-    private array $items = [];
-
     /**
      * {@inheritDoc}
      */
-    public function addItem(MetadataItemInterface $item): void
-    {
-        $this->items[] = $item->toArray();
-    }
+    public function __construct(
+        protected LanguageStrings $label,
+        protected LanguageStrings $value
+    )
+    {}
 
     /**
      * {@inheritDoc}
      */
     public function toArray(): array
     {
-        return $this->items;
+        return ['label' => $this->label->toArray(), 'value' => $this->value->toArray()];
     }
 }

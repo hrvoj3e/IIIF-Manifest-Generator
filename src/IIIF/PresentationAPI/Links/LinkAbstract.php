@@ -31,97 +31,91 @@ namespace IIIF\PresentationAPI\Links;
  */
 abstract class LinkAbstract implements LinkInterface
 {
-    private $id;
-    private $format;
-    private $profile;
-    private $label;
+    protected string $id;
+    protected string $type;
+    protected string $profile;
+    protected string $format;
+    protected string $label;
 
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setID()
-     * @param string
      */
-    public function setID($id): void
+    public function setID(string $id): void
     {
         $this->id = $id;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @return string
      */
-    public function getID()
+    public function getID(): string
     {
         return $this->id;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Links\LinkInterface::setFormat()
-     * @param string $format
      */
-    public function setFormat($format): void
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    /*public function setFormat($format): void
     {
         $this->format = $format;
-    }
+    }*/
 
     /**
      * {@inheritDoc}
-     *
-     * return @string
      */
-    public function getFormat()
+    /*public function getFormat()
     {
         return $this->format;
-    }
+    }*/
 
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Links\LinkInterface::setProfile()
-     * @param string $format
      */
-    public function setProfile($profile): void
+    public function setProfile(string $profile): void
     {
         $this->profile = $profile;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * return @string
      */
-    public function getProfile()
+    public function getProfile(): string
     {
         return $this->profile;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Links\LinkInterface::setLabel()
-     * @param string $label
      */
-    public function setLabel($label): void
+    public function setLabel(string $label): void
     {
         $this->label = $label;
     }
 
     /**
      * {@inheritDoc}
-     * return @string.
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Types\TypeInterface::toArray()
      */
-    abstract public function toArray();
+    abstract public function toArray(): array;
 }

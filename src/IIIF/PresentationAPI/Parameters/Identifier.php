@@ -37,7 +37,7 @@ class Identifier
     public const COLLECTIONS      = 'collections';
     public const CONTENTLAYER     = 'contentLayer';
     public const CONTEXT          = '@context';
-    public const DESCRIPTION      = 'description';
+    public const SUMMARY          = 'summary';
     public const FORMAT           = 'format';
     public const FORMATS          = 'formats';
     public const HEIGHT           = 'height';

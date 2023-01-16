@@ -36,6 +36,9 @@ $mapping = array(
     'IIIF\PresentationAPI\Resources\Sequence' => __DIR__ . '/src/IIIF/PresentationAPI/Resources/Sequence.php',
     'IIIF\Utils\ArrayCreator' => __DIR__ . '/src/IIIF/Utils/ArrayCreator.php',
     'IIIF\Utils\Validator' => __DIR__ . '/src/IIIF/Utils/Validator.php',
+    'IIIF\PresentationAPI\Metadata\MetadataItem' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/MetadataItem.php',
+    'IIIF\PresentationAPI\Metadata\MetadataItemInterface' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/MetadataItemInterface.php',
+    'IIIF\PresentationAPI\LanguageStrings' => __DIR__ . '/src/IIIF/PresentationAPI/LanguageStrings.php',
 );
 
 spl_autoload_register(function ($class) use ($mapping) {

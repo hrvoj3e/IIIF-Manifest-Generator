@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use DateTimeInterface;
+use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\Service;
@@ -77,14 +78,14 @@ interface ResourceInterface
     public function getType();
 
     /**
-     * Add a label.
+     * Sets the label.
      */
-    public function addLabel(array|string $label, string $language): void;
+    public function setLabel(LanguageStrings $languageStrings): void;
 
     /**
-     * Get the labels.
+     * Get the label.
      */
-    public function getLabels();
+    public function getLabel();
 
     /**
      * Add a viewing hint.
@@ -97,14 +98,16 @@ interface ResourceInterface
     public function getViewingHints();
 
     /**
-     * Set the description.
+     * Set the summary.
+     *
+     * @param \IIIF\PresentationAPI\LanguageStrings $languageStrings
      */
-    public function addDescription($description);
+    public function setSummary(LanguageStrings $languageStrings): void;
 
     /**
-     * Get the descriptions.
+     * Get the summary.
      */
-    public function getDescriptions();
+    public function getSummary(): LanguageStrings;
 
     /**
      * Add an attribution.

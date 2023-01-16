@@ -143,7 +143,7 @@ class Manifest extends ResourceAbstract
         if ($this->getOnlyMemberData()) {
             ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in a Manifest');
             ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->labels, 'The label must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in a Manifest');
 
             return $item;
         }
@@ -171,14 +171,14 @@ class Manifest extends ResourceAbstract
 
         // Descriptive Properties
 
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->labels, 'The label must be present in the Manifest');
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Manifest', false);
 
         if (!empty($this->metadata)) {
             ArrayCreator::add($item, Identifier::METADATA, $this->metadata);
         }
 
-        if (!empty($this->descriptions)) {
-            ArrayCreator::add($item, Identifier::DESCRIPTION, $this->descriptions);
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
         }
 
         if (!empty($this->thumbnails)) {
