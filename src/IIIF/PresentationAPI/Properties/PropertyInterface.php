@@ -51,7 +51,7 @@ interface PropertyInterface
     /**
      * Get the service.
      */
-    public function getService();
+    public function getService(): Service;
 
     /**
      * Convert objects inside the classes to arrays for the manifest.

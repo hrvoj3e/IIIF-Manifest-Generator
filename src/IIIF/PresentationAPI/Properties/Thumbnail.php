@@ -32,7 +32,7 @@ use IIIF\Utils\ArrayCreator;
 
 /**
  * Implementation of thumbnail descriptive property.
- * http://iiif.io/api/presentation/2.1/#thumbnail.
+ * @link https://iiif.io/api/presentation/3.0/#thumbnail
  */
 class Thumbnail extends MimeAbstract
 {
@@ -92,13 +92,13 @@ class Thumbnail extends MimeAbstract
 
     public function toArray()
     {
-        $item = parent::toArray();
+        $array = parent::toArray();
 
-        ArrayCreator::add($item, Identifier::TYPE, Type::IMAGE);
-        ArrayCreator::addIfExists($item, Identifier::HEIGHT, $this->getHeight());
-        ArrayCreator::addIfExists($item, Identifier::WIDTH, $this->getWidth());
-        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat());
+        ArrayCreator::add($array, Identifier::TYPE, Type::IMAGE);
+        ArrayCreator::addIfExists($array, Identifier::HEIGHT, $this->getHeight());
+        ArrayCreator::addIfExists($array, Identifier::WIDTH, $this->getWidth());
+        ArrayCreator::addIfExists($array, Identifier::FORMAT, $this->getFormat());
 
-        return $item;
+        return $array;
     }
 }

@@ -31,10 +31,10 @@ use IIIF\PresentationAPI\LabelValueItem;
 use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
+use IIIF\PresentationAPI\Links\SeeAlso;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
 use IIIF\PresentationAPI\Metadata\MetadataInterface;
-use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\ViewingDirection;
 use IIIF\PresentationAPI\Parameters\ViewingHint;
 use IIIF\PresentationAPI\Properties\Logo;
@@ -52,26 +52,24 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $id;
     protected $onlyid         = false;
     protected $onlymemberdata = false;
-
     protected $type;
     protected $defaultcontext = 'http://iiif.io/api/presentation/3/context.json';
     protected $viewingdirection;
     protected $navdate;
-
-    protected $contexts       = [];
-    protected $label          = [];
-    protected $viewinghints   = [];
-    protected $summary        = null;
+    protected $contexts                              = [];
+    protected $label                                 = [];
+    protected $viewinghints                          = [];
+    protected $summary                               = null;
     protected LabelValueItem|null $requiredStatement = null;
-    protected string|null $rights = null;
-    protected $thumbnails     = [];
-    protected $logos          = [];
-    protected $metadata       = [];
-    protected $seealso        = [];
-    protected $services       = [];
-    protected $related        = [];
-    protected $rendering      = [];
-    protected $within         = [];
+    protected string|null $rights                    = null;
+    protected $thumbnails                            = [];
+    protected $logos                                 = [];
+    protected $metadata                              = [];
+    protected array $seeAlso                         = [];
+    protected $services                              = [];
+    protected $related                               = [];
+    protected $rendering                             = [];
+    protected $within                                = [];
 
     /**
      * Constructor.
@@ -351,22 +349,18 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addSeeAlso()
-     * @param \IIIF\PresentationAPI\Links\SeeAlso $seealso
      */
-    public function addSeeAlso($seealso): void
+    public function addSeeAlso(SeeAlso $seeAlso): void
     {
-        $this->seealso[] = $seealso;
+        $this->seeAlso[] = $seeAlso;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getAttributions()
-     * @return array
      */
-    public function getSeeAlso()
+    public function getSeeAlso(): array
     {
-        return $this->seealso;
+        return $this->seeAlso;
     }
 
     /**

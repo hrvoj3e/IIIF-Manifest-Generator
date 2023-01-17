@@ -34,7 +34,7 @@ use function count;
 
 /**
  * Implementation of a Manifest resource.
- * http://iiif.io/api/presentation/2.1/#manifest.
+ * @link https://iiif.io/api/presentation/3.0/#52-manifest
  */
 class Manifest extends ResourceAbstract
 {
@@ -138,87 +138,87 @@ class Manifest extends ResourceAbstract
      */
     public function toArray()
     {
-        $item = [];
+        $array = [];
 
         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in a Manifest');
+            ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a Manifest');
+            ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a Manifest');
+            ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a Manifest');
 
-            return $item;
+            return $array;
         }
 
         // Technical Properties
 
         if ($this->isTopLevel) {
-            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->contexts, 'The context must be present in the Manifest');
+            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->contexts, 'The context must be present in the Manifest');
         }
 
-        ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in the Manifest');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in the Manifest');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Manifest');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the Manifest');
 
         if (!empty($this->viewinghints)) {
-            ArrayCreator::add($item, Identifier::VIEWINGHINT, $this->viewinghints);
+            ArrayCreator::add($array, Identifier::VIEWINGHINT, $this->viewinghints);
         }
 
         if (!empty($this->viewingdirection)) {
-            ArrayCreator::add($item, Identifier::VIEWINGDIRECTION, $this->viewingdirection);
+            ArrayCreator::add($array, Identifier::VIEWINGDIRECTION, $this->viewingdirection);
         }
 
         if (!empty($this->navdate)) {
-            ArrayCreator::add($item, Identifier::NAVDATE, $this->navdate);
+            ArrayCreator::add($array, Identifier::NAVDATE, $this->navdate);
         }
 
         // Descriptive Properties
 
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Manifest', false);
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Manifest', false);
 
         if (!empty($this->metadata)) {
-            ArrayCreator::add($item, Identifier::METADATA, $this->metadata);
+            ArrayCreator::add($array, Identifier::METADATA, $this->metadata);
         }
 
         if (!empty($this->summary)) {
-            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
         }
 
         if (!empty($this->thumbnails)) {
-            ArrayCreator::add($item, Identifier::THUMBNAIL, $this->thumbnails, false);
+            ArrayCreator::add($array, Identifier::THUMBNAIL, $this->thumbnails, false);
         }
 
         // Rights and Licensing Properties
 
         if (!empty($this->rights)) {
-            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
         }
 
         if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($item, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
+            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
         }
 
         if (!empty($this->logos)) {
-            ArrayCreator::add($item, Identifier::LOGO, $this->logos);
+            ArrayCreator::add($array, Identifier::LOGO, $this->logos);
         }
 
         //  Linking Properties
 
         if (!empty($this->related)) {
-            ArrayCreator::add($item, Identifier::RELATED, $this->related);
+            ArrayCreator::add($array, Identifier::RELATED, $this->related);
         }
 
         if (!empty($this->rendering)) {
-            ArrayCreator::add($item, Identifier::RENDERING, $this->rendering);
+            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering);
         }
 
         if (!empty($this->services)) {
-            ArrayCreator::add($item, Identifier::SERVICE, $this->services);
+            ArrayCreator::add($array, Identifier::SERVICE, $this->services);
         }
 
-        if (!empty($this->seealso)) {
-            ArrayCreator::add($item, Identifier::SEEALSO, $this->seealso, false);
+        if (!empty($this->seeAlso)) {
+            ArrayCreator::add($array, Identifier::SEEALSO, $this->seeAlso, false);
         }
 
         if (!empty($this->within)) {
-            ArrayCreator::add($item, Identifier::WITHIN, $this->within);
+            ArrayCreator::add($array, Identifier::WITHIN, $this->within);
         }
 
         // Resource Types
@@ -236,21 +236,21 @@ class Manifest extends ResourceAbstract
                 }
             }
 
-            ArrayCreator::addRequired($item, Identifier::SEQUENCES, $this->sequences, "The first Sequence must be embedded within a Manifest", false);*/
+            ArrayCreator::addRequired($array, Identifier::SEQUENCES, $this->sequences, "The first Sequence must be embedded within a Manifest", false);*/
 
             if (!empty($this->structures)) {
-                ArrayCreator::add($item, Identifier::STRUCTURES, $this->structures, false);
+                ArrayCreator::add($array, Identifier::STRUCTURES, $this->structures, false);
             }
         } else {
             if (!empty($this->sequences)) {
-                ArrayCreator::add($item, Identifier::SEQUENCES, $this->sequences, false);
+                ArrayCreator::add($array, Identifier::SEQUENCES, $this->sequences, false);
             }
 
             if (!empty($this->structures)) {
-                ArrayCreator::add($item, Identifier::STRUCTURES, $this->structures, false);
+                ArrayCreator::add($array, Identifier::STRUCTURES, $this->structures, false);
             }
         }
 
-        return $item;
+        return $array;
     }
 }

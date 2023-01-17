@@ -27,27 +27,24 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Links;
 
 /*
- * Implemenation for Service property.
- * https://iiif.io/api/presentation/3.0/#33-linking-properties.
+ * Service item.
  */
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 class ServiceItem extends LinkAbstract
 {
-    protected $context = 'http://iiif.io/api/image/3/context.json';
-
     /**
      * {@inheritDoc}
      */
     public function toArray(): array
     {
-        $item = [];
+        $array = [];
 
-        ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in a service');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in a service');
-        ArrayCreator::addRequired($item, Identifier::PROFILE, $this->profile, 'The profile must be present in a service');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a service');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a service');
+        ArrayCreator::addRequired($array, Identifier::PROFILE, $this->profile, 'The profile must be present in a service');
 
-        return $item;
+        return $array;
     }
 }

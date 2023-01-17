@@ -31,7 +31,7 @@ use IIIF\Utils\ArrayCreator;
 
 /**
  * Implementation of a Content resource.
- * http://iiif.io/api/presentation/2.1/#image-resources.
+ * @link https://iiif.io/api/presentation/3.0/#57-content-resources
  */
 class Content extends ResourceAbstract
 {
@@ -137,47 +137,50 @@ class Content extends ResourceAbstract
      */
     public function toArray()
     {
-        $item = [];
+        $array = [];
 
         /* Technical Properties **/
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Content resource');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Content resource');
-        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a Content resource');
-        ArrayCreator::addIfExists($item, Identifier::HEIGHT, $this->getHeight());
-        ArrayCreator::addIfExists($item, Identifier::WIDTH, $this->getWidth());
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a Content resource');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in a Content resource');
+        ArrayCreator::addRequired($array, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a Content resource');
+        ArrayCreator::addIfExists($array, Identifier::HEIGHT, $this->getHeight());
+        ArrayCreator::addIfExists($array, Identifier::WIDTH, $this->getWidth());
+        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
 
         /* Descriptive Properties **/
 
         if (!empty($this->label)) {
-            ArrayCreator::add($item, Identifier::LABEL, $this->label, true);
+            ArrayCreator::add($array, Identifier::LABEL, $this->label, true);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
+        ArrayCreator::addIfExists($array, Identifier::METADATA, $this->getMetadata());
 
         if (!empty($this->summary)) {
-            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
-        ArrayCreator::addIfExists($item, Identifier::CHARS, $this->getChars());
+        ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
+        ArrayCreator::addIfExists($array, Identifier::CHARS, $this->getChars());
 
         /* Rights and Licensing Properties **/
-        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
 
-        if (!empty($this->rights)) {
-            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        if (!empty($this->requiredStatement)) {
+            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        if (!empty($this->rights)) {
+            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
+        }
+
+        ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/
-        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
+        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
+        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
+        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
+        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
 
-        return $item;
+        return $array;
     }
 }

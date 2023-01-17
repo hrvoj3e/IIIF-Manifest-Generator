@@ -49,19 +49,19 @@ abstract class MimeAbstract extends PropertyAbstract
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Properties\PropertyInterface::getService()
-     * @return array|string
      */
-    public function getService()
+    public function getService(): Service
     {
         return $this->service;
     }
 
     public function toArray()
     {
-        $item = [];
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the thumbnail');
-        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getService());
-        return $item;
+        $array = [];
+
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the thumbnail');
+        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getService());
+
+        return $array;
     }
 }

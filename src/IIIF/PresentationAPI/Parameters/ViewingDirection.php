@@ -28,7 +28,9 @@ namespace IIIF\PresentationAPI\Parameters;
 
 /**
  * Values used for viewing direction properties.
- * http://iiif.io/api/presentation/2.1/#viewingdirection.
+ * @link https://iiif.io/api/presentation/3.0/#viewingdirection
+ *
+ * @todo should be converted to an enum
  */
 class ViewingDirection
 {

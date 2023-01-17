@@ -33,7 +33,7 @@ use IIIF\Utils\Validator;
 
 /**
  * Implementation of a Collection resource.
- * http://iiif.io/api/presentation/2.1/#collection.
+ * @link https://iiif.io/api/presentation/3.0/#51-collection
  */
 class Collection extends ResourceAbstract
 {
@@ -280,69 +280,73 @@ class Collection extends ResourceAbstract
      */
     public function toArray()
     {
-        $item = [];
+        $array = [];
 
         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Collection');
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Collection');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Collection');
-            ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
+            ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a Collection');
+            ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in a Collection');
+            ArrayCreator::addRequired($array, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Collection');
+            ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
 
-            return $item;
+            return $array;
         }
 
         /* Technical Properties **/
         // If this is a top level item, then add the context
         if ($this->isTopLevel()) {
-            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Collection');
+            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Collection');
         }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Collection');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Collection');
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
-        ArrayCreator::addIfExists($item, Identifier::NAVDATE, $this->getNavDate());
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Collection');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Collection');
+        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+        ArrayCreator::addIfExists($array, Identifier::NAVDATE, $this->getNavDate());
 
         /* Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Collection', false);
-        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Collection', false);
+        ArrayCreator::addIfExists($array, Identifier::METADATA, $this->getMetadata());
 
         if (!empty($this->summary)) {
-            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
+        ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
-        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-        ArrayCreator::addIfExists($item, Identifier::RIGHTS, $this->rights);
 
-        if (!empty($this->rights)) {
-            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        if (!empty($this->requiredStatement)) {
+            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        ArrayCreator::addIfExists($array, Identifier::RIGHTS, $this->rights);
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
+        }
+
+        ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/
-        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
+        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
+        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
+        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
+        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
 
         /* Paging Properties **/
-        ArrayCreator::addIfExists($item, Paging::FIRST, $this->getFirst());
-        ArrayCreator::addIfExists($item, Paging::LAST, $this->getLast());
-        ArrayCreator::addIfExists($item, Paging::TOTAL, $this->getTotal());
-        ArrayCreator::addIfExists($item, Paging::NEXT, $this->getNext());
-        ArrayCreator::addIfExists($item, Paging::PREVIOUS, $this->getPrev());
-        ArrayCreator::addIfExists($item, Paging::STARTINDEX, $this->getStartIndex());
+        ArrayCreator::addIfExists($array, Paging::FIRST, $this->getFirst());
+        ArrayCreator::addIfExists($array, Paging::LAST, $this->getLast());
+        ArrayCreator::addIfExists($array, Paging::TOTAL, $this->getTotal());
+        ArrayCreator::addIfExists($array, Paging::NEXT, $this->getNext());
+        ArrayCreator::addIfExists($array, Paging::PREVIOUS, $this->getPrev());
+        ArrayCreator::addIfExists($array, Paging::STARTINDEX, $this->getStartIndex());
 
         /* Resource Types **/
-        ArrayCreator::addIfExists($item, Identifier::COLLECTIONS, $this->getCollections(), false);
+        ArrayCreator::addIfExists($array, Identifier::COLLECTIONS, $this->getCollections(), false);
         // Validate the manifests
         foreach ($this->getManifests() as $manifest) {
             $this->validateManifest($manifest);
         }
-        ArrayCreator::addIfExists($item, Identifier::MANIFESTS, $this->getManifests(), false);
+        ArrayCreator::addIfExists($array, Identifier::MANIFESTS, $this->getManifests(), false);
         // Validate the manifests in the members
         foreach ($this->getMembers() as $member) {
             if ($member instanceof Manifest) {
@@ -352,8 +356,8 @@ class Collection extends ResourceAbstract
             } else {
             }
         }
-        ArrayCreator::addIfExists($item, Identifier::MEMBERS, $this->getMembers(), false);
+        ArrayCreator::addIfExists($array, Identifier::MEMBERS, $this->getMembers(), false);
 
-        return $item;
+        return $array;
     }
 }

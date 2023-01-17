@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\Utils;
 
 use Exception;
+use IIIF\PresentationAPI\Parameters\Identifier;
 
 use function count;
 use function is_array;
@@ -38,7 +39,7 @@ use function method_exists;
  */
 class ArrayCreator
 {
-     /**
+    /**
      * Check the array to see if subclasses need to have arrays generated.
      */
     private static function checkToArray(array|bool|float|int|object|string &$value): array|bool|float|int|string
@@ -59,19 +60,19 @@ class ArrayCreator
     /**
      * Add an item to the array.
      */
-    public static function add(array &$array, int|string $key, mixed $value, bool $flatten = true): void
+    public static function add(array &$array, Identifier $key, mixed $value, bool $flatten = true): void
     {
         if ($flatten && is_array($value) && count($value) == 1) {
             $value = $value[0];
         }
 
-        $array[$key] = self::checkToArray($value);
+        $array[$key->value] = self::checkToArray($value);
     }
 
     /**
      * The item must exist and be added to the array.
      */
-    public static function addRequired(array &$array, int|string $key, mixed $value, string $message, bool $flatten = true): void
+    public static function addRequired(array &$array, Identifier $key, mixed $value, string $message, bool $flatten = true): void
     {
         if (empty($value)) {
             throw new Exception($message);
@@ -82,8 +83,10 @@ class ArrayCreator
 
     /**
      * Add the item to the array if it isn't empty.
+     *
+     * @deprecated
      */
-    public static function addIfExists(array &$array, int|string $key, mixed $value, bool $flatten = true): void
+    public static function addIfExists(array &$array, Identifier $key, mixed $value, bool $flatten = true): void
     {
         if (!empty($value)) {
             self::add($array, $key, $value, $flatten);

@@ -10,8 +10,7 @@ class Behavior
     {
         $behaviors = [];
 
-        foreach($this->behaviors as $behavior)
-        {
+        foreach ($this->behaviors as $behavior) {
             $behaviors[] = $behavior->value;
         }
 

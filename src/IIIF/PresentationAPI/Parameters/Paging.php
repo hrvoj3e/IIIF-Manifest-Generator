@@ -29,6 +29,8 @@ namespace IIIF\PresentationAPI\Parameters;
 /**
  * Values used for paging properties.
  * http://iiif.io/api/presentation/2.1/#paging-properties.
+ *
+ * @deprecated
  */
 class Paging
 {

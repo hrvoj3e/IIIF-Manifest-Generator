@@ -37,7 +37,7 @@ class LanguageStrings
      * Add a language string.
      *
      * @param string $language
-     * @param array $strings
+     * @param array  $strings
      */
     public function addString(string $language, array $strings): LanguageStrings
     {

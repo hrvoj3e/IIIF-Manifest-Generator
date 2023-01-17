@@ -30,8 +30,8 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for SeeAlso property.
- * http://iiif.io/api/presentation/2.1/#linking-properties.
+ * Implemenation for seeAlso linking property.
+ * @link https://iiif.io/api/presentation/3.0/#seealso
  */
 class SeeAlso extends LinkAbstract
 {
@@ -42,23 +42,23 @@ class SeeAlso extends LinkAbstract
      */
     public function toArray(): array
     {
-        $item = [];
+        $array = [];
 
-        ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in the See Also');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The id must be present in the See Also');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the See Also');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The id must be present in the See Also');
 
         if (!empty($this->format)) {
-            ArrayCreator::add($item, Identifier::FORMAT, $this->format);
+            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
         }
 
         if (!empty($this->format)) {
-            ArrayCreator::add($item, Identifier::PROFILE, $this->profile);
+            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
         }
 
         if (!empty($this->label)) {
-            ArrayCreator::add($item, Identifier::LABEL, $this->label);
+            ArrayCreator::add($array, Identifier::LABEL, $this->label);
         }
 
-        return $item;
+        return $array;
     }
 }

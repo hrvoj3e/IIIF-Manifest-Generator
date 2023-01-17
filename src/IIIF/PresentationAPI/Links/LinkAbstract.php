@@ -29,15 +29,16 @@ namespace IIIF\PresentationAPI\Links;
 use IIIF\PresentationAPI\LanguageStrings;
 
 /**
- * Abstract implementation of Link properties.
+ * Abstract implementation of linking properties.
+ * @link https://iiif.io/api/presentation/3.0/#33-linking-properties
  */
 abstract class LinkAbstract implements LinkInterface
 {
     protected string $id;
     protected string $type;
-    protected string $profile;
-    protected string $format;
-    protected LanguageStrings|null $label = null;
+    protected string $profile; // @todo Move out to SeeAlso or to a trait for more classes need it
+    protected string $format; // @todo Move out to SeeAlso or to a trait for more classes need it
+    protected LanguageStrings|null $label = null; // @todo Move out to SeeAlso or to a trait for more classes need it
 
     /**
      * {@inheritDoc}
@@ -90,6 +91,8 @@ abstract class LinkAbstract implements LinkInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
     public function setProfile(string $profile): void
     {
@@ -98,6 +101,8 @@ abstract class LinkAbstract implements LinkInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
     public function getProfile(): string
     {

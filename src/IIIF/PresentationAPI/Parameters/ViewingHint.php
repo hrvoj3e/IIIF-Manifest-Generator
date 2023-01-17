@@ -27,8 +27,10 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Parameters;
 
 /**
- * Values used for viewing hint properties.
- * http://iiif.io/api/presentation/2.1/#viewinghint.
+ * Values used for behavior properties.
+ * @link https://iiif.io/api/presentation/3.0/#behavior
+ *
+ * @todo Rename to Behavior and conver to an enum.
  */
 class ViewingHint
 {

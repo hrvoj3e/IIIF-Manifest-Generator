@@ -29,11 +29,16 @@ namespace IIIF\PresentationAPI\Metadata;
 use IIIF\PresentationAPI\LabelValueItem;
 
 /**
- * Implemenation of the Metadata descriptive property.
- * https://iiif.io/api/presentation/3.0/#metadata.
+ * Implemenation of the metadata descriptive property.
+ * @link https://iiif.io/api/presentation/3.0/#metadata
  */
 class Metadata implements MetadataInterface
 {
+    /**
+     * Label value items.
+     *
+     * @var LabelValueItem[]
+     */
     private array $items = [];
 
     /**
@@ -41,7 +46,15 @@ class Metadata implements MetadataInterface
      */
     public function addItem(LabelValueItem $labelValueItem): void
     {
-        $this->items[] = $labelValueItem->toArray();
+        $this->items[] = $labelValueItem;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getItems(): array
+    {
+        return $this->items;
     }
 
     /**
@@ -49,6 +62,12 @@ class Metadata implements MetadataInterface
      */
     public function toArray(): array
     {
-        return $this->items;
+        $array = [];
+
+        foreach ($this->items as $item) {
+            $array[] = $item->toArray();
+        }
+
+        return $array;
     }
 }

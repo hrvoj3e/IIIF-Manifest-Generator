@@ -28,7 +28,7 @@ namespace IIIF\PresentationAPI\Properties;
 
 /**
  * Implementation of logo descriptive property.
- * http://iiif.io/api/presentation/2.1/#logo.
+ * @link https://iiif.io/api/presentation/3.0/#logo
  */
 class Logo extends MimeAbstract
 {

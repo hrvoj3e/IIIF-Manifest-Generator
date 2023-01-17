@@ -28,6 +28,8 @@ namespace IIIF\PresentationAPI\Parameters;
 
 /**
  * Values used throughout the content resource types.
+ *
+ * @todo Should this class be removed or converted to an enum?
  */
 class Type
 {

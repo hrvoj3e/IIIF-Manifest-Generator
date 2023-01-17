@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI\Links;
 use IIIF\PresentationAPI\LanguageStrings;
 
 /**
- * Interface for Link properties.
+ * Interface for linking properties.
  */
 interface LinkInterface
 {

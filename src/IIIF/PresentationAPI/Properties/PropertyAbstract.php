@@ -35,8 +35,6 @@ abstract class PropertyAbstract implements PropertyInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Properties\PropertyInterface::setID()
-     * @param string
      */
     public function setID($id): void
     {
@@ -45,7 +43,6 @@ abstract class PropertyAbstract implements PropertyInterface
 
     /**
      * Get the id.
-     * @return string
      */
     public function getID()
     {
@@ -54,7 +51,6 @@ abstract class PropertyAbstract implements PropertyInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Types\TypeInterface::toArray()
      */
     abstract public function toArray();
 }

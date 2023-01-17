@@ -30,8 +30,8 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for Rendering property.
- * http://iiif.io/api/presentation/2.1/#linking-properties.
+ * Implemenation for rendering linking property.
+ * @link https://iiif.io/api/presentation/3.0/#rendering
  */
 class Rendering extends LinkAbstract
 {
@@ -48,19 +48,19 @@ class Rendering extends LinkAbstract
      * Does not implement getProfile.
      * @throws Exception
      */
-    public function getProfile(): void
+    public function getProfile(): string
     {
         throw new \Exception('Related does not have a profile');
     }
 
-    public function toArray()
+    public function toArray(): array
     {
-        $item = [];
+        $array = [];
 
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a related item');
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
-        ArrayCreator::addRequired($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a related item');
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
+        ArrayCreator::addRequired($array, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
 
-        return $item;
+        return $array;
     }
 }

@@ -39,9 +39,14 @@ interface MetadataInterface
     public function addItem(LabelValueItem $labelValueItem): void;
 
     /**
-     * Convert objects inside the classes to arrays for the manifest.
+     * Returns the metadata items.
      *
-     * @return array
+     * @return LabelValueItem[]
+     */
+    public function getItems(): array;
+
+    /**
+     * Convert objects inside the classes to arrays for the manifest.
      */
     public function toArray(): array;
 }

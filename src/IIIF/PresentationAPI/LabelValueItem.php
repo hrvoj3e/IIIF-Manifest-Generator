@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI;
 
-use IIIF\PresentationAPI\LanguageStrings;
-
 /**
  * Label value item.
  */
@@ -39,8 +37,8 @@ class LabelValueItem
     public function __construct(
         protected LanguageStrings $label,
         protected LanguageStrings $value
-    )
-    {}
+    ) {
+    }
 
     /**
      * {@inheritDoc}

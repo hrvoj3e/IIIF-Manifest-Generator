@@ -31,6 +31,7 @@ use IIIF\PresentationAPI\LabelValueItem;
 use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
+use IIIF\PresentationAPI\Links\SeeAlso;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
 use IIIF\PresentationAPI\Properties\Logo;
@@ -163,12 +164,14 @@ interface ResourceInterface
     /**
      * Add to seeAlso.
      */
-    public function addSeeAlso($seealso);
+    public function addSeeAlso(SeeAlso $seealso): void;
 
     /**
      * Get the seeAlso.
+     *
+     * @return SeeAlso[]
      */
-    public function getSeeAlso();
+    public function getSeeAlso(): array;
 
     /**
      * Set the navDate.

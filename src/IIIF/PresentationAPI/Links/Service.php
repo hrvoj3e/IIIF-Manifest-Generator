@@ -27,13 +27,11 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Links;
 
 /*
- * Implemenation for Service property.
- * https://iiif.io/api/presentation/3.0/#33-linking-properties.
+ * Implemenation for service linking property.
+ * @link https://iiif.io/api/presentation/3.0/#service
  */
 class Service
 {
-    protected $context = 'http://iiif.io/api/image/3/context.json';
-
     protected array $serviceItems = [];
 
     /**
@@ -49,13 +47,12 @@ class Service
      */
     public function toArray(): array
     {
-        $serviceItems = [];
+        $array = [];
 
-        foreach($this->serviceItems as $serviceItem)
-        {
-            $serviceItems[] = $serviceItem->toArray();
+        foreach ($this->serviceItems as $serviceItem) {
+            $array[] = $serviceItem->toArray();
         }
 
-        return $serviceItems;
+        return $array;
     }
 }

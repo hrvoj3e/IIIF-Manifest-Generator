@@ -32,7 +32,7 @@ use IIIF\Utils\Validator;
 
 /**
  * Implementation of a Range resource.
- * http://iiif.io/api/presentation/2.1/#range.
+ * @link https://iiif.io/api/presentation/3.0/#54-range
  */
 class Range extends ResourceAbstract
 {
@@ -186,59 +186,62 @@ class Range extends ResourceAbstract
             return $id;
         }
 
-        $item = [];
+        $array = [];
 
         if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
-            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
-            ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
+            ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+            ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
+            ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
+            ArrayCreator::addIfExists($array, Identifier::CONTENTLAYER, $this->getContentLayer());
 
-            return $item;
+            return $array;
         }
 
         /* Technical Properties **/
         if ($this->isTopLevel()) {
-            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Range');
+            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Range');
         }
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Range');
-        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Range');
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
-        ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Range');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Range');
+        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+        ArrayCreator::addIfExists($array, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
         /* Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
-        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
+        ArrayCreator::addIfExists($array, Identifier::METADATA, $this->getMetadata());
 
         if (!empty($this->summary)) {
-            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
+        ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
 
         if (!empty($this->rights)) {
-            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
         }
 
-        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        if (!empty($this->requiredStatement)) {
+            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
+        }
+
+        ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/
-        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
-        ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
-        ArrayCreator::addIfExists($item, Identifier::STARTCANVAS, $this->getStartCanvas());
+        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
+        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
+        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
+        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
+        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
+        ArrayCreator::addIfExists($array, Identifier::CONTENTLAYER, $this->getContentLayer());
+        ArrayCreator::addIfExists($array, Identifier::STARTCANVAS, $this->getStartCanvas());
 
         /* Resource Types **/
-        ArrayCreator::addIfExists($item, Identifier::CANVASES, $this->getCanvases(), false);
-        ArrayCreator::addIfExists($item, Identifier::RANGES, $this->getRanges(), false);
-        ArrayCreator::addIfExists($item, Identifier::MEMBERS, $this->getMembers(), false);
+        ArrayCreator::addIfExists($array, Identifier::CANVASES, $this->getCanvases(), false);
+        ArrayCreator::addIfExists($array, Identifier::RANGES, $this->getRanges(), false);
+        ArrayCreator::addIfExists($array, Identifier::MEMBERS, $this->getMembers(), false);
 
-        return $item;
+        return $array;
     }
 }

@@ -29,6 +29,8 @@ namespace IIIF\PresentationAPI\Parameters;
 /**
  * Values used for Image API Profile Description.
  * http://iiif.io/api/image/2.1/#profile-description.
+ *
+ * @todo See if this class is needed ... should it be converted to an enum?
  */
 class ImageProfileSupport
 {

@@ -30,8 +30,10 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for Related property.
- * http://iiif.io/api/presentation/2.1/#linking-properties.
+ * Implemenation for homepage linking property.
+ * @link https://iiif.io/api/presentation/3.0/#homepage
+ *
+ * @todo Conver to Homepage property
  */
 class Related extends LinkAbstract
 {
@@ -50,22 +52,22 @@ class Related extends LinkAbstract
      *
      * @throws Exception
      */
-    public function getProfile(): void
+    public function getProfile(): string
     {
         throw new \Exception('Related does not have a profile');
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Links\LinkAbstract::toArray()
      */
-    public function toArray()
+    public function toArray(): array
     {
-        $item = [];
-        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a related item');
-        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
-        ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
-        return $item;
+        $array = [];
+
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a related item');
+        ArrayCreator::addIfExists($array, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
+        ArrayCreator::addIfExists($array, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
+
+        return $array;
     }
 }
