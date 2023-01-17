@@ -302,14 +302,23 @@ class Collection extends ResourceAbstract
         ArrayCreator::addIfExists($item, Identifier::NAVDATE, $this->getNavDate());
 
         /* Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Collection');
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Collection', false);
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
+
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
+        ArrayCreator::addIfExists($item, Identifier::RIGHTS, $this->rights);
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/

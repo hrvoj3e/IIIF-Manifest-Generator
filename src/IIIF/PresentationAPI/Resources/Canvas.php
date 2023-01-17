@@ -162,57 +162,65 @@ class Canvas extends ResourceAbstract
         }
     }
 
-  public function toArray()
-  {
-      if ($this->getOnlyID()) {
-          $id = $this->getID();
-          Validator::itemExists($id, 'The id must be present in the Canvas');
-          return $id;
-      }
+    public function toArray()
+    {
+        if ($this->getOnlyID()) {
+            $id = $this->getID();
+            Validator::itemExists($id, 'The id must be present in the Canvas');
+            return $id;
+        }
 
-      $item = [];
+        $item = [];
 
-      if ($this->getOnlyMemberData()) {
-          ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
-          ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
-          ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
+        if ($this->getOnlyMemberData()) {
+            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+            ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
 
-          return $item;
-      }
+            return $item;
+        }
 
-      /* Technical Properties **/
-      if ($this->isTopLevel()) {
-          ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Canvas');
-      }
-      ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
-      ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
-      ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
-      $this->configureDimensions();
-      ArrayCreator::addRequired($item, Identifier::HEIGHT, $this->getHeight(), 'The height must be present in the Canvas');
-      ArrayCreator::addRequired($item, Identifier::WIDTH, $this->getWidth(), 'The width must be present in the Canvas');
+        /* Technical Properties **/
+        if ($this->isTopLevel()) {
+            ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Canvas');
+        }
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
+        ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
+        $this->configureDimensions();
+        ArrayCreator::addRequired($item, Identifier::HEIGHT, $this->getHeight(), 'The height must be present in the Canvas');
+        ArrayCreator::addRequired($item, Identifier::WIDTH, $this->getWidth(), 'The width must be present in the Canvas');
 
-      /* Descriptive Properties **/
-      ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
-      ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-      ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
-      ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
+        /* Descriptive Properties **/
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Canvas', false);
+        ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
 
-      /* Rights and Licensing Properties **/
-      ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-      ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
-      ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+        }
 
-      /* Linking Properties **/
-      ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
-      ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
-      ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
-      ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
-      ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+        ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
-      /* Resource Types **/
-      ArrayCreator::addIfExists($item, Identifier::IMAGES, $this->getImages(), false);
-      ArrayCreator::addIfExists($item, Identifier::OTHERCONTENT, $this->getOtherContents(), false);
+        /* Rights and Licensing Properties **/
+        ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
 
-      return $item;
-  }
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        }
+
+        ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
+
+        /* Linking Properties **/
+        ArrayCreator::addIfExists($item, Identifier::RELATED, $this->getRelated());
+        ArrayCreator::addIfExists($item, Identifier::RENDERING, $this->getRendering());
+        ArrayCreator::addIfExists($item, Identifier::SERVICE, $this->getServices());
+        ArrayCreator::addIfExists($item, Identifier::SEEALSO, $this->getSeeAlso());
+        ArrayCreator::addIfExists($item, Identifier::WITHIN, $this->getWithin());
+
+        /* Resource Types **/
+        ArrayCreator::addIfExists($item, Identifier::IMAGES, $this->getImages(), false);
+        ArrayCreator::addIfExists($item, Identifier::OTHERCONTENT, $this->getOtherContents(), false);
+
+        return $item;
+    }
 }

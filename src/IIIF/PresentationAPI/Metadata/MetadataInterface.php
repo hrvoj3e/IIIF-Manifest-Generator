@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Metadata;
 
+use IIIF\PresentationAPI\LabelValueItem;
+
 /**
  * Interface for Metadata properties.
  */
@@ -33,10 +35,8 @@ interface MetadataInterface
 {
     /**
      * Add metadata item.
-     *
-     * @param \IIIF\PresentationAPI\Metadata\MetadataItemInterface $item
      */
-    public function addItem(MetadataItemInterface $item): void;
+    public function addItem(LabelValueItem $labelValueItem): void;
 
     /**
      * Convert objects inside the classes to arrays for the manifest.

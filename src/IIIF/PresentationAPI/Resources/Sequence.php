@@ -85,7 +85,7 @@ class Sequence extends ResourceAbstract
         if ($this->getOnlyMemberData()) {
             ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in a Manifest');
             ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in a Manifest');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Manifest');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Sequence', false);
 
             return $item;
         }
@@ -94,19 +94,31 @@ class Sequence extends ResourceAbstract
             ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Manifest');
         }
 
-        ArrayCreator::addIfExists($item, Identifier::ID, $this->getID(), 'The id must be present in the Manifest');
+        ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Manifest');
         ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Manifest');
         ArrayCreator::addIfExists($item, Identifier::VIEWINGHINT, $this->getViewingHints());
         ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
         /* Descriptive Properties **/
-        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
+
+        if (!empty($this->label)) {
+            ArrayCreator::add($item, Identifier::LABEL, $this->label, true);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
+
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
-        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 

@@ -191,7 +191,7 @@ class Range extends ResourceAbstract
         if ($this->getOnlyMemberData()) {
             ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
             ArrayCreator::addRequired($item, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
-            ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Canvas');
+            ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
             ArrayCreator::addIfExists($item, Identifier::CONTENTLAYER, $this->getContentLayer());
 
             return $item;
@@ -207,13 +207,21 @@ class Range extends ResourceAbstract
         ArrayCreator::addIfExists($item, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
         /* Descriptive Properties **/
-        ArrayCreator::addRequired($item, Identifier::LABEL, $this->getLabels(), 'The label must be present in the Range');
+        ArrayCreator::addRequired($item, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
+
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
-        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 

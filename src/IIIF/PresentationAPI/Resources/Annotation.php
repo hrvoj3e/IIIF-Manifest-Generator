@@ -121,14 +121,26 @@ class Annotation extends ResourceAbstract
         ArrayCreator::addRequired($item, Identifier::ON, $this->getOn(), 'The on value must be present in an Annotation');
 
         /* Descriptive Properties **/
-        ArrayCreator::addIfExists($item, Identifier::LABEL, $this->getLabels());
+
+        if (!empty($this->label)) {
+            ArrayCreator::add($item, Identifier::LABEL, $this->label, true);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::METADATA, $this->getMetadata());
-        ArrayCreator::addIfExists($item, Identifier::DESCRIPTION, $this->getDescriptions());
+
+        if (!empty($this->summary)) {
+            ArrayCreator::add($item, Identifier::SUMMARY, $this->summary);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::THUMBNAIL, $this->getThumbnails());
 
         /* Rights and Licensing Properties **/
         ArrayCreator::addIfExists($item, Identifier::ATTRIBUTION, $this->getAttributions());
-        ArrayCreator::addIfExists($item, Identifier::LICENSE, $this->getLicenses());
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
+        }
+
         ArrayCreator::addIfExists($item, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/

@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use DateTimeInterface;
+use IIIF\PresentationAPI\LabelValueItem;
 use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
@@ -112,22 +113,22 @@ interface ResourceInterface
     /**
      * Add an attribution.
      */
-    public function addAttribution($value, $language);
+    public function setRequiredStatement(LabelValueItem $labelValueItem): void;
 
     /**
      * Get the attribution.
      */
-    public function getAttributions();
+    public function getRequiredStatement(): ?LabelValueItem;
 
     /**
-     * Add a license.
+     * Add the rights.
      */
-    public function addLicense($license);
+    public function setRights(string $rights): void;
 
     /**
-     * Get the licenses.
+     * Get the rights.
      */
-    public function getLicenses();
+    public function getRights(): ?string;
 
     /**
      * Add a thumbnail.

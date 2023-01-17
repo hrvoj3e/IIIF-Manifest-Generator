@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Links;
 
+use IIIF\PresentationAPI\LanguageStrings;
+
 /**
  * Abstract implementation of Link properties.
  */
@@ -35,7 +37,7 @@ abstract class LinkAbstract implements LinkInterface
     protected string $type;
     protected string $profile;
     protected string $format;
-    protected string $label;
+    protected LanguageStrings|null $label = null;
 
     /**
      * {@inheritDoc}
@@ -68,19 +70,23 @@ abstract class LinkAbstract implements LinkInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    /*public function setFormat($format): void
+    public function setFormat($format): void
     {
         $this->format = $format;
-    }*/
+    }
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    /*public function getFormat()
+    public function getFormat(): string
     {
         return $this->format;
-    }*/
+    }
 
     /**
      * {@inheritDoc}
@@ -100,16 +106,20 @@ abstract class LinkAbstract implements LinkInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    public function setLabel(string $label): void
+    public function setLabel(LanguageStrings $label): void
     {
         $this->label = $label;
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    public function getLabel(): string
+    public function getLabel(): ?LanguageStrings
     {
         return $this->label;
     }

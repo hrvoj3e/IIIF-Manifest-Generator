@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Metadata;
 
-use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\LabelValueItem;
 
 /**
  * Implemenation of the Metadata descriptive property.
@@ -39,9 +39,9 @@ class Metadata implements MetadataInterface
     /**
      * {@inheritDoc}
      */
-    public function addItem(MetadataItemInterface $item): void
+    public function addItem(LabelValueItem $labelValueItem): void
     {
-        $this->items[] = $item->toArray();
+        $this->items[] = $labelValueItem->toArray();
     }
 
     /**

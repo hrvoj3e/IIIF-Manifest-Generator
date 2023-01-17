@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Links;
 
+use IIIF\PresentationAPI\LanguageStrings;
+
 /**
  * Interface for Link properties.
  */
@@ -53,13 +55,17 @@ interface LinkInterface
 
     /**
      * Set the format.
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    //public function setFormat(string $format): void;
+    public function setFormat(string $format): void;
 
     /**
      * Get the format.
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    //public function getFormat(): string;
+    public function getFormat(): string;
 
     /**
      * Set the profile.
@@ -73,13 +79,17 @@ interface LinkInterface
 
     /**
      * Set the profile.
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    //public function setLabel(string $label): void;
+    public function setLabel(LanguageStrings $label): void;
 
     /**
      * Get the label.
+     *
+     * @todo Move out to SeeAlso or to a trait for more classes need it
      */
-    //public function getLabel(): string;
+    public function getLabel(): ?LanguageStrings;
 
     /**
      * Convert objects inside the classes to arrays.

@@ -40,21 +40,25 @@ class SeeAlso extends LinkAbstract
      *
      * @see \IIIF\PresentationAPI\Links\LinkAbstract::toArray()
      */
-    public function toArray()
+    public function toArray(): array
     {
         $item = [];
 
-        $format = $this->getFormat();
-        $profile = $this->getProfile();
+        ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in the See Also');
+        ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The id must be present in the See Also');
 
-        // If the profile and format are emtpy, return just and ID
-        if (!empty($format) || !empty($profile)) {
-            ArrayCreator::addRequired($item, Identifier::ID, $this->getID(), 'The id must be present in the thumbnail');
-            ArrayCreator::addIfExists($item, Identifier::FORMAT, $this->getFormat());
-            ArrayCreator::addIfExists($item, Identifier::PROFILE, $this->getProfile());
-            return $item;
-        } else {
-            return $this->getID();
+        if (!empty($this->format)) {
+            ArrayCreator::add($item, Identifier::FORMAT, $this->format);
         }
+
+        if (!empty($this->format)) {
+            ArrayCreator::add($item, Identifier::PROFILE, $this->profile);
+        }
+
+        if (!empty($this->label)) {
+            ArrayCreator::add($item, Identifier::LABEL, $this->label);
+        }
+
+        return $item;
     }
 }

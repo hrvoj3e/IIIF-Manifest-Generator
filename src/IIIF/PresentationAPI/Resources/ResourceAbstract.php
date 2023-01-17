@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use DateTimeInterface;
+use IIIF\PresentationAPI\LabelValueItem;
 use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
@@ -61,8 +62,8 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $label          = [];
     protected $viewinghints   = [];
     protected $summary        = null;
-    protected $attributions   = [];
-    protected $licenses       = [];
+    protected LabelValueItem|null $requiredStatement = null;
+    protected string|null $rights = null;
     protected $thumbnails     = [];
     protected $logos          = [];
     protected $metadata       = [];
@@ -256,50 +257,37 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addAttribution()
-     * @param string
-     * @param string
      */
-    public function addAttribution($attribution, $language = null): void
+    public function setRequiredStatement(LabelValueItem $labelValueItem): void
     {
-        if (!empty($language)) {
-            $attribution = [Identifier::ATVALUE => $attribution, Identifier::LANGUAGE => $language];
-        }
-
-        $this->attributions[] = $attribution;
+        $this->requiredStatement = $labelValueItem;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getAttributions()
-     * @return array
      */
-    public function getAttributions()
+    public function getRequiredStatement(): ?LabelValueItem
     {
-        return $this->attributions;
+        return $this->requiredStatement;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLicense()
-     * @param string
      */
-    public function addLicense($license): void
+    public function setRights(string $rights): void
     {
         // Make sure it is a valid URL
-        if (Validator::validateURL($license, 'The license must be a valid URL')) {
-            $this->licenses[] = $license;
+        if (Validator::validateURL($rights, 'The license must be a valid URL')) {
+            $this->rights = $rights;
         }
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getLicenses()
-     * @return array
      */
-    public function getLicenses()
+    public function getRights(): ?string
     {
-        return $this->licenses;
+        return $this->rights;
     }
 
     /**

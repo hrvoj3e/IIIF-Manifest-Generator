@@ -35,19 +35,7 @@ use IIIF\Utils\ArrayCreator;
  */
 abstract class MimeAbstract extends PropertyAbstract
 {
-    private $usedefaultservicecontext;
     private $service;
-
-    private $defaultservicecontext = 'http://iiif.io/api/image/2/context.json';
-
-    /**
-     * Check to see if the default service is needed to be added.
-     * @param bool $usedefaultservicecontext
-     */
-    public function __construct($usedefaultservicecontext = true)
-    {
-        $this->usedefaultservicecontext = $usedefaultservicecontext;
-    }
 
     /**
      * {@inheritDoc}
@@ -56,10 +44,6 @@ abstract class MimeAbstract extends PropertyAbstract
      */
     public function setService(Service $service): void
     {
-        if ($this->usedefaultservicecontext) {
-            $service->setContext($this->defaultservicecontext);
-        }
-
         $this->service = $service;
     }
 

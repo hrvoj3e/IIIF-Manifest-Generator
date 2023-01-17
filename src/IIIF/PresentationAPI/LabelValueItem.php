@@ -24,14 +24,14 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Metadata;
+namespace IIIF\PresentationAPI;
 
 use IIIF\PresentationAPI\LanguageStrings;
 
 /**
- * Metadata item implementation.
+ * Label value item.
  */
-class MetadataItem implements MetadataItemInterface
+class LabelValueItem
 {
     /**
      * {@inheritDoc}

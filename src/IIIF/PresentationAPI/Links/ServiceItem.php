@@ -38,22 +38,6 @@ class ServiceItem extends LinkAbstract
     protected $context = 'http://iiif.io/api/image/3/context.json';
 
     /**
-     * Set the context.
-     */
-    public function setContext(string $context): void
-    {
-        $this->context = $context;
-    }
-
-    /**
-     * Get the context.
-     */
-    public function getContext(): string
-    {
-        return $this->context;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function toArray(): array
@@ -63,9 +47,7 @@ class ServiceItem extends LinkAbstract
         ArrayCreator::addRequired($item, Identifier::ID, $this->id, 'The id must be present in a service');
         ArrayCreator::addRequired($item, Identifier::TYPE, $this->type, 'The type must be present in a service');
         ArrayCreator::addRequired($item, Identifier::PROFILE, $this->profile, 'The profile must be present in a service');
-        //ArrayCreator::addRequired($item, Identifier::CONTEXT, $this->context, 'The context must be present in a service');
-        //ArrayCreator::addIfExists($item, Identifier::LABEL, $this->label);
 
-        return [$item];
+        return $item;
     }
 }

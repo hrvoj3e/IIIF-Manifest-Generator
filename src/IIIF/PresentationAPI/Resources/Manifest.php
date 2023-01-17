@@ -187,12 +187,12 @@ class Manifest extends ResourceAbstract
 
         // Rights and Licensing Properties
 
-        if (!empty($this->licenses)) {
-            ArrayCreator::add($item, Identifier::LICENSE, $this->licenses);
+        if (!empty($this->rights)) {
+            ArrayCreator::add($item, Identifier::RIGHTS, $this->rights);
         }
 
-        if (!empty($this->attributions)) {
-            ArrayCreator::add($item, Identifier::ATTRIBUTION, $this->attributions);
+        if (!empty($this->requiredStatement)) {
+            ArrayCreator::add($item, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
         }
 
         if (!empty($this->logos)) {
@@ -214,7 +214,7 @@ class Manifest extends ResourceAbstract
         }
 
         if (!empty($this->seealso)) {
-            ArrayCreator::add($item, Identifier::SEEALSO, $this->seealso);
+            ArrayCreator::add($item, Identifier::SEEALSO, $this->seealso, false);
         }
 
         if (!empty($this->within)) {

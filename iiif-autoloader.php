@@ -8,6 +8,7 @@ $mapping = array(
     'IIIF\PresentationAPI\Links\Related' => __DIR__ . '/src/IIIF/PresentationAPI/Links/Related.php',
     'IIIF\PresentationAPI\Links\SeeAlso' => __DIR__ . '/src/IIIF/PresentationAPI/Links/SeeAlso.php',
     'IIIF\PresentationAPI\Links\Service' => __DIR__ . '/src/IIIF/PresentationAPI/Links/Service.php',
+    'IIIF\PresentationAPI\Links\ServiceItem' => __DIR__ . '/src/IIIF/PresentationAPI/Links/ServiceItem.php',
     'IIIF\PresentationAPI\Metadata\Metadata' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/Metadata.php',
     'IIIF\PresentationAPI\Metadata\MetadataInterface' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/MetadataInterface.php',
     'IIIF\PresentationAPI\Parameters\Context' => __DIR__ . '/src/IIIF/PresentationAPI/Parameters/Context.php',
@@ -36,8 +37,7 @@ $mapping = array(
     'IIIF\PresentationAPI\Resources\Sequence' => __DIR__ . '/src/IIIF/PresentationAPI/Resources/Sequence.php',
     'IIIF\Utils\ArrayCreator' => __DIR__ . '/src/IIIF/Utils/ArrayCreator.php',
     'IIIF\Utils\Validator' => __DIR__ . '/src/IIIF/Utils/Validator.php',
-    'IIIF\PresentationAPI\Metadata\MetadataItem' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/MetadataItem.php',
-    'IIIF\PresentationAPI\Metadata\MetadataItemInterface' => __DIR__ . '/src/IIIF/PresentationAPI/Metadata/MetadataItemInterface.php',
+    'IIIF\PresentationAPI\LabelValueItem' => __DIR__ . '/src/IIIF/PresentationAPI/LabelValueItem.php',
     'IIIF\PresentationAPI\LanguageStrings' => __DIR__ . '/src/IIIF/PresentationAPI/LanguageStrings.php',
 );
 
