@@ -286,7 +286,10 @@ class Collection extends ResourceAbstract
             ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a Collection');
             ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in a Collection');
             ArrayCreator::addRequired($array, Identifier::LABEL, $this->getLabels(), 'The label must be present in a Collection');
-            ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+            if (!empty($this->behavior)) {
+                ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+            }
 
             return $array;
         }
@@ -298,7 +301,11 @@ class Collection extends ResourceAbstract
         }
         ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Collection');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Collection');
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
+
         ArrayCreator::addIfExists($array, Identifier::NAVDATE, $this->getNavDate());
 
         /* Descriptive Properties **/

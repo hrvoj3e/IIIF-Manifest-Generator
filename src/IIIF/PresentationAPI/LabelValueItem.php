@@ -32,7 +32,7 @@ namespace IIIF\PresentationAPI;
 class LabelValueItem
 {
     /**
-     * {@inheritDoc}
+     * Constructor.
      */
     public function __construct(
         protected LanguageStrings $label,
@@ -41,7 +41,7 @@ class LabelValueItem
     }
 
     /**
-     * {@inheritDoc}
+     * Returns an array representation of the label value item object.
      */
     public function toArray(): array
     {

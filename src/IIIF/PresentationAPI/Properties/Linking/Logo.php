@@ -24,37 +24,14 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Properties;
+namespace IIIF\PresentationAPI\Properties\Linking;
 
-use IIIF\PresentationAPI\Links\Service;
+use IIIF\PresentationAPI\Properties\ImageAbstract;
 
 /**
- * Interface for Mime/Other properties.
+ * Implementation of logo linking property.
+ * @link https://iiif.io/api/presentation/3.0/#logo
  */
-interface PropertyInterface
+class Logo extends ImageAbstract
 {
-    /**
-     * Set the id.
-     */
-    public function setID($id);
-
-    /**
-     * Get the id.
-     */
-    public function getID();
-
-    /**
-     * Set the service.
-     */
-    public function setService(Service $service);
-
-    /**
-     * Get the service.
-     */
-    public function getService(): Service;
-
-    /**
-     * Convert objects inside the classes to arrays for the manifest.
-     */
-    public function toArray();
 }

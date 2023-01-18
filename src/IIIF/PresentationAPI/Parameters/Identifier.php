@@ -31,23 +31,21 @@ namespace IIIF\PresentationAPI\Parameters;
  */
 enum Identifier: string
 {
-    case REQUIRED_STATEMENT = 'requiredStatement';
     case ATVALUE            = '@value';
+    case BEHAVIOR           = 'behavior';
     case CANVASES           = 'canvases';
+    case CHARS              = 'chars';
     case COLLECTIONS        = 'collections';
     case CONTENTLAYER       = 'contentLayer';
     case CONTEXT            = '@context';
-    case SUMMARY            = 'summary';
     case FORMAT             = 'format';
     case FORMATS            = 'formats';
     case HEIGHT             = 'height';
+    case HOMEPAGE           = 'homepage';
     case ID                 = 'id';
     case IMAGES             = 'images';
     case LABEL              = 'label';
-    case CHARS              = 'chars';
-    case LANG               = '@lang';
-    case LANGUAGE           = '@language';
-    case RIGHTS             = 'rights';
+    case LANGUAGE           = 'language';
     case LOGO               = 'logo';
     case MANIFESTS          = 'manifests';
     case MAXAREA            = 'maxArea';
@@ -63,10 +61,11 @@ enum Identifier: string
     case PROTOCOL           = 'protocol';
     case QUALITIES          = 'qualities';
     case RANGES             = 'ranges';
-    case RELATED            = 'related';
     case RENDERING          = 'rendering';
+    case REQUIRED_STATEMENT = 'requiredStatement';
     case RESOURCE           = 'resource';
     case RESOURCES          = 'resources';
+    case RIGHTS             = 'rights';
     case SCALEFACTORS       = 'scaleFactors';
     case SEEALSO            = 'seeAlso';
     case SEQUENCES          = 'sequences';
@@ -74,6 +73,7 @@ enum Identifier: string
     case SIZES              = 'sizes';
     case STARTCANVAS        = 'startCanvas';
     case STRUCTURES         = 'structures';
+    case SUMMARY            = 'summary';
     case SUPPORTS           = 'supports';
     case THUMBNAIL          = 'thumbnail';
     case TILES              = 'tiles';
@@ -81,7 +81,6 @@ enum Identifier: string
     case TYPE               = 'type';
     case VALUE              = 'value';
     case VIEWINGDIRECTION   = 'viewingDirection';
-    case VIEWINGHINT        = 'viewingHint';
     case WIDTH              = 'width';
     case WITHIN             = 'within';
 }

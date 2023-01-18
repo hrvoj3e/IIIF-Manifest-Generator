@@ -24,12 +24,14 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Properties;
+namespace IIIF\PresentationAPI\Properties\Descriptive;
+
+use IIIF\PresentationAPI\Properties\ImageAbstract;
 
 /**
- * Implementation of logo descriptive property.
- * @link https://iiif.io/api/presentation/3.0/#logo
+ * Implementation of thumbnail descriptive property.
+ * @link https://iiif.io/api/presentation/3.0/#thumbnail
  */
-class Logo extends MimeAbstract
+class Thumbnail extends ImageAbstract
 {
 }

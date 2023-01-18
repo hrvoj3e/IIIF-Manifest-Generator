@@ -36,9 +36,9 @@ use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
 use IIIF\PresentationAPI\Metadata\MetadataInterface;
 use IIIF\PresentationAPI\Parameters\ViewingDirection;
-use IIIF\PresentationAPI\Parameters\ViewingHint;
-use IIIF\PresentationAPI\Properties\Logo;
-use IIIF\PresentationAPI\Properties\Thumbnail;
+use IIIF\PresentationAPI\Properties\Descriptive\Thumbnail;
+use IIIF\PresentationAPI\Properties\Linking\Logo;
+use IIIF\PresentationAPI\Properties\Technical\Behavior;
 use IIIF\Utils\Validator;
 use ReflectionClass;
 
@@ -58,7 +58,7 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $navdate;
     protected $contexts                              = [];
     protected $label                                 = [];
-    protected $viewinghints                          = [];
+    protected Behavior|null $behavior                = null;
     protected $summary                               = null;
     protected LabelValueItem|null $requiredStatement = null;
     protected string|null $rights                    = null;
@@ -214,27 +214,18 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addViewingHints()
-     * @param string
      */
-    public function addViewingHint($viewinghint): void
+    public function setBehavior(Behavior $behavior): void
     {
-        // Make sure that the viewing hint is an allowed value
-        $allviewinghints = new ReflectionClass(ViewingHint::class);
-
-        if (Validator::inArray($viewinghint, $allviewinghints->getConstants(), 'Illegal viewingHint selected')) {
-            $this->viewinghints[] = $viewinghint;
-        }
+        $this->behavior = $behavior;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getViewingHints()
-     * @return array
      */
-    public function getViewingHints()
+    public function getBehavior(): Behavior
     {
-        return $this->viewinghints;
+        return $this->behavior;
     }
 
     /**
@@ -290,8 +281,6 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addThumbnail()
-     * @param \IIIF\PresentationAPI\Properties\Thumbnail
      */
     public function addThumbnail(Thumbnail $thumbnail): void
     {
@@ -310,8 +299,6 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addLogo()
-     * @param \IIIF\PresentationAPI\Properties\Logo
      */
     public function addLogo(Logo $logo): void
     {

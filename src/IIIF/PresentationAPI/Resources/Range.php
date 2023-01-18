@@ -203,7 +203,11 @@ class Range extends ResourceAbstract
         }
         ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Range');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Range');
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
+
         ArrayCreator::addIfExists($array, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
 
         /* Descriptive Properties **/

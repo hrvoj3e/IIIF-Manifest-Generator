@@ -31,13 +31,17 @@ namespace IIIF\PresentationAPI;
  */
 class LanguageStrings
 {
+    /**
+     * Strings.
+     *
+     * @var string[]
+     */
     protected array $strings = [];
 
     /**
      * Add a language string.
      *
-     * @param string $language
-     * @param array  $strings
+     * @param string[] $strings
      */
     public function addString(string $language, array $strings): LanguageStrings
     {
@@ -48,8 +52,6 @@ class LanguageStrings
 
     /**
      * Returns an array representation of the lange strings object.
-     *
-     * @return array
      */
     public function toArray(): array
     {

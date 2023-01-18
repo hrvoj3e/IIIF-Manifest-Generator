@@ -34,8 +34,9 @@ use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\SeeAlso;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Metadata\Metadata;
-use IIIF\PresentationAPI\Properties\Logo;
-use IIIF\PresentationAPI\Properties\Thumbnail;
+use IIIF\PresentationAPI\Properties\Descriptive\Thumbnail;
+use IIIF\PresentationAPI\Properties\Linking\Logo;
+use IIIF\PresentationAPI\Properties\Technical\Behavior;
 
 /**
  * Interface for resources.
@@ -90,14 +91,14 @@ interface ResourceInterface
     public function getLabel();
 
     /**
-     * Add a viewing hint.
+     * Set the behavior.
      */
-    public function addViewingHint($viewinghint);
+    public function setBehavior(Behavior $behavior): void;
 
     /**
-     * Get the viewing hint.
+     * Get the behavior.
      */
-    public function getViewingHints();
+    public function getBehavior(): Behavior;
 
     /**
      * Set the summary.

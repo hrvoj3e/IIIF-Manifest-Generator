@@ -37,8 +37,9 @@ abstract class LinkAbstract implements LinkInterface
     protected string $id;
     protected string $type;
     protected string $profile; // @todo Move out to SeeAlso or to a trait for more classes need it
-    protected string $format; // @todo Move out to SeeAlso or to a trait for more classes need it
-    protected LanguageStrings|null $label = null; // @todo Move out to SeeAlso or to a trait for more classes need it
+    protected string $format;
+    protected LanguageStrings|null $label = null;
+    protected array $language = [];
 
     /**
      * {@inheritDoc}
@@ -127,6 +128,26 @@ abstract class LinkAbstract implements LinkInterface
     public function getLabel(): ?LanguageStrings
     {
         return $this->label;
+    }
+
+    /**
+     * Set the language.
+     *
+     * @param string[] $language
+     */
+    public function setLanguage(array $language): void
+    {
+        $this->language = $language;
+    }
+
+    /**
+     * Get the language.
+     *
+     * @return string[]
+     */
+    public function getLanguage(): array
+    {
+        return $this->language;
     }
 
     /**

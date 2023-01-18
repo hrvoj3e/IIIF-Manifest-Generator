@@ -32,10 +32,8 @@ use IIIF\Utils\ArrayCreator;
 /**
  * Implemenation for homepage linking property.
  * @link https://iiif.io/api/presentation/3.0/#homepage
- *
- * @todo Conver to Homepage property
  */
-class Related extends LinkAbstract
+class Homepage extends LinkAbstract
 {
     /**
      * Does not implement setProfile.
@@ -44,7 +42,7 @@ class Related extends LinkAbstract
      */
     public function setProfile($service): void
     {
-        throw new \Exception('Related does not have a profile');
+        throw new \Exception('Homepage does not have a profile');
     }
 
     /**
@@ -54,7 +52,7 @@ class Related extends LinkAbstract
      */
     public function getProfile(): string
     {
-        throw new \Exception('Related does not have a profile');
+        throw new \Exception('Homepage does not have a profile');
     }
 
     /**
@@ -64,9 +62,17 @@ class Related extends LinkAbstract
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a related item');
-        ArrayCreator::addIfExists($array, Identifier::LABEL, $this->getLabel(), 'The label must be present in a related item');
-        ArrayCreator::addIfExists($array, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a related item');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::FORMAT, $this->format, 'The format must be present in a homepage item');
+
+        if (!empty($this->format)) {
+            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+        }
+
+        if (!empty($this->language)) {
+            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language);
+        }
 
         return $array;
     }

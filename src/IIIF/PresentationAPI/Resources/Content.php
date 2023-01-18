@@ -145,7 +145,10 @@ class Content extends ResourceAbstract
         ArrayCreator::addRequired($array, Identifier::FORMAT, $this->getFormat(), 'The format must be present in a Content resource');
         ArrayCreator::addIfExists($array, Identifier::HEIGHT, $this->getHeight());
         ArrayCreator::addIfExists($array, Identifier::WIDTH, $this->getWidth());
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
 
         /* Descriptive Properties **/
 

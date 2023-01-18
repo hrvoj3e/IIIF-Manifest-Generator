@@ -117,7 +117,11 @@ class Annotation extends ResourceAbstract
         ArrayCreator::addIfExists($array, Identifier::ID, $this->getID());
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Annotation');
         ArrayCreator::addRequired($array, Identifier::MOTIVATION, $this->getMotivation(), 'The motiation must be present in an Annotation');
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
+
         ArrayCreator::addRequired($array, Identifier::ON, $this->getOn(), 'The on value must be present in an Annotation');
 
         /* Descriptive Properties **/

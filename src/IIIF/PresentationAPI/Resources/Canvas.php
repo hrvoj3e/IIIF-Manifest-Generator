@@ -186,7 +186,11 @@ class Canvas extends ResourceAbstract
         }
         ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGHINT, $this->getViewingHints());
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
+
         $this->configureDimensions();
         ArrayCreator::addRequired($array, Identifier::HEIGHT, $this->getHeight(), 'The height must be present in the Canvas');
         ArrayCreator::addRequired($array, Identifier::WIDTH, $this->getWidth(), 'The width must be present in the Canvas');

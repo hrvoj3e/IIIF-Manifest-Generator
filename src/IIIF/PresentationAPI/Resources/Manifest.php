@@ -157,8 +157,8 @@ class Manifest extends ResourceAbstract
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Manifest');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the Manifest');
 
-        if (!empty($this->viewinghints)) {
-            ArrayCreator::add($array, Identifier::VIEWINGHINT, $this->viewinghints);
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
         }
 
         if (!empty($this->viewingdirection)) {
