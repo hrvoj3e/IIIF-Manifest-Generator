@@ -43,7 +43,10 @@ class ServiceItem extends LinkAbstract
 
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a service');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a service');
-        ArrayCreator::addRequired($array, Identifier::PROFILE, $this->profile, 'The profile must be present in a service');
+
+        if (!empty($this->profile)) {
+            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
+        }
 
         return $array;
     }

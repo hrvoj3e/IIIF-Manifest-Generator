@@ -37,26 +37,24 @@ class SeeAlso extends LinkAbstract
 {
     /**
      * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Links\LinkAbstract::toArray()
      */
     public function toArray(): array
     {
         $array = [];
 
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the See Also');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The id must be present in the See Also');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the See Also');
+
+        if (!empty($this->label)) {
+            ArrayCreator::add($array, Identifier::LABEL, $this->label);
+        }
 
         if (!empty($this->format)) {
             ArrayCreator::add($array, Identifier::FORMAT, $this->format);
         }
 
-        if (!empty($this->format)) {
+        if (!empty($this->profile)) {
             ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
-        }
-
-        if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label);
         }
 
         return $array;

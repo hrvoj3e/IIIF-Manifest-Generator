@@ -64,7 +64,7 @@ class Homepage extends LinkAbstract
 
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a homepage item');
         ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a homepage item');
-        ArrayCreator::addRequired($array, Identifier::FORMAT, $this->format, 'The format must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a homepage item');
 
         if (!empty($this->format)) {
             ArrayCreator::add($array, Identifier::FORMAT, $this->format);

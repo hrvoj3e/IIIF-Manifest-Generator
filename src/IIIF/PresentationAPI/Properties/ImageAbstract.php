@@ -127,13 +127,13 @@ abstract class ImageAbstract
     }
 
     /**
-     * Converts to object to an array.
+     * Returns an array representation of the object.
      */
     public function toArray(): array
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the thumbnail');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the image.');
 
         ArrayCreator::add($array, Identifier::TYPE, Type::IMAGE);
 
