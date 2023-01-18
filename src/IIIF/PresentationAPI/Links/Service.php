@@ -26,11 +26,13 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Links;
 
+use IIIF\PresentationAPI\ArrayableInterface;
+
 /*
  * Implemenation for service linking property.
  * @link https://iiif.io/api/presentation/3.0/#service
  */
-class Service
+class Service implements ArrayableInterface
 {
     protected array $serviceItems = [];
 
@@ -43,7 +45,7 @@ class Service
     }
 
     /**
-     * Converts the the service to an array.
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

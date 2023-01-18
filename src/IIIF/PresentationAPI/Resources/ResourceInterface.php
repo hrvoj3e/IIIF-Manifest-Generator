@@ -33,7 +33,7 @@ use IIIF\PresentationAPI\Links\Related;
 use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\SeeAlso;
 use IIIF\PresentationAPI\Links\Service;
-use IIIF\PresentationAPI\Metadata\Metadata;
+use IIIF\PresentationAPI\Properties\Descriptive\Metadata;
 use IIIF\PresentationAPI\Properties\Descriptive\Thumbnail;
 use IIIF\PresentationAPI\Properties\Linking\Logo;
 use IIIF\PresentationAPI\Properties\Technical\Behavior;

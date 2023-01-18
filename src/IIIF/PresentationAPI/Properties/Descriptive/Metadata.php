@@ -18,21 +18,22 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF\PresentationAPI
- * @package  Metadata
+ * @category IIIF\PresentationAPI\Properties
+ * @package  Descriptive
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Metadata;
+namespace IIIF\PresentationAPI\Properties\Descriptive;
 
+use IIIF\PresentationAPI\ArrayableInterface;
 use IIIF\PresentationAPI\LabelValueItem;
 
 /**
  * Implemenation of the metadata descriptive property.
  * @link https://iiif.io/api/presentation/3.0/#metadata
  */
-class Metadata implements MetadataInterface
+class Metadata implements ArrayableInterface
 {
     /**
      * Label value items.
@@ -42,7 +43,15 @@ class Metadata implements MetadataInterface
     private array $items = [];
 
     /**
-     * {@inheritDoc}
+     * Constructor.
+     */
+    public function __construct(LabelValueItem ...$labelValueItem)
+    {
+        $this->items = $labelValueItem;
+    }
+
+    /**
+     * Add a metadata item.
      */
     public function addItem(LabelValueItem $labelValueItem): void
     {
@@ -50,7 +59,7 @@ class Metadata implements MetadataInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Get the metadata items.
      */
     public function getItems(): array
     {

@@ -18,8 +18,8 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF\PresentationAPI
- * @package  Properties
+ * @category IIIF\PresentationAPI\Properties
+ * @package  Descriptive
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */

@@ -24,29 +24,15 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Metadata;
-
-use IIIF\PresentationAPI\LabelValueItem;
+namespace IIIF\PresentationAPI;
 
 /**
- * Interface for Metadata properties.
+ * Arrayable interface.
  */
-interface MetadataInterface
+interface ArrayableInterface
 {
     /**
-     * Add metadata item.
-     */
-    public function addItem(LabelValueItem $labelValueItem): void;
-
-    /**
-     * Returns the metadata items.
-     *
-     * @return LabelValueItem[]
-     */
-    public function getItems(): array;
-
-    /**
-     * Convert objects inside the classes to arrays for the manifest.
+     * Returns an array representation of the object.
      */
     public function toArray(): array;
 }

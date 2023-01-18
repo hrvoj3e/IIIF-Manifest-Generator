@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI;
 /**
  * Label value item.
  */
-class LabelValueItem
+class LabelValueItem implements ArrayableInterface
 {
     /**
      * Constructor.
@@ -41,7 +41,7 @@ class LabelValueItem
     }
 
     /**
-     * Returns an array representation of the label value item object.
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

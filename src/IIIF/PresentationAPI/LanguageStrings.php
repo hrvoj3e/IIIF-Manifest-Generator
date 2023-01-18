@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI;
 /**
  * Language strings.
  */
-class LanguageStrings
+class LanguageStrings implements ArrayableInterface
 {
     /**
      * Strings.
@@ -51,7 +51,7 @@ class LanguageStrings
     }
 
     /**
-     * Returns an array representation of the lange strings object.
+     * {@inheritDoc}
      */
     public function toArray(): array
     {

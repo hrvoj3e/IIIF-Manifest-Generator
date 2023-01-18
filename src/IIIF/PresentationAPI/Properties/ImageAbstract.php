@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Properties;
 
+use IIIF\PresentationAPI\ArrayableInterface;
 use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\Type;
@@ -34,7 +35,7 @@ use IIIF\Utils\ArrayCreator;
 /**
  * Implementation for image resources.
  */
-abstract class ImageAbstract
+abstract class ImageAbstract implements ArrayableInterface
 {
     protected string|null $id = null;
 
@@ -127,7 +128,7 @@ abstract class ImageAbstract
     }
 
     /**
-     * Returns an array representation of the object.
+     * {@inheritDoc}
      */
     public function toArray(): array
     {
