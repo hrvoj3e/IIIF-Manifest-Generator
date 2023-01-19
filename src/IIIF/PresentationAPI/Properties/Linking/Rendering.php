@@ -32,6 +32,7 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Traits\WithFormat;
 use IIIF\PresentationAPI\Traits\WithId;
 use IIIF\PresentationAPI\Traits\WithLabel;
+use IIIF\PresentationAPI\Traits\WithLanguage;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
@@ -44,6 +45,7 @@ class Rendering implements ArrayableInterface
     use WithFormat;
     use WithId { setId as protected; }
     use WithLabel { setLabel as protected; }
+    use WithLanguage;
     use WithType { setType as protected; }
 
     /**
@@ -71,6 +73,10 @@ class Rendering implements ArrayableInterface
 
         if (!empty($this->format)) {
             ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+        }
+
+        if (!empty($this->language)) {
+            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language);
         }
 
         return $array;

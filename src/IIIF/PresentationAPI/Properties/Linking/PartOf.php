@@ -30,6 +30,7 @@ use IIIF\PresentationAPI\ArrayableInterface;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Traits\WithId;
 use IIIF\PresentationAPI\Traits\WithLabel;
+use IIIF\PresentationAPI\Traits\WithLanguage;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
@@ -41,6 +42,7 @@ class PartOf implements ArrayableInterface
 {
     use WithId { setId as protected; }
     use WithLabel;
+    use WithLanguage;
     use WithType { setType as protected; }
 
     /**
@@ -65,6 +67,10 @@ class PartOf implements ArrayableInterface
 
         if (!empty($this->label)) {
             ArrayCreator::add($array, Identifier::LABEL, $this->label);
+        }
+
+        if (!empty($this->language)) {
+            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language);
         }
 
         return $array;
