@@ -28,8 +28,7 @@ namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Traits\WithItems;
-use IIIF\PresentationAPI\Traits\WithPartOf;
-use IIIF\PresentationAPI\Traits\WithProvider;
+use IIIF\PresentationAPI\Traits\WithNavDate;
 use IIIF\PresentationAPI\Traits\WithServices;
 use IIIF\PresentationAPI\Traits\WithStart;
 use IIIF\Utils\ArrayCreator;
@@ -43,15 +42,15 @@ use function count;
  */
 class Manifest extends ResourceAbstract
 {
-    use WithPartOf;
-    use WithProvider;
+    use WithItems;
+    use WithNavDate;
     use WithServices;
     use withStart;
-    use WithItems;
+
+    protected const TYPE = 'Manifest';
 
     protected $sequences = [];
     protected $structures = [];
-    protected $type = 'Manifest';
 
     /**
      * Add a sequence to the manifest.
@@ -145,15 +144,14 @@ class Manifest extends ResourceAbstract
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceAbstract::toArray()
      */
-    public function toArray()
+    public function toArray(): array
     {
         $array = [];
 
         if ($this->getOnlyMemberData()) {
             ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a Manifest');
-            ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a Manifest');
+            ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in a Manifest');
             ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a Manifest');
 
             return $array;
@@ -162,11 +160,11 @@ class Manifest extends ResourceAbstract
         // Technical Properties
 
         if ($this->isTopLevel) {
-            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->contexts, 'The context must be present in the Manifest');
+            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->context, 'The context must be present in the Manifest');
         }
 
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Manifest');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the Manifest');
+        ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in the Manifest');
 
         if (!empty($this->behavior)) {
             ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
@@ -176,8 +174,8 @@ class Manifest extends ResourceAbstract
             ArrayCreator::add($array, Identifier::VIEWINGDIRECTION, $this->viewingDirection->value);
         }
 
-        if (!empty($this->navdate)) {
-            ArrayCreator::add($array, Identifier::NAVDATE, $this->navdate);
+        if (!empty($this->navDate)) {
+            ArrayCreator::add($array, Identifier::NAVDATE, $this->navDate->format(static::NAV_DATE_FORMAT));
         }
 
         // Descriptive Properties
@@ -192,8 +190,8 @@ class Manifest extends ResourceAbstract
             ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
         }
 
-        if (!empty($this->thumbnails)) {
-            ArrayCreator::add($array, Identifier::THUMBNAIL, $this->thumbnails, false);
+        if (!empty($this->thumbnail)) {
+            ArrayCreator::add($array, Identifier::THUMBNAIL, $this->thumbnail, false);
         }
 
         // Rights and Licensing Properties

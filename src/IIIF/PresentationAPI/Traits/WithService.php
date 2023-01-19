@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\Properties\Linking\Service;
 
 trait WithService
 {
+    /**
+     * Service.
+     */
     protected ?Service $service = null;
 
     /**

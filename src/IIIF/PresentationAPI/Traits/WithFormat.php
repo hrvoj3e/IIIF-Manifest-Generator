@@ -28,6 +28,9 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithFormat
 {
+    /**
+     * Format.
+     */
     protected ?string $format = null;
 
     /**

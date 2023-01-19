@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\Properties\Descriptive\Metadata;
 
 trait WithMetadata
 {
+    /**
+     * Metadata.
+     */
     protected ?Metadata $metadata = null;
 
     /**

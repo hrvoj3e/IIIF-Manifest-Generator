@@ -28,6 +28,9 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithProfile
 {
+    /**
+     * Profile.
+     */
     protected ?string $profile = null;
 
     /**

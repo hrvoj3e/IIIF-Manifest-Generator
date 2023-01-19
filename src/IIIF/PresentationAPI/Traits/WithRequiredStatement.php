@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\LabelValueItem;
 
 trait WithRequiredStatement
 {
+    /**
+     * Required statement.
+     */
     protected ?LabelValueItem $requiredStatement = null;
 
     /**

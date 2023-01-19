@@ -34,8 +34,8 @@ use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for partOf linking property.
- * @link https://iiif.io/api/presentation/3.0/#rendering
+ * PartOf linking property.
+ * @link https://iiif.io/api/presentation/3.0/#partof
  */
 class PartOf implements ArrayableInterface
 {

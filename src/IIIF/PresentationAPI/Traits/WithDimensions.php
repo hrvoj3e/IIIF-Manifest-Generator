@@ -28,8 +28,14 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithDimensions
 {
+    /**
+     * Width.
+     */
     protected ?int $width = null;
 
+    /**
+     * Height.
+     */
     protected ?int $height = null;
 
     /**

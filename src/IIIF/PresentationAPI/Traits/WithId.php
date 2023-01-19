@@ -28,6 +28,9 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithId
 {
+    /**
+     * Id.
+     */
     protected ?string $id = null;
 
     /**

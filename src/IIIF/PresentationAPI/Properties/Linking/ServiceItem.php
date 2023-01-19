@@ -32,7 +32,7 @@ use IIIF\PresentationAPI\Traits\WithProfile;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
-/*
+/**
  * Service item.
  */
 class ServiceItem

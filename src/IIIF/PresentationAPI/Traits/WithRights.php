@@ -30,6 +30,9 @@ use IIIF\Utils\Validator;
 
 trait WithRights
 {
+    /**
+     * Rights.
+     */
     protected ?string $rights = null;
 
     /**

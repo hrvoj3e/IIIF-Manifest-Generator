@@ -36,7 +36,7 @@ use IIIF\PresentationAPI\Traits\WithService;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation for image resources.
+ * Image resource.
  */
 abstract class ImageAbstract implements ArrayableInterface
 {

@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\Properties\Linking\Start;
 
 trait WithStart
 {
+    /**
+     * Start.
+     */
     protected ?Start $start = null;
 
     /**

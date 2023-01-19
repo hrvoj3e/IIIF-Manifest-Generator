@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\LanguageStrings;
 
 trait WithLabel
 {
+    /**
+     * Label.
+     */
     protected ?LanguageStrings $label = null;
 
     /**

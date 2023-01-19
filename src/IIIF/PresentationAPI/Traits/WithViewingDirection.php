@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\Properties\Technical\ViewingDirections;
 
 trait WithViewingDirection
 {
+    /**
+     * Viewing direction.
+     */
     protected ?ViewingDirections $viewingDirection = null;
 
     /**

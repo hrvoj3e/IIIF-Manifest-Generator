@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI\Properties\Linking;
 use IIIF\PresentationAPI\ArrayableInterface;
 
 /*
- * Implemenation for service linking property.
+ * Service linking property.
  * @link https://iiif.io/api/presentation/3.0/#service
  */
 class Service implements ArrayableInterface

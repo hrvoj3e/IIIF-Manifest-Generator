@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI\Properties\Linking;
 use IIIF\PresentationAPI\Properties\ImageAbstract;
 
 /**
- * Implementation of logo linking property.
+ * Logo linking property.
  * @link https://iiif.io/api/presentation/3.0/#logo
  */
 class Logo extends ImageAbstract

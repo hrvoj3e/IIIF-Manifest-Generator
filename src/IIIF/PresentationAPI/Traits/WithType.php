@@ -28,6 +28,9 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithType
 {
+    /**
+     * Type.
+     */
     protected ?string $type = null;
 
     /**

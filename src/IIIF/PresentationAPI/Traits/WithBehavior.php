@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\Properties\Technical\Behavior;
 
 trait WithBehavior
 {
+    /**
+     * Behavior.
+     */
     protected ?Behavior $behavior = null;
 
     /**

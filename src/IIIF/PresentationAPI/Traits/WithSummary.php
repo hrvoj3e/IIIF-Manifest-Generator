@@ -30,6 +30,9 @@ use IIIF\PresentationAPI\LanguageStrings;
 
 trait WithSummary
 {
+    /**
+     * Summary.
+     */
     protected ?LanguageStrings $summary = null;
 
     /**

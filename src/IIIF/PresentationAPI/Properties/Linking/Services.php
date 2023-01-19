@@ -35,6 +35,10 @@ use IIIF\PresentationAPI\Traits\WithService;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
+/**
+ * Services linking property.
+ * @link https://iiif.io/api/presentation/3.0/#services
+ */
 class Services implements ArrayableInterface
 {
     use WithId;

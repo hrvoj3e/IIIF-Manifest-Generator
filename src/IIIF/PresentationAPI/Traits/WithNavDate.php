@@ -30,8 +30,14 @@ use DateTimeInterface;
 
 trait WithNavDate
 {
+    /**
+     * Date format.
+     */
     protected const NAV_DATE_FORMAT = 'Y-m-d\T:H:i:s\Z';
 
+    /**
+     * Nav date.
+     */
     protected ?DateTimeInterface $navDate = null;
 
     /**

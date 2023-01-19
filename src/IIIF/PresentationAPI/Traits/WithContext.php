@@ -28,6 +28,9 @@ namespace IIIF\PresentationAPI\Traits;
 
 trait WithContext
 {
+    /**
+     * Contexts.
+     */
     protected array $context = [];
 
     /**
@@ -41,7 +44,7 @@ trait WithContext
     }
 
     /**
-     * Returns the context.
+     * Returns the contexts.
      */
     public function getContext(): array
     {

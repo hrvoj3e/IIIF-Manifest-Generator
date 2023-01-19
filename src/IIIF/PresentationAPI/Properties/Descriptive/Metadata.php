@@ -30,7 +30,7 @@ use IIIF\PresentationAPI\ArrayableInterface;
 use IIIF\PresentationAPI\LabelValueItem;
 
 /**
- * Implemenation of the metadata descriptive property.
+ * Metadata descriptive property.
  * @link https://iiif.io/api/presentation/3.0/#metadata
  */
 class Metadata implements ArrayableInterface

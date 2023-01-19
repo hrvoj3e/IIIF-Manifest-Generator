@@ -36,6 +36,10 @@ use IIIF\PresentationAPI\Traits\WithLogo;
 use IIIF\PresentationAPI\Traits\WithSeeAlso;
 use IIIF\Utils\ArrayCreator;
 
+/**
+ * Agent descriptive property.
+ * @link https://iiif.io/api/presentation/3.0/#provider
+ */
 class Agent implements ArrayableInterface
 {
     use WithHomepage;
@@ -44,7 +48,10 @@ class Agent implements ArrayableInterface
     use WithLogo;
     use WithSeeAlso;
 
-    protected readonly string $type;
+    /**
+     * Type.
+     */
+    protected const TYPE = 'Agent';
 
     /**
      * Constructor.
@@ -54,8 +61,6 @@ class Agent implements ArrayableInterface
         $this->id = $id;
 
         $this->label = $label;
-
-        $this->type = 'Agent';
     }
 
     /**
@@ -66,7 +71,7 @@ class Agent implements ArrayableInterface
         $array = [];
 
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id field is required');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type field is required');
+        ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type field is required');
         ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label field is required');
 
         if (!empty($this->homepage)) {

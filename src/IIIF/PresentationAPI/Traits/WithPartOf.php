@@ -46,7 +46,7 @@ trait WithPartOf
     }
 
     /**
-     * Returns the partOf.
+     * Returns the partOfs.
      *
      * @return PartOf[]
      */

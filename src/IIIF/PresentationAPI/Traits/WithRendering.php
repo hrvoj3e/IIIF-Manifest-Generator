@@ -31,7 +31,7 @@ use IIIF\PresentationAPI\Properties\Linking\Rendering;
 trait WithRendering
 {
     /**
-     * Rendering.
+     * Renderings.
      *
      * @var Rendering[]
      */
@@ -46,7 +46,7 @@ trait WithRendering
     }
 
     /**
-     * Returns the rendering.
+     * Returns the renderings.
      *
      * @return Rendering[]
      */

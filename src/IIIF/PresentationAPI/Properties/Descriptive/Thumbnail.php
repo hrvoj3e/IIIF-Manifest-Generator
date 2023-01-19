@@ -29,7 +29,7 @@ namespace IIIF\PresentationAPI\Properties\Descriptive;
 use IIIF\PresentationAPI\Properties\ImageAbstract;
 
 /**
- * Implementation of thumbnail descriptive property.
+ * Thumbnail descriptive property.
  * @link https://iiif.io/api/presentation/3.0/#thumbnail
  */
 class Thumbnail extends ImageAbstract

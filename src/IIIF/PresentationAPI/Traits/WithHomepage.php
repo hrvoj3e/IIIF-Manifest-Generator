@@ -31,7 +31,7 @@ use IIIF\PresentationAPI\Links\Homepage;
 trait WithHomepage
 {
     /**
-     * Homepage.
+     * Homepages.
      *
      * @var Homepage[]
      */
@@ -46,7 +46,7 @@ trait WithHomepage
     }
 
     /**
-     * Returns the homepage.
+     * Returns the homepages.
      *
      * @return Homepage[]
      */
