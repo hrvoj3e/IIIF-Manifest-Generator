@@ -24,35 +24,36 @@ declare(strict_types=1);
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Links;
+namespace IIIF\PresentationAPI\Properties\Linking;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Traits\WithFormat;
+use IIIF\PresentationAPI\Traits\WithId;
+use IIIF\PresentationAPI\Traits\WithLabel;
+use IIIF\PresentationAPI\Traits\WithProfile;
+use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implemenation for homepage linking property.
- * @link https://iiif.io/api/presentation/3.0/#homepage
+ * SeeAlso linking property.
+ * @link https://iiif.io/api/presentation/3.0/#seealso
  */
-class Homepage extends LinkAbstract
+class SeeAlso
 {
-    /**
-     * Does not implement setProfile.
-     *
-     * @throws Exception
-     */
-    public function setProfile($service): void
-    {
-        throw new \Exception('Homepage does not have a profile');
-    }
+    use WithFormat;
+    use WithId { setId as protected; }
+    use WithLabel;
+    use WithProfile;
+    use WithType { setType as protected; }
 
     /**
-     * Does not implement getProfile.
-     *
-     * @throws Exception
+     * Constructor.
      */
-    public function getProfile(): string
+    public function __construct(string $id, string $type)
     {
-        throw new \Exception('Homepage does not have a profile');
+        $this->id = $id;
+
+        $this->type = $type;
     }
 
     /**
@@ -62,16 +63,19 @@ class Homepage extends LinkAbstract
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a homepage item');
-        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a homepage item');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the See Also');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the See Also');
+
+        if (!empty($this->label)) {
+            ArrayCreator::add($array, Identifier::LABEL, $this->label);
+        }
 
         if (!empty($this->format)) {
             ArrayCreator::add($array, Identifier::FORMAT, $this->format);
         }
 
-        if (!empty($this->language)) {
-            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language, false);
+        if (!empty($this->profile)) {
+            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
         }
 
         return $array;

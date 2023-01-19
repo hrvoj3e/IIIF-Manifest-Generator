@@ -36,7 +36,7 @@ trait WithId
     /**
      * Set the id.
      */
-    public function setID(string $id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
@@ -44,7 +44,7 @@ trait WithId
     /**
      * Returns the id.
      */
-    public function getID(): ?string
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -26,32 +26,26 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Traits;
 
-use IIIF\PresentationAPI\Properties\Linking\SeeAlso;
-
-trait WithSeeAlso
+trait WithLanguage
 {
     /**
-     * See alsos.
-     *
-     * @var SeeAlso[]
+     * Languages.
      */
-    protected array $seeAlso = [];
+    protected array $language = [];
 
     /**
-     * Add see also.
+     * Set the languages.
      */
-    public function addSeeAlso(SeeAlso $seeAlso): void
+    public function setLanguage(array $language): void
     {
-        $this->seeAlso[] = $seeAlso;
+        $this->language = $language;
     }
 
     /**
-     * Returns the see alsos.
-     *
-     * @return SeeAlso[]
+     * Returns the languages.
      */
-    public function getSeeAlso(): array
+    public function getLanguage(): array
     {
-        return $this->seeAlso;
+        return $this->language;
     }
 }

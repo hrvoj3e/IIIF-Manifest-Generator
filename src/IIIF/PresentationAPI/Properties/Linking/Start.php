@@ -38,8 +38,8 @@ use IIIF\Utils\ArrayCreator;
  */
 class Start implements ArrayableInterface
 {
-    use WithId;
-    use WithType;
+    use WithId { setId as protected; }
+    use WithType { setType as protected; }
 
     /**
      * Constructor.

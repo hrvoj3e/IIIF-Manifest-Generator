@@ -42,8 +42,16 @@ abstract class ImageAbstract implements ArrayableInterface
 {
     use WithDimensions;
     use WithFormat;
-    use WithId;
+    use WithId { setId as protected; }
     use WithService;
+
+    /**
+     * Constructor.
+     */
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * {@inheritDoc}

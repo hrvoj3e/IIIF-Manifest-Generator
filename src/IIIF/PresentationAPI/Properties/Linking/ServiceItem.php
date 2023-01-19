@@ -37,9 +37,19 @@ use IIIF\Utils\ArrayCreator;
  */
 class ServiceItem
 {
-    use WithId;
+    use WithId { setId as protected; }
     use WithProfile;
-    use WithType;
+    use WithType { setType as protected; }
+
+    /**
+     * Constructor.
+     */
+    public function __construct(string $id, string $type)
+    {
+        $this->id = $id;
+
+        $this->type = $type;
+    }
 
     /**
      * {@inheritDoc}

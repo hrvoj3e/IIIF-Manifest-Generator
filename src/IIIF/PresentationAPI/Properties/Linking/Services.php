@@ -41,11 +41,11 @@ use IIIF\Utils\ArrayCreator;
  */
 class Services implements ArrayableInterface
 {
-    use WithId;
+    use WithId { setId as protected; }
     use WithLabel;
     use withProfile;
     use WithService;
-    use withType;
+    use withType { setType as protected; }
 
     /**
      * Constructor.

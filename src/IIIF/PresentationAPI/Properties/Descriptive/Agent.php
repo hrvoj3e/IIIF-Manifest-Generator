@@ -43,8 +43,8 @@ use IIIF\Utils\ArrayCreator;
 class Agent implements ArrayableInterface
 {
     use WithHomepage;
-    use WithId;
-    use WithLabel;
+    use WithId { setId as protected; }
+    use WithLabel { setLabel as protected; }
     use WithLogo;
     use WithSeeAlso;
 

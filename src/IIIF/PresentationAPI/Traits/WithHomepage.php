@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Traits;
 
-use IIIF\PresentationAPI\Links\Homepage;
+use IIIF\PresentationAPI\Properties\Linking\Homepage;
 
 trait WithHomepage
 {

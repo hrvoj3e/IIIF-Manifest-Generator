@@ -18,8 +18,8 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF\PresentationAPI\Properties
- * @package  Linking
+ * @category IIIF\PresentationAPI
+ * @package  Links
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
@@ -27,30 +27,37 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Properties\Linking;
 
 use IIIF\PresentationAPI\ArrayableInterface;
+use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Traits\WithFormat;
 use IIIF\PresentationAPI\Traits\WithId;
 use IIIF\PresentationAPI\Traits\WithLabel;
+use IIIF\PresentationAPI\Traits\WithLanguage;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * PartOf linking property.
- * @link https://iiif.io/api/presentation/3.0/#partof
+ * Homepage linking property.
+ * @link https://iiif.io/api/presentation/3.0/#homepage
  */
-class PartOf implements ArrayableInterface
+class Homepage implements ArrayableInterface
 {
+    use WithFormat;
     use WithId { setId as protected; }
-    use WithLabel;
+    use WithLabel { setLabel as protected; }
+    use WithLanguage;
     use WithType { setType as protected; }
 
     /**
      * Constructor.
      */
-    public function __construct(string $id, string $type)
+    public function __construct(string $id, string $type, LanguageStrings $label)
     {
         $this->id = $id;
 
         $this->type = $type;
+
+        $this->label = $label;
     }
 
     /**
@@ -60,11 +67,16 @@ class PartOf implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a related item');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a related item');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a homepage item');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a homepage item');
 
-        if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label);
+        if (!empty($this->format)) {
+            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+        }
+
+        if (!empty($this->language)) {
+            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language, false);
         }
 
         return $array;

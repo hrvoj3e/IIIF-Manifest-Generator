@@ -42,9 +42,9 @@ use IIIF\Utils\ArrayCreator;
 class Rendering implements ArrayableInterface
 {
     use WithFormat;
-    use WithId;
-    use WithLabel;
-    use WithType;
+    use WithId { setId as protected; }
+    use WithLabel { setLabel as protected; }
+    use WithType { setType as protected; }
 
     /**
      * Constructor.
