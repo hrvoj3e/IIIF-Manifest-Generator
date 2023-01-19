@@ -19,35 +19,32 @@ declare(strict_types=1);
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category IIIF\PresentationAPI
- * @package  Links
+ * @package  Traits
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Links;
+namespace IIIF\PresentationAPI\Traits;
 
-/*
- * Service item.
- */
-use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\Utils\ArrayCreator;
+use IIIF\PresentationAPI\Properties\Descriptive\Metadata;
 
-class ServiceItem extends LinkAbstract
+trait WithMetadata
 {
+    protected ?Metadata $metadata = null;
+
     /**
-     * {@inheritDoc}
+     * Set the metadata.
      */
-    public function toArray(): array
+    public function setMetadata(Metadata $metadata): void
     {
-        $array = [];
+        $this->metadata = $metadata;
+    }
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a service');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a service');
-
-        if (!empty($this->profile)) {
-            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
-        }
-
-        return $array;
+    /**
+     * Returns the metadata.
+     */
+    public function getMetadata(): ?Metadata
+    {
+        return $this->metadata;
     }
 }

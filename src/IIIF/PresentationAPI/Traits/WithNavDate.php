@@ -18,43 +18,35 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF
- * @package  PresentationAPI
+ * @category IIIF\PresentationAPI
+ * @package  Traits
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI;
+namespace IIIF\PresentationAPI\Traits;
 
-/**
- * Language strings.
- */
-class LanguageStrings implements ArrayableInterface
+use DateTimeInterface;
+
+trait WithNavDate
 {
-    /**
-     * Strings.
-     *
-     * @var string[]
-     */
-    protected array $strings = [];
+    protected const NAV_DATE_FORMAT = 'Y-m-d\T:H:i:s\Z';
+
+    protected ?DateTimeInterface $navDate = null;
 
     /**
-     * Add a language string.
-     *
-     * @param string[] $strings
+     * Set the nav date.
      */
-    public function addString(string $language, array $strings): LanguageStrings
+    public function setNavDate(DateTimeInterface $navDate): void
     {
-        $this->strings[$language] = $strings;
-
-        return $this;
+        $this->navDate = $navDate;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the nav date.
      */
-    public function toArray(): array
+    public function getNavDate(): ?DateTimeInterface
     {
-        return $this->strings;
+        return $this->navDate;
     }
 }

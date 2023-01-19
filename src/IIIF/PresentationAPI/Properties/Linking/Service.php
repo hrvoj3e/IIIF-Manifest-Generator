@@ -18,36 +18,35 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF
- * @package  PresentationAPI
+ * @category IIIF\PresentationAPI
+ * @package  Links
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI;
+namespace IIIF\PresentationAPI\Properties\Linking;
 
-/**
- * Language strings.
+use IIIF\PresentationAPI\ArrayableInterface;
+
+/*
+ * Implemenation for service linking property.
+ * @link https://iiif.io/api/presentation/3.0/#service
  */
-class LanguageStrings implements ArrayableInterface
+class Service implements ArrayableInterface
 {
     /**
-     * Strings.
+     * Service items.
      *
-     * @var string[]
+     * @var ServiceItem[]
      */
-    protected array $strings = [];
+    protected array $serviceItems = [];
 
     /**
-     * Add a language string.
-     *
-     * @param string[] $strings
+     * Add a service item to the service.
      */
-    public function addString(string $language, array $strings): LanguageStrings
+    public function addItem(ServiceItem $serviceItem): void
     {
-        $this->strings[$language] = $strings;
-
-        return $this;
+        $this->serviceItems[] = $serviceItem;
     }
 
     /**
@@ -55,6 +54,12 @@ class LanguageStrings implements ArrayableInterface
      */
     public function toArray(): array
     {
-        return $this->strings;
+        $array = [];
+
+        foreach ($this->serviceItems as $serviceItem) {
+            $array[] = $serviceItem->toArray();
+        }
+
+        return $array;
     }
 }

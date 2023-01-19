@@ -19,31 +19,39 @@ declare(strict_types=1);
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category IIIF\PresentationAPI
- * @package  Properties
- * @author   Harry Shyket <harry.shyket@yale.edu>
+ * @package  Links
+ * @author   Tuva Solstad
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Properties;
+namespace IIIF\PresentationAPI\Properties\Linking;
 
 use IIIF\PresentationAPI\ArrayableInterface;
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Parameters\Type;
-use IIIF\PresentationAPI\Traits\WithDimensions;
-use IIIF\PresentationAPI\Traits\WithFormat;
 use IIIF\PresentationAPI\Traits\WithId;
+use IIIF\PresentationAPI\Traits\WithLabel;
+use IIIF\PresentationAPI\Traits\WithProfile;
 use IIIF\PresentationAPI\Traits\WithService;
+use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
-/**
- * Implementation for image resources.
- */
-abstract class ImageAbstract implements ArrayableInterface
+class Services implements ArrayableInterface
 {
-    use WithDimensions;
-    use WithFormat;
     use WithId;
+    use WithLabel;
+    use withProfile;
     use WithService;
+    use withType;
+
+    /**
+     * Constructor.
+     */
+    public function __construct(string $id, string $type)
+    {
+        $this->id = $id;
+
+        $this->type = $type;
+    }
 
     /**
      * {@inheritDoc}
@@ -52,24 +60,19 @@ abstract class ImageAbstract implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the image.');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id field is required');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type field is required');
 
-        ArrayCreator::add($array, Identifier::TYPE, Type::IMAGE);
-
-        if (!empty($this->format)) {
-            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+        if (!empty($this->label)) {
+            ArrayCreator::add($array, Identifier::LABEL, $this->label, false);
         }
 
-        if (!empty($this->height)) {
-            ArrayCreator::add($array, Identifier::HEIGHT, $this->height);
-        }
-
-        if (!empty($this->width)) {
-            ArrayCreator::add($array, Identifier::WIDTH, $this->width);
+        if (!empty($this->profile)) {
+            ArrayCreator::add($array, Identifier::PROFILE, $this->profile, false);
         }
 
         if (!empty($this->service)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->service);
+            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
         }
 
         return $array;

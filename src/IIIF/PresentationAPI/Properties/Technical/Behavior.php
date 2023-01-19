@@ -35,6 +35,8 @@ use IIIF\PresentationAPI\ArrayableInterface;
 class Behavior implements ArrayableInterface
 {
     /**
+     * Behaviors.
+     *
      * @var Behaviors[]
      */
     protected array $behaviors = [];

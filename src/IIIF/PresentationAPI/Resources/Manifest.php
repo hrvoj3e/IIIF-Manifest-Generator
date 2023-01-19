@@ -27,6 +27,11 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Traits\WithItems;
+use IIIF\PresentationAPI\Traits\WithPartOf;
+use IIIF\PresentationAPI\Traits\WithProvider;
+use IIIF\PresentationAPI\Traits\WithServices;
+use IIIF\PresentationAPI\Traits\WithStart;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
@@ -38,6 +43,12 @@ use function count;
  */
 class Manifest extends ResourceAbstract
 {
+    use WithPartOf;
+    use WithProvider;
+    use WithServices;
+    use withStart;
+    use WithItems;
+
     protected $sequences = [];
     protected $structures = [];
     protected $type = 'Manifest';
@@ -161,8 +172,8 @@ class Manifest extends ResourceAbstract
             ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
         }
 
-        if (!empty($this->viewingdirection)) {
-            ArrayCreator::add($array, Identifier::VIEWINGDIRECTION, $this->viewingdirection);
+        if (!empty($this->viewingDirection)) {
+            ArrayCreator::add($array, Identifier::VIEWINGDIRECTION, $this->viewingDirection->value);
         }
 
         if (!empty($this->navdate)) {
@@ -195,30 +206,44 @@ class Manifest extends ResourceAbstract
             ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
         }
 
-        if (!empty($this->logos)) {
-            ArrayCreator::add($array, Identifier::LOGO, $this->logos);
+        if (!empty($this->provider)) {
+            ArrayCreator::add($array, Identifier::PROVIDER, $this->provider);
         }
 
         //  Linking Properties
 
-        if (!empty($this->related)) {
-            ArrayCreator::add($array, Identifier::RELATED, $this->related);
+        if (!empty($this->homepage)) {
+            ArrayCreator::add($array, Identifier::HOMEPAGE, $this->homepage, false);
         }
 
         if (!empty($this->rendering)) {
-            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering);
+            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering, false);
+        }
+
+        if (!empty($this->service)) {
+            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
         }
 
         if (!empty($this->services)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->services);
+            ArrayCreator::add($array, Identifier::SERVICES, $this->services, false);
         }
 
         if (!empty($this->seeAlso)) {
             ArrayCreator::add($array, Identifier::SEEALSO, $this->seeAlso, false);
         }
 
-        if (!empty($this->within)) {
-            ArrayCreator::add($array, Identifier::WITHIN, $this->within);
+        if (!empty($this->partOf)) {
+            ArrayCreator::add($array, Identifier::PART_OF, $this->partOf, false);
+        }
+
+        if (!empty($this->start)) {
+            ArrayCreator::add($array, Identifier::START, $this->start, false);
+        }
+
+        // Structural properties
+
+        if (!empty($this->items)) {
+            ArrayCreator::add($array, Identifier::ITEMS, $this->items, false);
         }
 
         // Resource Types

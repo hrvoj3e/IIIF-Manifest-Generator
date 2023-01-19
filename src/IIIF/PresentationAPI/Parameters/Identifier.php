@@ -44,6 +44,7 @@ enum Identifier: string
     case HOMEPAGE           = 'homepage';
     case ID                 = 'id';
     case IMAGES             = 'images';
+    case ITEMS              = 'items';
     case LABEL              = 'label';
     case LANGUAGE           = 'language';
     case LOGO               = 'logo';
@@ -57,8 +58,10 @@ enum Identifier: string
     case NAVDATE            = 'navDate';
     case ON                 = 'on';
     case OTHERCONTENT       = 'otherContent';
+    case PART_OF            = 'partOf';
     case PROFILE            = 'profile';
     case PROTOCOL           = 'protocol';
+    case PROVIDER           = 'provider';
     case QUALITIES          = 'qualities';
     case RANGES             = 'ranges';
     case RENDERING          = 'rendering';
@@ -70,8 +73,9 @@ enum Identifier: string
     case SEEALSO            = 'seeAlso';
     case SEQUENCES          = 'sequences';
     case SERVICE            = 'service';
+    case SERVICES           = 'services';
     case SIZES              = 'sizes';
-    case STARTCANVAS        = 'startCanvas';
+    case START              = 'start';
     case STRUCTURES         = 'structures';
     case SUMMARY            = 'summary';
     case SUPPORTS           = 'supports';
@@ -82,5 +86,4 @@ enum Identifier: string
     case VALUE              = 'value';
     case VIEWINGDIRECTION   = 'viewingDirection';
     case WIDTH              = 'width';
-    case WITHIN             = 'within';
 }

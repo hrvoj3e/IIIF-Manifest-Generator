@@ -18,43 +18,21 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF
- * @package  PresentationAPI
+ * @category IIIF\PresentationAPI\Properties
+ * @package  Technical
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI;
+namespace IIIF\PresentationAPI\Properties\Technical;
 
 /**
- * Language strings.
+ * Allowed viewing directions.
  */
-class LanguageStrings implements ArrayableInterface
+enum ViewingDirections: string
 {
-    /**
-     * Strings.
-     *
-     * @var string[]
-     */
-    protected array $strings = [];
-
-    /**
-     * Add a language string.
-     *
-     * @param string[] $strings
-     */
-    public function addString(string $language, array $strings): LanguageStrings
-    {
-        $this->strings[$language] = $strings;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray(): array
-    {
-        return $this->strings;
-    }
+    case BOTTOM_TO_TOP = 'bottom-to-top';
+    case LEFT_TO_RIGHT = 'left-to-right';
+    case RIGHT_TO_LEFT = 'right-to-left';
+    case TOP_TO_BOTTOM = 'top-to-bottom';
 }

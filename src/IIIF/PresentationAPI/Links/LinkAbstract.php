@@ -35,7 +35,7 @@ use IIIF\PresentationAPI\LanguageStrings;
 abstract class LinkAbstract implements LinkInterface
 {
     protected string $id;
-    protected string $type;
+    protected string|null $type = null;
     protected string $profile; // @todo Move out to SeeAlso or to a trait for more classes need it
     protected string $format;
     protected LanguageStrings|null $label = null;

@@ -29,31 +29,36 @@ namespace IIIF\PresentationAPI\Resources;
 use DateTimeInterface;
 use IIIF\PresentationAPI\LabelValueItem;
 use IIIF\PresentationAPI\LanguageStrings;
-use IIIF\PresentationAPI\Links\Related;
-use IIIF\PresentationAPI\Links\Rendering;
 use IIIF\PresentationAPI\Links\SeeAlso;
-use IIIF\PresentationAPI\Links\Service;
 use IIIF\PresentationAPI\Properties\Descriptive\Metadata;
-use IIIF\PresentationAPI\Parameters\ViewingDirection;
 use IIIF\PresentationAPI\Properties\Descriptive\Thumbnail;
 use IIIF\PresentationAPI\Properties\Linking\Logo;
 use IIIF\PresentationAPI\Properties\Technical\Behavior;
+use IIIF\PresentationAPI\Traits\WithHomepage;
+use IIIF\PresentationAPI\Traits\WithPartOf;
+use IIIF\PresentationAPI\Traits\WithRendering;
+use IIIF\PresentationAPI\Traits\WithService;
+use IIIF\PresentationAPI\Traits\WithViewingDirection;
 use IIIF\Utils\Validator;
-use ReflectionClass;
 
 use function count;
 
 /**
  * Abstract implementation of a resource.
  */
-abstract class ResourceAbstract implements ResourceInterface
+abstract class ResourceAbstract
 {
+    use WithHomepage;
+    use WithPartOf;
+    use WithRendering;
+    use WithService;
+    use WithViewingDirection;
+
     protected $id;
     protected $onlyid         = false;
     protected $onlymemberdata = false;
     protected $type;
     protected $defaultcontext = 'http://iiif.io/api/presentation/3/context.json';
-    protected $viewingdirection;
     protected $navdate;
     protected $contexts                              = [];
     protected $label                                 = [];
@@ -65,10 +70,6 @@ abstract class ResourceAbstract implements ResourceInterface
     protected $logos                                 = [];
     protected $metadata                              = [];
     protected array $seeAlso                         = [];
-    protected $services                              = [];
-    protected $related                               = [];
-    protected $rendering                             = [];
-    protected $within                                = [];
 
     /**
      * Constructor.
@@ -298,6 +299,8 @@ abstract class ResourceAbstract implements ResourceInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @todo Remove since this it now allowed on resources
      */
     public function addLogo(Logo $logo): void
     {
@@ -308,6 +311,8 @@ abstract class ResourceAbstract implements ResourceInterface
      * {@inheritDoc}
      * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getLogos()
      * @return array
+     *
+     * @todo Remove since this it now allowed on resources
      */
     public function getLogos()
     {
@@ -362,105 +367,6 @@ abstract class ResourceAbstract implements ResourceInterface
     public function getNavDate()
     {
         return $this->navdate;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addService()
-     * @param \IIIF\PresentationAPI\Links\Service
-     */
-    public function addService(Service $service): void
-    {
-        $this->services[] = $service;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getAttributions()
-     * @return array
-     */
-    public function getServices()
-    {
-        return $this->services;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addRelated()
-     */
-    public function addRelated(Related $related): void
-    {
-        $this->related[] = $related;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getRelated()
-     */
-    public function getRelated()
-    {
-        return $this->related;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addRendering()
-     */
-    public function addRendering(Rendering $rendering): void
-    {
-        $this->rendering[] = $rendering;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getRendering()
-     */
-    public function getRendering()
-    {
-        return $this->rendering;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::addWithin()
-     */
-    public function addWithin($within): void
-    {
-        $this->within[] = $within;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceInterface::getWithin()
-     */
-    public function getWithin()
-    {
-        return $this->within;
-    }
-
-    /**
-     * Set the viewing direction.
-     *
-     * @param string $viewingdirection
-     */
-    public function setViewingDirection($viewingdirection): void
-    {
-        // Make sure that the viewing hint is an allowed value
-        $allviewingdirections = new ReflectionClass(ViewingDirection::class);
-
-        if (Validator::inArray($viewingdirection, $allviewingdirections->getConstants(), 'Illegal viewingDirection selected')) {
-            $this->viewingdirection = $viewingdirection;
-        }
-    }
-
-    /**
-     * Get the viewng direction.
-     *
-     * @return string
-     */
-    public function getViewingDirection()
-    {
-        return $this->viewingdirection;
     }
 
     /**

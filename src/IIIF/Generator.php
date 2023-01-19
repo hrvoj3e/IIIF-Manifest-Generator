@@ -25,22 +25,20 @@ declare(strict_types=1);
 
 namespace IIIF;
 
-use IIIF\PresentationAPI\Links\LinkInterface;
-use IIIF\PresentationAPI\Metadata\MetadataInterface;
-use IIIF\PresentationAPI\Properties\PropertyInterface;
-use IIIF\PresentationAPI\Resources\ResourceInterface;
+use IIIF\PresentationAPI\ArrayableInterface;
 
 use function json_encode;
 
+/**
+ * JSON generator.
+ */
 class Generator
 {
     /**
      * Generate the manifest file.
-     * @param LinkInterface|MetadataInterface|PropertyInterface|ResourceInterface $item
-     * @param string                                                              $location
      */
-    public function generate($item)
+    public function generate(ArrayableInterface $item, int $flags = 0): string
     {
-        return json_encode($item->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        return json_encode($item->toArray(), $flags);
     }
 }

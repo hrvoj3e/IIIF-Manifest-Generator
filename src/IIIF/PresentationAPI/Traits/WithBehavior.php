@@ -18,43 +18,33 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF
- * @package  PresentationAPI
+ * @category IIIF\PresentationAPI
+ * @package  Traits
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI;
+namespace IIIF\PresentationAPI\Traits;
 
-/**
- * Language strings.
- */
-class LanguageStrings implements ArrayableInterface
+use IIIF\PresentationAPI\Properties\Technical\Behavior;
+
+trait WithBehavior
 {
-    /**
-     * Strings.
-     *
-     * @var string[]
-     */
-    protected array $strings = [];
+    protected ?Behavior $behavior = null;
 
     /**
-     * Add a language string.
-     *
-     * @param string[] $strings
+     * Set the behavior.
      */
-    public function addString(string $language, array $strings): LanguageStrings
+    public function setBehavior(Behavior $behavior): void
     {
-        $this->strings[$language] = $strings;
-
-        return $this;
+        $this->behavior = $behavior;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the behavior.
      */
-    public function toArray(): array
+    public function getBehavior(): ?Behavior
     {
-        return $this->strings;
+        return $this->behavior;
     }
 }

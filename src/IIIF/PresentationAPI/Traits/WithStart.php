@@ -19,23 +19,32 @@ declare(strict_types=1);
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category IIIF\PresentationAPI
- * @package  Parameters
+ * @package  Traits
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI\Parameters;
+namespace IIIF\PresentationAPI\Traits;
 
-/**
- * Values used for viewing direction properties.
- * @link https://iiif.io/api/presentation/3.0/#viewingdirection
- *
- * @todo should be converted to an enum
- */
-class ViewingDirection
+use IIIF\PresentationAPI\Properties\Linking\Start;
+
+trait WithStart
 {
-    public const LEFT_TO_RIGHT = 'left-to-right';
-    public const RIGHT_TO_LEFT = 'right-to-left';
-    public const TOP_TO_BOTTOM = 'top-to-bottom';
-    public const BOTTOM_TO_TOP = 'bottom-to-top';
+    protected ?Start $start = null;
+
+    /**
+     * Set the start.
+     */
+    public function setStart(Start $start): void
+    {
+        $this->start = $start;
+    }
+
+    /**
+     * Returns the start.
+     */
+    public function getStart(): ?Start
+    {
+        return $this->start;
+    }
 }

@@ -18,43 +18,40 @@ declare(strict_types=1);
  * You should have received a copy of the GNU General Public License
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category IIIF
- * @package  PresentationAPI
+ * @category IIIF\PresentationAPI
+ * @package  Traits
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF\PresentationAPI;
+namespace IIIF\PresentationAPI\Traits;
 
-/**
- * Language strings.
- */
-class LanguageStrings implements ArrayableInterface
+use IIIF\PresentationAPI\Properties\Linking\Logo;
+
+trait WithLogo
 {
     /**
-     * Strings.
+     * Logos.
      *
-     * @var string[]
+     * @var Logo[]
      */
-    protected array $strings = [];
+    protected array $logo = [];
 
     /**
-     * Add a language string.
-     *
-     * @param string[] $strings
+     * Add a logo.
      */
-    public function addString(string $language, array $strings): LanguageStrings
+    public function addLogo(Logo $logo): void
     {
-        $this->strings[$language] = $strings;
-
-        return $this;
+        $this->logo[] = $logo;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the logos.
+     *
+     * @return Logo[]
      */
-    public function toArray(): array
+    public function getLogo(): ?array
     {
-        return $this->strings;
+        return $this->logo;
     }
 }
