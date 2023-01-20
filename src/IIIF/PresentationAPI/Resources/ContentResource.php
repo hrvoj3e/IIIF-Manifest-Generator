@@ -27,74 +27,41 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
-use IIIF\PresentationAPI\Traits\WithAnnotations;
 use IIIF\PresentationAPI\Traits\WithDimensions;
 use IIIF\PresentationAPI\Traits\WithDuration;
-use IIIF\PresentationAPI\Traits\WithItems;
+use IIIF\PresentationAPI\Traits\WithFormat;
+use IIIF\PresentationAPI\Traits\WithLanguage;
+use IIIF\PresentationAPI\Traits\WithProfile;
+use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
-use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Canvas resource.
- * @link https://iiif.io/api/presentation/3.0/#53-canvas
+ * Content resource.
+ * @link https://iiif.io/api/presentation/3.0/#57-content-resources
  */
-class Canvas extends ResourceAbstract
+class ContentResource extends ResourceAbstract
 {
-    use WithAnnotations;
-    use WithDimensions { setHeight as protected;
-        setWidth as protected; }
+    use WithDimensions;
     use WithDuration;
-    use WithItems;
-
-    /**
-     * Type.
-     */
-    protected const TYPE = 'Canvas';
-
-    /**
-     * Set dimensions.
-     */
-    public function setDimensions(int $height, int $width): void
-    {
-        $this->setHeight($height);
-        $this->setWidth($width);
-    }
+    use WithFormat;
+    use WithLanguage;
+    use WithProfile;
+    use WithType;
 
     /**
      * {@inheritDoc}
      */
     public function toArray(): array
     {
-        if ($this->getOnlyID()) {
-            $id = $this->id;
-            Validator::itemExists($id, 'The id must be present in the Canvas');
-            return $id;
-        }
-
         $array = [];
-
-        if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Canvas');
-            ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in the Canvas');
-
-            if (!empty($this->label)) {
-                ArrayCreator::add($array, Identifier::LABEL, $this->label, false);
-            }
-
-            return $array;
-        }
 
         // Technical Properties
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Canvas');
-        ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in the Canvas');
+        ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in a Content resource');
+        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a Content resource');
 
-        if ($this->isTopLevel) {
-            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->context, 'The context must be present in the Canvas');
-        }
-
-        if (!empty($this->duration)) {
-            ArrayCreator::add($array, Identifier::DURATION, $this->duration);
+        if (!empty($this->format)) {
+            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
         }
 
         if (!empty($this->height)) {
@@ -108,7 +75,7 @@ class Canvas extends ResourceAbstract
         // Descriptive Properties
 
         if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label, false);
+            ArrayCreator::add($array, Identifier::LABEL, $this->label, true);
         }
 
         if (!empty($this->metadata)) {
@@ -125,16 +92,6 @@ class Canvas extends ResourceAbstract
 
         if (!empty($this->provider)) {
             ArrayCreator::add($array, Identifier::PROVIDER, $this->provider, false);
-        }
-
-        // Structural Properties
-
-        if (!empty($this->items)) {
-            ArrayCreator::add($array, Identifier::ITEMS, $this->items, false);
-        }
-
-        if (!empty($this->annotations)) {
-            ArrayCreator::add($array, Identifier::ANNOTATIONS, $this->annotations, false);
         }
 
         return [...$array, ...parent::toArray()];

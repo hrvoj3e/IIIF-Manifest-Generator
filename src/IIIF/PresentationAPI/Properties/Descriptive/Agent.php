@@ -83,7 +83,7 @@ class Agent implements ArrayableInterface
         }
 
         if (!empty($this->seeAlso)) {
-            ArrayCreator::add($array, Identifier::SEEALSO, $this->seeAlso, false);
+            ArrayCreator::add($array, Identifier::SEE_ALSO, $this->seeAlso, false);
         }
 
         return $array;

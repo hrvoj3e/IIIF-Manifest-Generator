@@ -27,12 +27,15 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Traits\WithAnnotations;
 use IIIF\PresentationAPI\Traits\WithItems;
 use IIIF\PresentationAPI\Traits\WithNavDate;
 use IIIF\PresentationAPI\Traits\WithServices;
 use IIIF\PresentationAPI\Traits\WithStart;
+use IIIF\PresentationAPI\Traits\WithViewingDirection;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
+use JsonSerializable;
 
 use function count;
 
@@ -40,13 +43,18 @@ use function count;
  * Implementation of a Manifest resource.
  * @link https://iiif.io/api/presentation/3.0/#52-manifest
  */
-class Manifest extends ResourceAbstract
+class Manifest extends ResourceAbstract implements JsonSerializable
 {
+    use WithAnnotations;
     use WithItems;
     use WithNavDate;
     use WithServices;
-    use withStart;
+    use WithStart;
+    use WithViewingDirection;
 
+    /**
+     * Type.
+     */
     protected const TYPE = 'Manifest';
 
     protected $sequences = [];
@@ -166,12 +174,8 @@ class Manifest extends ResourceAbstract
         ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Manifest');
         ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in the Manifest');
 
-        if (!empty($this->behavior)) {
-            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
-        }
-
         if (!empty($this->viewingDirection)) {
-            ArrayCreator::add($array, Identifier::VIEWINGDIRECTION, $this->viewingDirection->value);
+            ArrayCreator::add($array, Identifier::VIEWING_DIRECTION, $this->viewingDirection->value);
         }
 
         if (!empty($this->navDate)) {
@@ -194,44 +198,14 @@ class Manifest extends ResourceAbstract
             ArrayCreator::add($array, Identifier::THUMBNAIL, $this->thumbnail, false);
         }
 
-        // Rights and Licensing Properties
-
-        if (!empty($this->rights)) {
-            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
-        }
-
-        if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
-        }
-
         if (!empty($this->provider)) {
-            ArrayCreator::add($array, Identifier::PROVIDER, $this->provider);
+            ArrayCreator::add($array, Identifier::PROVIDER, $this->provider, false);
         }
 
         //  Linking Properties
 
-        if (!empty($this->homepage)) {
-            ArrayCreator::add($array, Identifier::HOMEPAGE, $this->homepage, false);
-        }
-
-        if (!empty($this->rendering)) {
-            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering, false);
-        }
-
-        if (!empty($this->service)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
-        }
-
         if (!empty($this->services)) {
             ArrayCreator::add($array, Identifier::SERVICES, $this->services, false);
-        }
-
-        if (!empty($this->seeAlso)) {
-            ArrayCreator::add($array, Identifier::SEEALSO, $this->seeAlso, false);
-        }
-
-        if (!empty($this->partOf)) {
-            ArrayCreator::add($array, Identifier::PART_OF, $this->partOf, false);
         }
 
         if (!empty($this->start)) {
@@ -242,6 +216,10 @@ class Manifest extends ResourceAbstract
 
         if (!empty($this->items)) {
             ArrayCreator::add($array, Identifier::ITEMS, $this->items, false);
+        }
+
+        if (!empty($this->annotations)) {
+            ArrayCreator::add($array, Identifier::ANNOTATIONS, $this->annotations, false);
         }
 
         // Resource Types
@@ -274,6 +252,14 @@ class Manifest extends ResourceAbstract
             }
         }
 
-        return $array;
+        return [...$array, ...parent::toArray()];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }

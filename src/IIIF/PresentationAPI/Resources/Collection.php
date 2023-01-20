@@ -28,6 +28,7 @@ namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Parameters\Paging;
+use IIIF\PresentationAPI\Traits\WithViewingDirection;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
@@ -37,6 +38,8 @@ use IIIF\Utils\Validator;
  */
 class Collection extends ResourceAbstract
 {
+    use WithViewingDirection;
+
     private $onlymemberdata = false;
     private $first;
     private $last;
@@ -302,10 +305,6 @@ class Collection extends ResourceAbstract
         ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Collection');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Collection');
 
-        if (!empty($this->behavior)) {
-            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
-        }
-
         ArrayCreator::addIfExists($array, Identifier::NAVDATE, $this->getNavDate());
 
         /* Descriptive Properties **/
@@ -318,26 +317,7 @@ class Collection extends ResourceAbstract
 
         ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /* Rights and Licensing Properties **/
-
-        if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
-        }
-
-        ArrayCreator::addIfExists($array, Identifier::RIGHTS, $this->rights);
-
-        if (!empty($this->rights)) {
-            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
-        }
-
         ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
-
-        /* Linking Properties **/
-        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
 
         /* Paging Properties **/
         ArrayCreator::addIfExists($array, Paging::FIRST, $this->getFirst());
@@ -365,6 +345,6 @@ class Collection extends ResourceAbstract
         }
         ArrayCreator::addIfExists($array, Identifier::MEMBERS, $this->getMembers(), false);
 
-        return $array;
+        return [...$array, ...parent::toArray()];
     }
 }

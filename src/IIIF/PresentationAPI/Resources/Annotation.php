@@ -30,136 +30,95 @@ use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\Utils\ArrayCreator;
 
 /**
- * Implementation of an Annotation resource.
+ * Annotation resource.
  * @link https://iiif.io/api/presentation/3.0/#56-annotation
  */
-class Annotation extends ResourceAbstract
+class Annotation extends AnnotationAbstract
 {
-    private $content;
-    private $on;
+    /**
+     * Type.
+     */
+    protected const TYPE = 'Annotation';
 
-    public $type = 'oa:Annotation';
-    public $motivation = 'sc:painting';
+    /**
+     * Motivation.
+     */
+    protected ?string $motivation = null;
+
+    /**
+     * Target.
+     */
+    protected ?string $target = null;
+
+    /**
+     * Body.
+     */
+    protected ?ContentResource $body = null;
 
     /**
      * Set the motivation.
-     *
-     * @param string $motivation
      */
-    public function setMotivation($motivation): void
+    public function setMotivation(string $motivation): void
     {
         $this->motivation = $motivation;
     }
 
     /**
      * Get the motivation.
-     *
-     * @return string
      */
-    public function getMotivation()
+    public function getMotivation(): string
     {
         return $this->motivation;
     }
 
     /**
-     * Set the content resource.
-     *
-     * @param \IIIF\PresentationAPI\Resources\Content $content
+     * Set the target.
      */
-    public function setContent(Content $content): void
+    public function setTarget(string $target): void
     {
-        $this->content = $content;
+        $this->target = $target;
+    }
+
+    /**
+     * Get the target.
+     */
+    public function getTarget(): string
+    {
+        return $this->target;
+    }
+
+    /**
+     * Set the content resource.
+     */
+    public function setBody(ContentResource $contentResource): void
+    {
+        $this->body = $contentResource;
     }
 
     /**
      * Get the content resource.
-     *
-     * @return \IIIF\PresentationAPI\Resources\Content
      */
-    public function getContent()
+    public function getBody(): ?ContentResource
     {
-        return $this->content;
-    }
-
-    /**
-     * Set the on value.
-     *
-     * @param string $on
-     */
-    public function setOn($on): void
-    {
-        $this->on = $on;
-    }
-
-    /**
-     * Get the on value.
-     *
-     * @return string
-     */
-    public function getOn()
-    {
-        return $this->on;
+        return $this->body;
     }
 
     /**
      * {@inheritDoc}
-     * @see \IIIF\PresentationAPI\Resources\ResourceAbstract::toArray()
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $array = [];
 
-        /* Technical Properties **/
-        if ($this->isTopLevel()) {
-            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->getContexts(), 'The context must be present in the Annotation');
-        }
-        ArrayCreator::addIfExists($array, Identifier::ID, $this->getID());
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Annotation');
-        ArrayCreator::addRequired($array, Identifier::MOTIVATION, $this->getMotivation(), 'The motiation must be present in an Annotation');
+        ArrayCreator::addRequired($array, Identifier::MOTIVATION, $this->motivation, 'The motivation must be present in an Annotation');
+        ArrayCreator::addRequired($array, Identifier::TARGET, $this->target, 'The target must be present in an Annotation');
 
-        if (!empty($this->behavior)) {
-            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        // Resource Types
+
+        if (!empty($this->body)) {
+            ArrayCreator::add($array, Identifier::BODY, $this->body);
         }
 
-        ArrayCreator::addRequired($array, Identifier::ON, $this->getOn(), 'The on value must be present in an Annotation');
-
-        /* Descriptive Properties **/
-
-        if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label, true);
-        }
-
-        ArrayCreator::addIfExists($array, Identifier::METADATA, $this->getMetadata());
-
-        if (!empty($this->summary)) {
-            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
-        }
-
-        ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
-
-        /* Rights and Licensing Properties **/
-
-        if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
-        }
-
-        if (!empty($this->rights)) {
-            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
-        }
-
-        ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
-
-        /* Linking Properties **/
-        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
-
-        /* Resource Types **/
-        ArrayCreator::addIfExists($array, Identifier::RESOURCE, $this->getContent());
-
-        return $array;
+        return [...parent::toArray(), ...$array];
     }
 }

@@ -31,13 +31,16 @@ namespace IIIF\PresentationAPI\Parameters;
  */
 enum Identifier: string
 {
+    case ANNOTATIONS        = 'annotations';
     case ATVALUE            = '@value';
     case BEHAVIOR           = 'behavior';
+    case BODY               = 'body';
     case CANVASES           = 'canvases';
     case CHARS              = 'chars';
     case COLLECTIONS        = 'collections';
-    case CONTENTLAYER       = 'contentLayer';
+    case CONTENT_LAYER      = 'contentLayer';
     case CONTEXT            = '@context';
+    case DURATION           = 'duration';
     case FORMAT             = 'format';
     case FORMATS            = 'formats';
     case HEIGHT             = 'height';
@@ -49,15 +52,15 @@ enum Identifier: string
     case LANGUAGE           = 'language';
     case LOGO               = 'logo';
     case MANIFESTS          = 'manifests';
-    case MAXAREA            = 'maxArea';
-    case MAXHEIGHT          = 'maxHeight';
-    case MAXWIDTH           = 'maxWidth';
+    case MAX_AREA           = 'maxArea';
+    case MAX_HEIGHT         = 'maxHeight';
+    case MAX_WIDTH          = 'maxWidth';
     case MEMBERS            = 'members';
     case METADATA           = 'metadata';
     case MOTIVATION         = 'motivation';
     case NAVDATE            = 'navDate';
     case ON                 = 'on';
-    case OTHERCONTENT       = 'otherContent';
+    case OTHER_CONTENT      = 'otherContent';
     case PART_OF            = 'partOf';
     case PROFILE            = 'profile';
     case PROTOCOL           = 'protocol';
@@ -66,11 +69,10 @@ enum Identifier: string
     case RANGES             = 'ranges';
     case RENDERING          = 'rendering';
     case REQUIRED_STATEMENT = 'requiredStatement';
-    case RESOURCE           = 'resource';
     case RESOURCES          = 'resources';
     case RIGHTS             = 'rights';
-    case SCALEFACTORS       = 'scaleFactors';
-    case SEEALSO            = 'seeAlso';
+    case SCALE_FACTORS      = 'scaleFactors';
+    case SEE_ALSO           = 'seeAlso';
     case SEQUENCES          = 'sequences';
     case SERVICE            = 'service';
     case SERVICES           = 'services';
@@ -84,6 +86,7 @@ enum Identifier: string
     case TOTAL              = 'total';
     case TYPE               = 'type';
     case VALUE              = 'value';
-    case VIEWINGDIRECTION   = 'viewingDirection';
+    case VIEWING_DIRECTION  = 'viewingDirection';
     case WIDTH              = 'width';
+    case TARGET             = 'target';
 }

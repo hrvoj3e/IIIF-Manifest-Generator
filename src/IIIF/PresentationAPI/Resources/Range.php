@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\Parameters\Identifier;
+use IIIF\PresentationAPI\Traits\WithViewingDirection;
 use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
@@ -36,6 +37,8 @@ use IIIF\Utils\Validator;
  */
 class Range extends ResourceAbstract
 {
+    use WithViewingDirection;
+
     private $onlymemberdata = false;
     private $startCanvas;
     private $contentLayer;
@@ -44,18 +47,7 @@ class Range extends ResourceAbstract
     private $canvases = [];
     private $members = [];
 
-    public $type = 'sc:Range';
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see \IIIF\PresentationAPI\Resources\ResourceAbstract::setID()
-     */
-    public function setID($id): void
-    {
-        Validator::validateURL($id, 'The ID for a Range must be a valid URL');
-        parent::setID($id);
-    }
+    public $type = 'Range';
 
     /**
      * Set the startCanvas.
@@ -178,7 +170,7 @@ class Range extends ResourceAbstract
         Validator::shouldContainItems($member, $methods, 'A member within a Range must contain the ID, Type and Label');
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         if ($this->getOnlyID()) {
             $id = $this->getID();
@@ -192,7 +184,7 @@ class Range extends ResourceAbstract
             ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Canvas');
             ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Canvas');
             ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
-            ArrayCreator::addIfExists($array, Identifier::CONTENTLAYER, $this->getContentLayer());
+            ArrayCreator::addIfExists($array, Identifier::CONTENT_LAYER, $this->getContentLayer());
 
             return $array;
         }
@@ -204,11 +196,7 @@ class Range extends ResourceAbstract
         ArrayCreator::addRequired($array, Identifier::ID, $this->getID(), 'The id must be present in the Range');
         ArrayCreator::addRequired($array, Identifier::TYPE, $this->getType(), 'The type must be present in the Range');
 
-        if (!empty($this->behavior)) {
-            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
-        }
-
-        ArrayCreator::addIfExists($array, Identifier::VIEWINGDIRECTION, $this->getViewingDirection());
+        ArrayCreator::addIfExists($array, Identifier::VIEWING_DIRECTION, $this->getViewingDirection());
 
         /* Descriptive Properties **/
         ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Range', false);
@@ -220,25 +208,10 @@ class Range extends ResourceAbstract
 
         ArrayCreator::addIfExists($array, Identifier::THUMBNAIL, $this->getThumbnails());
 
-        /* Rights and Licensing Properties **/
-
-        if (!empty($this->rights)) {
-            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
-        }
-
-        if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
-        }
-
         ArrayCreator::addIfExists($array, Identifier::LOGO, $this->getLogos());
 
         /* Linking Properties **/
-        ArrayCreator::addIfExists($array, Identifier::RELATED, $this->getRelated());
-        ArrayCreator::addIfExists($array, Identifier::RENDERING, $this->getRendering());
-        ArrayCreator::addIfExists($array, Identifier::SERVICE, $this->getServices());
-        ArrayCreator::addIfExists($array, Identifier::SEEALSO, $this->getSeeAlso());
-        ArrayCreator::addIfExists($array, Identifier::WITHIN, $this->getWithin());
-        ArrayCreator::addIfExists($array, Identifier::CONTENTLAYER, $this->getContentLayer());
+        ArrayCreator::addIfExists($array, Identifier::CONTENT_LAYER, $this->getContentLayer());
         ArrayCreator::addIfExists($array, Identifier::STARTCANVAS, $this->getStartCanvas());
 
         /* Resource Types **/

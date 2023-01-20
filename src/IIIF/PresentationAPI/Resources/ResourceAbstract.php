@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace IIIF\PresentationAPI\Resources;
 
 use IIIF\PresentationAPI\ArrayableInterface;
+use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Traits\WithBehavior;
 use IIIF\PresentationAPI\Traits\WithContext;
 use IIIF\PresentationAPI\Traits\WithHomepage;
@@ -42,7 +43,7 @@ use IIIF\PresentationAPI\Traits\WithSeeAlso;
 use IIIF\PresentationAPI\Traits\WithService;
 use IIIF\PresentationAPI\Traits\WithSummary;
 use IIIF\PresentationAPI\Traits\WithThumbnail;
-use IIIF\PresentationAPI\Traits\WithViewingDirection;
+use IIIF\Utils\ArrayCreator;
 
 /**
  * Abstract resource.
@@ -52,7 +53,7 @@ abstract class ResourceAbstract implements ArrayableInterface
     use WithBehavior;
     use WithContext;
     use WithHomepage;
-    use WithId;
+    use WithId { setId as protected; }
     use WithLabel;
     use WithMetadata;
     use WithPartOf;
@@ -64,7 +65,6 @@ abstract class ResourceAbstract implements ArrayableInterface
     use WithService;
     use WithSummary;
     use WithThumbnail;
-    use WithViewingDirection;
 
     protected $onlyid         = false;
     protected $onlymemberdata = false;
@@ -74,8 +74,11 @@ abstract class ResourceAbstract implements ArrayableInterface
      * Constructor.
      */
     public function __construct(
+        string $id,
         protected bool $isTopLevel = false
     ) {
+        $this->id = $id;
+
         if ($this->isTopLevel) {
             $this->addContext($this->getDefaultContext());
         }
@@ -131,5 +134,53 @@ abstract class ResourceAbstract implements ArrayableInterface
     public function getDefaultContext()
     {
         return $this->defaultcontext;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): array
+    {
+        $array = [];
+
+        // Rights and Licensing Properties
+
+        if (!empty($this->requiredStatement)) {
+            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
+        }
+
+        if (!empty($this->rights)) {
+            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
+        }
+
+        // Technical Properties
+
+        if (!empty($this->behavior)) {
+            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+        }
+
+        // Linking Properties
+
+        if (!empty($this->homepage)) {
+            ArrayCreator::add($array, Identifier::HOMEPAGE, $this->homepage, false);
+        }
+
+        if (!empty($this->rendering)) {
+            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering, false);
+        }
+
+        if (!empty($this->service)) {
+            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
+        }
+
+        if (!empty($this->seeAlso)) {
+            ArrayCreator::add($array, Identifier::SEE_ALSO, $this->seeAlso, false);
+        }
+
+        if (!empty($this->partOf)) {
+            ArrayCreator::add($array, Identifier::PART_OF, $this->partOf, false);
+        }
+
+        return $array;
     }
 }
