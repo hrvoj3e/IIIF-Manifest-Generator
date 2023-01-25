@@ -60,24 +60,24 @@ abstract class ImageAbstract implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the image.');
+        $array[Identifier::ID->value] = $this->id;
 
-        ArrayCreator::add($array, Identifier::TYPE, Type::IMAGE);
+        $array[Identifier::TYPE->value] = Type::IMAGE;
 
         if (!empty($this->format)) {
-            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+            $array[Identifier::FORMAT->value] = $this->format;
         }
 
         if (!empty($this->height)) {
-            ArrayCreator::add($array, Identifier::HEIGHT, $this->height);
+            $array[Identifier::HEIGHT->value] = $this->height;
         }
 
         if (!empty($this->width)) {
-            ArrayCreator::add($array, Identifier::WIDTH, $this->width);
+            $array[Identifier::WIDTH->value] = $this->width;
         }
 
         if (!empty($this->service)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->service);
+            $array[Identifier::SERVICE->value] = $this->service->toArray();
         }
 
         return $array;

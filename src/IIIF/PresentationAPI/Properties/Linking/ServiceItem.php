@@ -58,11 +58,12 @@ class ServiceItem
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a service');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a service');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = $this->type;
 
         if (!empty($this->profile)) {
-            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
+            $array[Identifier::PROFILE->value] = $this->profile;
         }
 
         return $array;

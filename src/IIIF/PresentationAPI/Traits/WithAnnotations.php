@@ -26,27 +26,29 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Traits;
 
+use IIIF\PresentationAPI\Resources\AnnotationPage;
+
 trait WithAnnotations
 {
     /**
      * Annotations.
      *
-     * @var mixed[]
+     * @var AnnotationPage[]
      */
     protected array $annotations = [];
 
     /**
-     * Add an item.
+     * Add an annotation page.
      */
-    public function addAnnotation(mixed $annotation): void
+    public function addAnnotation(AnnotationPage $annotation): void
     {
         $this->annotation[] = $annotation;
     }
 
     /**
-     * Returns the annotations.
+     * Returns the annotation pages.
      *
-     * @return mixed[]
+     * @return AnnotationPage[]
      */
     public function getAnnotations(): array
     {

@@ -70,20 +70,22 @@ class Agent implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id field is required');
-        ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type field is required');
-        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label field is required');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = static::TYPE;
+
+        $array[Identifier::LABEL->value] = $this->label->toArray();
 
         if (!empty($this->homepage)) {
-            ArrayCreator::add($array, Identifier::HOMEPAGE, $this->homepage, false);
+            $array[Identifier::HOMEPAGE->value] = array_map(fn ($homepage) => $homepage->toArray(), $this->homepage);
         }
 
         if (!empty($this->logo)) {
-            ArrayCreator::add($array, Identifier::LOGO, $this->logo, false);
+            $array[Identifier::LOGO->value] = array_map(fn ($logo) => $logo->toArray(), $this->logo);
         }
 
         if (!empty($this->seeAlso)) {
-            ArrayCreator::add($array, Identifier::SEE_ALSO, $this->seeAlso, false);
+            $array[Identifier::SEE_ALSO->value] = array_map(fn ($seeAlso) => $seeAlso->toArray(), $this->seeAlso);
         }
 
         return $array;

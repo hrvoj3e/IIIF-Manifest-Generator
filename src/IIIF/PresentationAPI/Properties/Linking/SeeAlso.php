@@ -63,19 +63,20 @@ class SeeAlso
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the See Also');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in the See Also');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = $this->type;
 
         if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label);
+            $array[Identifier::LABEL->value] = $this->label->toArray();
         }
 
         if (!empty($this->format)) {
-            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+            $array[Identifier::FORMAT->value] = $this->format;
         }
 
         if (!empty($this->profile)) {
-            ArrayCreator::add($array, Identifier::PROFILE, $this->profile);
+            $array[Identifier::PROFILE->value] = $this->profile;
         }
 
         return $array;

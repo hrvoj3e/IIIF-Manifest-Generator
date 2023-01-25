@@ -64,19 +64,20 @@ class Services implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id field is required');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type field is required');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = $this->type;
 
         if (!empty($this->label)) {
-            ArrayCreator::add($array, Identifier::LABEL, $this->label, false);
+            $array[Identifier::LABEL->value] = $this->label->toArray();
         }
 
         if (!empty($this->profile)) {
-            ArrayCreator::add($array, Identifier::PROFILE, $this->profile, false);
+            $array[Identifier::PROFILE->value] = $this->profile;
         }
 
         if (!empty($this->service)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
+            $array[Identifier::SERVICE->value] = $this->service->toArray();
         }
 
         return $array;

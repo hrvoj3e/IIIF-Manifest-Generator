@@ -67,16 +67,18 @@ class Rendering implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a related item');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a related item');
-        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a related item');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = $this->type;
+
+        $array[Identifier::LABEL->value] = $this->label->toArray();
 
         if (!empty($this->format)) {
-            ArrayCreator::add($array, Identifier::FORMAT, $this->format);
+            $array[Identifier::FORMAT->value] = $this->format;
         }
 
         if (!empty($this->language)) {
-            ArrayCreator::add($array, Identifier::LANGUAGE, $this->language);
+            $array[Identifier::LANGUAGE->value] = $this->language;
         }
 
         return $array;

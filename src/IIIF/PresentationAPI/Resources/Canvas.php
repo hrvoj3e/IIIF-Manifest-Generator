@@ -35,7 +35,7 @@ use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Canvas resource.
+ * Canvas resource.
  * @link https://iiif.io/api/presentation/3.0/#53-canvas
  */
 class Canvas extends ResourceAbstract
@@ -65,7 +65,7 @@ class Canvas extends ResourceAbstract
      */
     public function toArray(): array
     {
-        if ($this->getOnlyID()) {
+        if ($this->getOnlyId()) {
             $id = $this->id;
             Validator::itemExists($id, 'The id must be present in the Canvas');
             return $id;

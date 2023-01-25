@@ -33,7 +33,7 @@ use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Collection resource.
+ * Collection resource.
  * @link https://iiif.io/api/presentation/3.0/#51-collection
  */
 class Collection extends ResourceAbstract

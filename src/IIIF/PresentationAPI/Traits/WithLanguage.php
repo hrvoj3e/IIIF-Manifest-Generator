@@ -30,11 +30,15 @@ trait WithLanguage
 {
     /**
      * Languages.
+     *
+     * @var string[]
      */
     protected array $language = [];
 
     /**
      * Set the languages.
+     *
+     * @param string[] $language
      */
     public function setLanguage(array $language): void
     {
@@ -43,6 +47,8 @@ trait WithLanguage
 
     /**
      * Returns the languages.
+     *
+     * @return string[]
      */
     public function getLanguage(): array
     {

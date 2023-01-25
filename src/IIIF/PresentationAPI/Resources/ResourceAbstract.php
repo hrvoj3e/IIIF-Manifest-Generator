@@ -43,7 +43,6 @@ use IIIF\PresentationAPI\Traits\WithSeeAlso;
 use IIIF\PresentationAPI\Traits\WithService;
 use IIIF\PresentationAPI\Traits\WithSummary;
 use IIIF\PresentationAPI\Traits\WithThumbnail;
-use IIIF\Utils\ArrayCreator;
 
 /**
  * Abstract resource.
@@ -66,9 +65,9 @@ abstract class ResourceAbstract implements ArrayableInterface
     use WithSummary;
     use WithThumbnail;
 
-    protected $onlyid         = false;
-    protected $onlymemberdata = false;
-    protected $defaultcontext = 'http://iiif.io/api/presentation/3/context.json';
+    protected $onlyId         = false;
+    protected $onlyMemberData = false;
+    protected $defaultContext = 'http://iiif.io/api/presentation/3/context.json';
 
     /**
      * Constructor.
@@ -80,44 +79,40 @@ abstract class ResourceAbstract implements ArrayableInterface
         $this->id = $id;
 
         if ($this->isTopLevel) {
-            $this->addContext($this->getDefaultContext());
+            $this->addContext($this->defaultContext);
         }
     }
 
     /**
      * Set just the id to return instead of the class object.
      */
-    public function returnOnlyID(): void
+    public function returnOnlyId(): void
     {
-        $this->onlyid = true;
+        $this->onlyId = true;
     }
 
     /**
      * Check whether to only return the ID instead of the object.
-     *
-     * @return bool
      */
-    public function getOnlyID()
+    public function getOnlyId(): bool
     {
-        return $this->onlyid;
+        return $this->onlyId;
     }
 
     /**
-     * Usage when a resource only needs @id, @type and label.
+     * Usage when a resource only needs id, type and label.
      */
     public function returnOnlyMemberData(): void
     {
-        $this->onlymemberdata = true;
+        $this->onlyMemberData = true;
     }
 
     /**
      * Return whether only certain data fields are needed.
-     *
-     * @return bool
      */
-    public function getOnlyMemberData()
+    public function getOnlyMemberData(): bool
     {
-        return $this->onlymemberdata;
+        return $this->onlyMemberData;
     }
 
     /**
@@ -126,14 +121,6 @@ abstract class ResourceAbstract implements ArrayableInterface
     public function isTopLevel(): bool
     {
         return $this->isTopLevel;
-    }
-
-    /**
-     * Returns the default context.
-     */
-    public function getDefaultContext()
-    {
-        return $this->defaultcontext;
     }
 
     /**
@@ -146,39 +133,39 @@ abstract class ResourceAbstract implements ArrayableInterface
         // Rights and Licensing Properties
 
         if (!empty($this->requiredStatement)) {
-            ArrayCreator::add($array, Identifier::REQUIRED_STATEMENT, $this->requiredStatement);
+            $array[Identifier::REQUIRED_STATEMENT->value] = $this->requiredStatement->toArray();
         }
 
         if (!empty($this->rights)) {
-            ArrayCreator::add($array, Identifier::RIGHTS, $this->rights);
+            $array[Identifier::RIGHTS->value] = $this->rights;
         }
 
         // Technical Properties
 
         if (!empty($this->behavior)) {
-            ArrayCreator::add($array, Identifier::BEHAVIOR, $this->behavior);
+            $array[Identifier::BEHAVIOR->value] = $this->behavior->toArray();
         }
 
         // Linking Properties
 
         if (!empty($this->homepage)) {
-            ArrayCreator::add($array, Identifier::HOMEPAGE, $this->homepage, false);
+            $array[Identifier::HOMEPAGE->value] = array_map(fn ($homepage) => $homepage->toArray(), $this->homepage);
         }
 
         if (!empty($this->rendering)) {
-            ArrayCreator::add($array, Identifier::RENDERING, $this->rendering, false);
+            $array[Identifier::RENDERING->value] = array_map(fn ($rendering) => $rendering->toArray(), $this->rendering);
         }
 
         if (!empty($this->service)) {
-            ArrayCreator::add($array, Identifier::SERVICE, $this->service, false);
+            $array[Identifier::SERVICE->value] = $this->service->toArray();
         }
 
         if (!empty($this->seeAlso)) {
-            ArrayCreator::add($array, Identifier::SEE_ALSO, $this->seeAlso, false);
+            $array[Identifier::SEE_ALSO->value] = array_map(fn ($seeAlso) => $seeAlso->toArray(), $this->seeAlso);
         }
 
         if (!empty($this->partOf)) {
-            ArrayCreator::add($array, Identifier::PART_OF, $this->partOf, false);
+            $array[Identifier::PART_OF->value] = array_map(fn ($partOf) => $partOf->toArray(), $this->partOf);
         }
 
         return $array;

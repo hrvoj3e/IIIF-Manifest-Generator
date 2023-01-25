@@ -19,26 +19,47 @@ declare(strict_types=1);
  * along with IIIF Manifest Creator.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category IIIF
+ * @package  PresentationAPI
  * @author   Harry Shyket <harry.shyket@yale.edu>
  * @license  http://opensource.org/licenses/gpl-2.0.php GNU General Public License
  */
 
-namespace IIIF;
-
-use IIIF\PresentationAPI\ArrayableInterface;
-
-use function json_encode;
+namespace IIIF\PresentationAPI;
 
 /**
- * JSON generator.
+ * Language string.
  */
-class Generator
+class LanguageString implements ArrayableInterface
 {
     /**
-     * Generate the manifest file.
+     * Language.
      */
-    public function generate(ArrayableInterface $item, int $flags = 0): string
+    protected string $language;
+
+    /**
+     * Strings.
+     *
+     * @var string[]
+     */
+    protected array $strings = [];
+
+    /**
+     * Constructor.
+     *
+     * @param string[] $strings
+     */
+    public function __construct(string $language, array $strings)
     {
-        return json_encode($item->toArray(), $flags);
+        $this->language = $language;
+
+        $this->strings = $strings;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray(): array
+    {
+        return [$this->language => $this->strings];
     }
 }

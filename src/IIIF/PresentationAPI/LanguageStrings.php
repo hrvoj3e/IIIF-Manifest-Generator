@@ -32,22 +32,18 @@ namespace IIIF\PresentationAPI;
 class LanguageStrings implements ArrayableInterface
 {
     /**
-     * Strings.
+     * Language strings.
      *
-     * @var string[]
+     * @var LanguageString[]
      */
-    protected array $strings = [];
+    protected array $languageStrings = [];
 
     /**
-     * Add a language string.
-     *
-     * @param string[] $strings
+     * Constructor.
      */
-    public function addString(string $language, array $strings): LanguageStrings
+    public function __construct(LanguageString ...$languageString)
     {
-        $this->strings[$language] = $strings;
-
-        return $this;
+        $this->languageStrings = $languageString;
     }
 
     /**
@@ -55,6 +51,12 @@ class LanguageStrings implements ArrayableInterface
      */
     public function toArray(): array
     {
-        return $this->strings;
+        $array = [];
+
+        foreach ($this->languageStrings as $languageString) {
+            $array = [...$array, ...$languageString->toArray()];
+        }
+
+        return $array;
     }
 }

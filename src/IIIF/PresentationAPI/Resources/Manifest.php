@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Resources;
 
+use IIIF\PresentationAPI\LanguageStrings;
 use IIIF\PresentationAPI\Parameters\Identifier;
 use IIIF\PresentationAPI\Traits\WithAnnotations;
 use IIIF\PresentationAPI\Traits\WithItems;
@@ -33,20 +34,23 @@ use IIIF\PresentationAPI\Traits\WithNavDate;
 use IIIF\PresentationAPI\Traits\WithServices;
 use IIIF\PresentationAPI\Traits\WithStart;
 use IIIF\PresentationAPI\Traits\WithViewingDirection;
-use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 use JsonSerializable;
+use RuntimeException;
 
+use function array_map;
 use function count;
 
 /**
- * Implementation of a Manifest resource.
+ * Manifest resource.
  * @link https://iiif.io/api/presentation/3.0/#52-manifest
+ *
+ * @property \IIIF\PresentationAPI\Resources\Annotation[] $items
  */
 class Manifest extends ResourceAbstract implements JsonSerializable
 {
     use WithAnnotations;
-    use WithItems;
+    use WithItems { addItem as protected addAnyItem; }
     use WithNavDate;
     use WithServices;
     use WithStart;
@@ -57,59 +61,77 @@ class Manifest extends ResourceAbstract implements JsonSerializable
      */
     protected const TYPE = 'Manifest';
 
-    protected $sequences = [];
-    protected $structures = [];
+    //protected $sequences = [];
+    //protected $structures = [];
+
+    /**
+     * Constructor.
+     */
+    public function __construct(string $id, LanguageStrings $label, bool $isTopLevel = false)
+    {
+        $this->label = $label;
+
+        parent::__construct($id, $isTopLevel);
+    }
+
+    /**
+     * Add an item.
+     */
+    public function addItem(Canvas $item): void
+    {
+        $this->addAnyItem($item);
+    }
 
     /**
      * Add a sequence to the manifest.
      *
      * @param \IIIF\PresentationAPI\Resources\Sequence $sequence
      */
-    public function addSequence(Sequence $sequence): void
+    /*public function addSequence(Sequence $sequence): void
     {
         if (count($this->sequences) >= 1) {
             $sequence->returnOnlyMemberData();
         }
 
         $this->sequences[] = $sequence;
-    }
+    }*/
 
     /**
      * Get all of the sequences.
      *
      * @return array
      */
-    public function getSequences()
+    /*public function getSequences()
     {
         return $this->sequences;
-    }
+    }*/
 
     /**
      * Add a range.
      *
      * @param \IIIF\PresentationAPI\Resources\Range $range
      */
-    public function addStructure(Range $range): void
+    /*public function addStructure(Range $range): void
     {
         $this->structures[] = $range;
-    }
+    }*/
 
     /**
      * Get the structures (ranges).
      *
      * @return array
      */
-    public function getStructures()
+    /*public function getStructures()
     {
         return $this->structures;
-    }
+    }*/
 
     /**
      * Make sure the sequence is valid.
      *
      * @param \IIIF\PresentationAPI\Resources\Sequence $sequence
      */
-    public function validateSequence(Sequence $sequence): void
+    /*public function validateSequence(Sequence $sequence): void
     {
         $classname = Sequence::class;
 
@@ -126,14 +148,14 @@ class Manifest extends ResourceAbstract implements JsonSerializable
         Validator::shouldNotContainItems($sequence, $classname, $exclusions, $message);
 
         Validator::shouldContainItems($sequence, ['getLabels'], 'Multiple Sequences within a Manifest must contain a label');
-    }
+    }*/
 
     /**
      * Make sure the annotation list is valid.
      *
      * @param AnnotationList $annotationlist
      */
-    public function validateAnnotationList(AnnotationList $annotationlist): void
+    /*public function validateAnnotationList(AnnotationList $annotationlist): void
     {
         $classname = AnnotationList::class;
 
@@ -148,7 +170,7 @@ class Manifest extends ResourceAbstract implements JsonSerializable
         $message = 'An Annotation List must not be embedded in a Manifest';
 
         Validator::shouldNotContainItems($annotationlist, $classname, $exclusions, $message);
-    }
+    }*/
 
     /**
      * {@inheritDoc}
@@ -157,75 +179,72 @@ class Manifest extends ResourceAbstract implements JsonSerializable
     {
         $array = [];
 
-        if ($this->getOnlyMemberData()) {
-            ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a Manifest');
-            ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in a Manifest');
-            ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in a Manifest');
+        if ($this->isTopLevel && !$this->onlyMemberData) {
+            $array[Identifier::CONTEXT->value] = count($this->context) > 1 ? $this->context : $this->context[0];
+        }
 
+        $array[Identifier::ID->value] = $this->id;
+        $array[Identifier::TYPE->value] = static::TYPE;
+        $array[Identifier::LABEL->value] = $this->label->toArray();
+
+        if ($this->onlyMemberData) {
             return $array;
+        }
+
+        if (empty($this->items)) {
+            throw new RuntimeException('A manifest must have at least one item.');
         }
 
         // Technical Properties
 
-        if ($this->isTopLevel) {
-            ArrayCreator::addRequired($array, Identifier::CONTEXT, $this->context, 'The context must be present in the Manifest');
-        }
-
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in the Manifest');
-        ArrayCreator::addRequired($array, Identifier::TYPE, static::TYPE, 'The type must be present in the Manifest');
-
         if (!empty($this->viewingDirection)) {
-            ArrayCreator::add($array, Identifier::VIEWING_DIRECTION, $this->viewingDirection->value);
+            $array[Identifier::VIEWING_DIRECTION->value] = $this->viewingDirection->value;
         }
 
         if (!empty($this->navDate)) {
-            ArrayCreator::add($array, Identifier::NAVDATE, $this->navDate->format(static::NAV_DATE_FORMAT));
+            $array[Identifier::NAVDATE->value] = $this->navDate->format(static::NAV_DATE_FORMAT);
         }
 
         // Descriptive Properties
 
-        ArrayCreator::addRequired($array, Identifier::LABEL, $this->label, 'The label must be present in the Manifest', false);
-
         if (!empty($this->metadata)) {
-            ArrayCreator::add($array, Identifier::METADATA, $this->metadata);
+            $array[Identifier::METADATA->value] = $this->metadata->toArray();
         }
 
         if (!empty($this->summary)) {
-            ArrayCreator::add($array, Identifier::SUMMARY, $this->summary);
+            $array[Identifier::SUMMARY->value] = $this->summary->toArray();
         }
 
         if (!empty($this->thumbnail)) {
-            ArrayCreator::add($array, Identifier::THUMBNAIL, $this->thumbnail, false);
+            $array[Identifier::THUMBNAIL->value] = array_map(fn ($thumbnail) => $thumbnail->toArray(), $this->thumbnail);
         }
 
         if (!empty($this->provider)) {
-            ArrayCreator::add($array, Identifier::PROVIDER, $this->provider, false);
+            $array[Identifier::PROVIDER->value] = $this->provider->toArray();
         }
 
         //  Linking Properties
 
         if (!empty($this->services)) {
-            ArrayCreator::add($array, Identifier::SERVICES, $this->services, false);
+            $array[Identifier::SERVICES->value] = array_map(fn ($service) => $service->toArray(), $this->services);
         }
 
         if (!empty($this->start)) {
-            ArrayCreator::add($array, Identifier::START, $this->start, false);
+            $array[Identifier::START->value] = $this->start->toArray();
         }
 
         // Structural properties
 
-        if (!empty($this->items)) {
-            ArrayCreator::add($array, Identifier::ITEMS, $this->items, false);
-        }
+        $array[Identifier::ITEMS->value] = array_map(fn ($item) => $item->toArray(), $this->items);
 
         if (!empty($this->annotations)) {
-            ArrayCreator::add($array, Identifier::ANNOTATIONS, $this->annotations, false);
+            $array[Identifier::ANNOTATIONS->value] = array_map(fn ($annotation) => $annotation->toArray(), $this->annotations);
         }
 
         // Resource Types
 
-        if ($this->isTopLevel) {
-            /*foreach ($this->sequences as $key => $sequence) {
+        /*if ($this->isTopLevel) {
+            foreach ($this->sequences as $key => $sequence) {
                 if ($key > 0) {
                     $this->validateSequence($sequence);
                 }
@@ -237,7 +256,7 @@ class Manifest extends ResourceAbstract implements JsonSerializable
                 }
             }
 
-            ArrayCreator::addRequired($array, Identifier::SEQUENCES, $this->sequences, "The first Sequence must be embedded within a Manifest", false);*/
+            ArrayCreator::addRequired($array, Identifier::SEQUENCES, $this->sequences, "The first Sequence must be embedded within a Manifest", false);
 
             if (!empty($this->structures)) {
                 ArrayCreator::add($array, Identifier::STRUCTURES, $this->structures, false);
@@ -250,7 +269,7 @@ class Manifest extends ResourceAbstract implements JsonSerializable
             if (!empty($this->structures)) {
                 ArrayCreator::add($array, Identifier::STRUCTURES, $this->structures, false);
             }
-        }
+        }*/
 
         return [...$array, ...parent::toArray()];
     }

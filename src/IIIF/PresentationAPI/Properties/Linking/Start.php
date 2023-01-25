@@ -58,8 +58,9 @@ class Start implements ArrayableInterface
     {
         $array = [];
 
-        ArrayCreator::addRequired($array, Identifier::ID, $this->id, 'The id must be present in a related item');
-        ArrayCreator::addRequired($array, Identifier::TYPE, $this->type, 'The type must be present in a related item');
+        $array[Identifier::ID->value] = $this->id;
+
+        $array[Identifier::TYPE->value] = $this->type;
 
         return $array;
     }

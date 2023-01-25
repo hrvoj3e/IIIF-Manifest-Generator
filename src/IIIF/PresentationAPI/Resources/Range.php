@@ -32,7 +32,7 @@ use IIIF\Utils\ArrayCreator;
 use IIIF\Utils\Validator;
 
 /**
- * Implementation of a Range resource.
+ * Range resource.
  * @link https://iiif.io/api/presentation/3.0/#54-range
  */
 class Range extends ResourceAbstract
@@ -172,7 +172,7 @@ class Range extends ResourceAbstract
 
     public function toArray(): array
     {
-        if ($this->getOnlyID()) {
+        if ($this->getOnlyId()) {
             $id = $this->getID();
             Validator::itemExists($id, 'The id must be present in a Range');
             return $id;
