@@ -33,7 +33,7 @@ trait WithNavDate
     /**
      * Date format.
      */
-    protected const NAV_DATE_FORMAT = 'Y-m-d\T:H:i:s\Z';
+    protected const NAV_DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * Nav date.
