@@ -71,6 +71,7 @@ enum Identifier: string
     case REQUIRED_STATEMENT = 'requiredStatement';
     case RESOURCES          = 'resources';
     case RIGHTS             = 'rights';
+    case ROTATION           = 'rotation';
     case SCALE_FACTORS      = 'scaleFactors';
     case SEE_ALSO           = 'seeAlso';
     case SEQUENCES          = 'sequences';
@@ -81,6 +82,7 @@ enum Identifier: string
     case STRUCTURES         = 'structures';
     case SUMMARY            = 'summary';
     case SUPPORTS           = 'supports';
+    case TARGET             = 'target';
     case THUMBNAIL          = 'thumbnail';
     case TILES              = 'tiles';
     case TOTAL              = 'total';
@@ -88,5 +90,4 @@ enum Identifier: string
     case VALUE              = 'value';
     case VIEWING_DIRECTION  = 'viewingDirection';
     case WIDTH              = 'width';
-    case TARGET             = 'target';
 }

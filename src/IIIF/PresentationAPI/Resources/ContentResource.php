@@ -32,6 +32,7 @@ use IIIF\PresentationAPI\Traits\WithDuration;
 use IIIF\PresentationAPI\Traits\WithFormat;
 use IIIF\PresentationAPI\Traits\WithLanguage;
 use IIIF\PresentationAPI\Traits\WithProfile;
+use IIIF\PresentationAPI\Traits\WithRotation;
 use IIIF\PresentationAPI\Traits\WithType;
 use IIIF\Utils\ArrayCreator;
 
@@ -46,6 +47,7 @@ class ContentResource extends ResourceAbstract
     use WithFormat;
     use WithLanguage;
     use WithProfile;
+    use WithRotation;
     use WithType;
 
     /**
@@ -70,6 +72,10 @@ class ContentResource extends ResourceAbstract
 
         if (!empty($this->width)) {
             ArrayCreator::add($array, Identifier::WIDTH, $this->width);
+        }
+
+        if (!empty($this->rotation)) {
+            ArrayCreator::add($array, Identifier::ROTATION, $this->rotation);
         }
 
         // Descriptive Properties
