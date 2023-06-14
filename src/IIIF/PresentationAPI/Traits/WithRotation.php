@@ -36,9 +36,9 @@ trait WithRotation
     /**
      * Set the rotation.
      */
-    public function setRotation(int $width): void
+    public function setRotation(int $rotation): void
     {
-        $this->width = $width;
+        $this->rotation = $rotation;
     }
 
     /**
@@ -46,6 +46,6 @@ trait WithRotation
      */
     public function getRotation(): ?int
     {
-        return $this->width;
+        return $this->rotation;
     }
 }
