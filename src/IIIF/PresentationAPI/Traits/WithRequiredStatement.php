@@ -26,19 +26,19 @@ declare(strict_types=1);
 
 namespace IIIF\PresentationAPI\Traits;
 
-use IIIF\PresentationAPI\LabelValueItem;
+use IIIF\PresentationAPI\Properties\Descriptive\RequiredStatement;
 
 trait WithRequiredStatement
 {
     /**
      * Required statement.
      */
-    protected ?LabelValueItem $requiredStatement = null;
+    protected ?RequiredStatement $requiredStatement = null;
 
     /**
      * Set the required statement.
      */
-    public function setRequiredStatement(LabelValueItem $requiredStatement): void
+    public function setRequiredStatement(RequiredStatement $requiredStatement): void
     {
         $this->requiredStatement = $requiredStatement;
     }
@@ -46,7 +46,7 @@ trait WithRequiredStatement
     /**
      * Returns the required statement.
      */
-    public function getRequiredStatement(): ?LabelValueItem
+    public function getRequiredStatement(): ?RequiredStatement
     {
         return $this->requiredStatement;
     }
