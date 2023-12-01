@@ -61,6 +61,14 @@ class RequiredStatement extends LabelValueItem
     }
 
     /**
+     * Sets the isRestricted property.
+     */
+    public function setIsRestricted(bool $isRestricted): void
+    {
+        $this->isRestricted = $isRestricted;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function toArray(): array
