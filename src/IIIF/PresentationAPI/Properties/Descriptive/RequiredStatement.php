@@ -38,7 +38,9 @@ class RequiredStatement extends LabelValueItem
     /**
      * @var LabelValueItem[]
      */
-    protected $additionalInformation = [];
+    protected array $additionalInformation = [];
+
+    protected null|bool $isRestricted = null;
 
     /**
      * Constructor.
@@ -67,6 +69,10 @@ class RequiredStatement extends LabelValueItem
 
         if(!empty($this->additionalInformation)) {
             $array['additionalInformation'] = array_map(fn ($item) => $item->toArray(), $this->additionalInformation);
+        }
+
+        if($this->isRestricted !== null) {
+            $array['isRestricted'] = $this->isRestricted;
         }
 
         return $array;
